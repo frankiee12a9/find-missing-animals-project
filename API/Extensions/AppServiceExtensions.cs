@@ -1,9 +1,4 @@
 using System.Collections.Generic;
-// using Application.Activities;
-// using Application.Core;
-// using Application.Interfaces;
-// using Application.Profiles;
-// using Infrastructure.Security;
 using Infrastructure.Photos;
 using Infrastructure.Security;
 using MediatR;
@@ -33,29 +28,29 @@ namespace API.Extensions
 				opt.UseSqlite(configuration.GetConnectionString("DefaultConnection"));
 			});
 
-			// configure CORs 1: for calling API from client
+			// configure CORS for API call from client
 			services.AddCors(opt =>
 			{
 				opt.AddPolicy("CorsPolicy", policy =>
 				{
 					policy.AllowAnyMethod()
 						.AllowAnyHeader()
-						.AllowCredentials() // resolve connecting error (CORs policy) of signalR on client 
+						.AllowCredentials() // resolve connecting error (CORS policy) of signalR on client 
 						.WithOrigins("http://localhost:3000"); // client host 
 				});
 			});
 
-			// config signalR 1 
+			// signalR config
 			services.AddSignalR(opt =>
 			{
 				opt.EnableDetailedErrors = true;
 			});
 
 
-			// add mediator
+			// mediator config
 			// services.AddMediatR(typeof(List.Handler).Assembly);
 
-			// autoMapper
+			// autoMapper config
 			// services.AddAutoMapper(typeof(MappingProfiles).Assembly);
 
 			// to get current logged-in userName in everywhere in application
@@ -71,7 +66,7 @@ namespace API.Extensions
 				opt.UseLoggerFactory(LoggerFactory.Create(builder => { builder.AddConsole(); }));
 			});
 
-			// // config for Cloudinary
+			// config for Cloudinary
 			services.Configure<CloudinaryConfig>(configuration.GetSection("Cloudinary"));
 
 			return services;
