@@ -42,7 +42,7 @@ namespace API.Extensions
 						ValidateAudience = false,
 					};
 
-					// config signalR 3 
+					// signalR config
 					opt.Events = new JwtBearerEvents
 					{
 						OnMessageReceived = context =>
@@ -69,8 +69,8 @@ namespace API.Extensions
 			// });
 
 
-			// todo: read more about AddTransient(), AddScoped(), AddSingleton() 
-			// here: https://stackoverflow.com/questions/38138100/addtransient-addscoped-and-addsingleton-services-differences
+			// Todo: read more about AddTransient(), AddScoped(), AddSingleton() 
+			// reference here: https://stackoverflow.com/questions/38138100/addtransient-addscoped-and-addsingleton-services-differences
 			// services.AddTransient<IAuthorizationHandler, IsHostRequirementHandler>();
 			// services.AddScoped<TokenService>();
 
