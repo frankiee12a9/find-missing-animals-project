@@ -1,0 +1,88 @@
+using System;
+using API.Extensions;
+using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+
+namespace API
+{
+	public class Startup
+	{
+		public IConfiguration Configuration { get; }
+
+		public Startup(IConfiguration configuration)
+		{
+			Configuration = configuration;
+		}
+
+		// This method gets called by the runtime. Use this method to add services to the container
+		// public void ConfigureServices(IServiceCollection services)
+		// {
+
+		// 	services.AddControllers();
+		// 	services.AddSwaggerGen(c =>
+		// 	{
+		// 		c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
+		// 	});
+		// }
+
+		public void ConfigureServices(IServiceCollection services)
+		{
+			// 
+			services.AddControllers(opt =>
+			{
+				var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+				opt.Filters.Add(new AuthorizeFilter(policy));
+			});
+
+			// config validator
+			// services.AddControllers().AddFluentValidation(config =>
+			// {
+			// 	config.RegisterValidatorsFromAssemblyContaining<Create>();
+			// });
+
+			// startup class houseKeeping! 
+			// all services config bellow has been moved to AddAppServices file
+			services.AddAppServices(Configuration);
+			// add custom identity services config
+			services.AddIdentityService(Configuration);
+		}
+
+		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+		{
+			if (env.IsDevelopment())
+			{
+				app.UseDeveloperExceptionPage();
+				app.UseSwagger();
+				app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1"));
+			}
+
+			app.UseStaticFiles(new StaticFileOptions
+			{
+				FileProvider = env.WebRootFileProvider
+			});
+
+			app.UseRouting();
+
+			// enable CORS 
+			app.UseCors("CorsPolicy");
+
+			app.UseHttpsRedirection();
+
+			app.UseAuthorization();
+
+			app.UseEndpoints(endpoints =>
+			{
+				endpoints.MapControllers();
+			});
+		}
+	}
+}
