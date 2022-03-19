@@ -6,12 +6,12 @@ namespace Domain
 	{
 		public int Id { get; set; }
 		public string TagName { get; set; }
-		public ICollection<Post> Posts { get; set; }
-		// many-to-one with Category
+		public ICollection<PostTag> PostTags { get; set; }
+		public int CategoryId { get; set; }
 		public Category Category { get; set; }
 		public Tag()
 		{
-			Posts = new List<Post>();
+			PostTags = new List<PostTag>();
 		}
 	}
 }
