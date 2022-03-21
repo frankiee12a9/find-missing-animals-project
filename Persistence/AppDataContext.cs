@@ -60,7 +60,6 @@ namespace Persistence
 				.HasForeignKey(fk => fk.CategoryId)
 				.OnDelete(DeleteBehavior.Cascade);
 
-
 			// config for Post-Followers
 			// builder.Entity<PostFollower>(e =>
 			// {
