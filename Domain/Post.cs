@@ -18,7 +18,8 @@ namespace Domain
 		public ICollection<PostTag> PostTags { get; set; }
 		public ICollection<PostFollowing> PostFollowers { get; set; }
 		// public int PetLocationId { get; set; }
-		public PetLocation PetLocation { get; set; }
+		// public PetLocation PetLocation { get; set; }
+		public PostLocation PostLocation { get; set; }
 		public int CategoryId { get; set; }
 		public Category Category { get; set; }
 		public Post()
