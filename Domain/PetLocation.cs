@@ -6,7 +6,6 @@ namespace Domain
 {
 	public class PetLocation
 	{
-		public int Id { get; set; }
 		public string PostCode { get; set; }
 		[Required]
 		public string RoadLocation { get; set; } // 도로명주소
