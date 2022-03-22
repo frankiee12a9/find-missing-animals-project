@@ -31,5 +31,10 @@ namespace Modules.Core
                                     .ToListAsync();
             return new PagedList<T>(items, count, pageNumber, pageSize);
         }
-    }
+
+		internal static Task<PagedList<Posts.PostDto>> CreateAsync(Task<List<Posts.PostDto>> result, int pageNumber, int pageSize)
+		{
+			throw new NotImplementedException();
+		}
+	}
 }
