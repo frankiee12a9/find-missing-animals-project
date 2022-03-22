@@ -4,7 +4,7 @@ namespace Modules.Core
 	{
 		private const int MaxPageSize = 50;
 		public int PageNumber { get; set; } = 1;
-		private int _pageSize = 5;
+		private int _pageSize = 6;
 		public int PageSize
 		{
 			get => _pageSize;
