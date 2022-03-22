@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Domain;
 using Microsoft.AspNetCore.Hosting;
@@ -10,7 +8,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.OpenApi.Writers;
 using Persistence;
 
 namespace API
@@ -30,7 +27,7 @@ namespace API
 				var context = services.GetRequiredService<AppDataContext>(); // add context service
 				var userManager = services.GetRequiredService<UserManager<ApplicationUser>>(); // add userManager services
 				await context.Database.MigrateAsync();
-				// await Seed.SeedDB(context, userManager);
+				await Seed.SeedDB(context, userManager);
 			}
 			catch (Exception e)
 			{
