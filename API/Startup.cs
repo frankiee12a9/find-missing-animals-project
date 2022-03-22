@@ -1,5 +1,6 @@
 using System;
 using API.Extensions;
+using API.Middleware;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -22,20 +23,8 @@ namespace API
 			Configuration = configuration;
 		}
 
-		// This method gets called by the runtime. Use this method to add services to the container
-		// public void ConfigureServices(IServiceCollection services)
-		// {
-
-		// 	services.AddControllers();
-		// 	services.AddSwaggerGen(c =>
-		// 	{
-		// 		c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
-		// 	});
-		// }
-
 		public void ConfigureServices(IServiceCollection services)
 		{
-			// 
 			services.AddControllers(opt =>
 			{
 				var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
@@ -55,16 +44,18 @@ namespace API
 			services.AddIdentityService(Configuration);
 		}
 
-		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 		{
+			app.UseMiddleware<ExceptionMiddleware>();
+
 			if (env.IsDevelopment())
 			{
-				app.UseDeveloperExceptionPage();
 				app.UseSwagger();
 				app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1"));
 			}
 
+			app.UseDefaultFiles();
 			app.UseStaticFiles(new StaticFileOptions
 			{
 				FileProvider = env.WebRootFileProvider
@@ -75,13 +66,14 @@ namespace API
 			// enable CORS 
 			app.UseCors("CorsPolicy");
 
-			app.UseHttpsRedirection();
-
+			// app.UseHttpsRedirection();
+			app.UseAuthentication();
 			app.UseAuthorization();
 
 			app.UseEndpoints(endpoints =>
 			{
 				endpoints.MapControllers();
+				endpoints.MapFallbackToController("Index", "Fallback");
 			});
 		}
 	}
