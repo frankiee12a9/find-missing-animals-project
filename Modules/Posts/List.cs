@@ -48,7 +48,30 @@ namespace Modules.Posts
 
 				_logger.LogInformation($"result {result}");
 
-				// return paginated result
+				string roadLocation = request.PostQueryParams.RoadLocation; // 도로명 filter
+				string location = request.PostQueryParams.Location; // 지번주소 filter
+				string detailedLocation = request.PostQueryParams.DetailedLocation; // 상세주소 filter
+
+				if (roadLocation != null)
+				{
+					result = result
+						.Where(x => x.PostLocation.RoadLocation.Contains(roadLocation));
+					// result = extraResult;
+				}
+
+				if (location != null)
+				{
+					result = result
+						.Where(x => x.PostLocation.Location.Contains(location));
+				}
+
+				if (detailedLocation != null)
+				{
+					result = result
+						.Where(x => x.PostLocation.DetailedLocation.Contains(detailedLocation));
+				}
+
+				// return paginated result 
 				return Result<PagedList<PostDto>>.Success(
 					await PagedList<PostDto>.CreateAsync(result, request.PostQueryParams.PageNumber,
 					request.PostQueryParams.PageSize)
