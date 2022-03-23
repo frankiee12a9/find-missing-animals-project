@@ -1,14 +1,11 @@
 using System;
 using System.Linq;
 using System.Runtime.ExceptionServices;
-// using Application.Profiles;
 using AutoMapper;
 using Domain;
 using Modules.AppUsers;
 using Modules.Categories;
 using Modules.Comments;
-// using Application.Activities;
-// using Application.Comments;
 using Modules.Interfaces;
 using Modules.Locations;
 using Modules.Posts;
@@ -22,7 +19,7 @@ namespace Modules.Core
 		{
 			string currentUsername = "";
 
-			CreateMap<Post, Post>();
+			CreateMap<Post, PostDto>();
 
 			CreateMap<Tag, TagDto>()
 				.ForMember(dest => dest.Id, o => o.MapFrom(src => src.Id))
@@ -54,7 +51,8 @@ namespace Modules.Core
 				o => o.MapFrom(src => src.PostFollowers.FirstOrDefault(x => x.isPoster).ApplicationUser.UserName))
 				.ForMember(dest => dest.PostLocation, o => o.MapFrom(src => src.PostLocation))
 				.ForMember(dest => dest.Tags, o => o.MapFrom(src => src.PostTags))
-				.ForMember(dest => dest.Category, o => o.MapFrom(src => src.Category));
+				.ForMember(dest => dest.Category, o => o.MapFrom(src => src.Category))
+				.ForMember(dest => dest.PostParticipants, o => o.MapFrom(src => src.PostFollowers));
 
 			// CreateMap<ApplicationUser, PostParticipantDto>()
 			// 	.ForMember(dest => dest.Image, o => o.MapFrom(x => x.Photos.FirstOrDefault(p => p.IsProfilePicture).Url));
