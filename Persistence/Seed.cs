@@ -15,6 +15,7 @@ namespace Persistence
 			IList<ApplicationUser> users = null;
 			IList<Tag> tags = null;
 			IList<Category> categories = null;
+
 			if (!userManager.Users.Any())
 			{
 				users = new List<ApplicationUser>()
