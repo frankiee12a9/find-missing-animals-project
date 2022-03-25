@@ -29,22 +29,22 @@ namespace Infrastructure.Security
 		protected override Task HandleRequirementAsync(AuthorizationHandlerContext context,
 			IsHostRequirement requirement)
 		{
-			// var userId = context.User.FindFirstValue(ClaimTypes.NameIdentifier);
+			var userId = context.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-			// if (userId == null) return Task.CompletedTask;
+			if (userId == null) return Task.CompletedTask;
 
-			// var currentContextId = _contextAccessor.HttpContext?.Request.RouteValues
-			//     .SingleOrDefault(x => x.Key == "id").Value?.ToString();
+			var currentContextId = _contextAccessor.HttpContext?.Request.RouteValues
+				.SingleOrDefault(x => x.Key == "id").Value?.ToString();
 
-			// var activityId = Guid.Parse(currentContextId);
+			var postId = Guid.Parse(currentContextId);
 
-			// var attendee = _dbContext.ActivityAttendees
-			//     .AsNoTracking()
-			//     .FirstOrDefault(x => x.AppUserId == userId && x.ActivityId == activityId);
+			var attendee = _dbContext.PostFollowers
+				.AsNoTracking()
+				.FirstOrDefault(x => x.ApplicationUserId == userId && x.PostId == postId);
 
-			// if (attendee == null) return Task.CompletedTask;
+			if (attendee == null) return Task.CompletedTask;
 
-			// if (attendee.IsHost) context.Succeed(requirement);
+			if (attendee.isPoster) context.Succeed(requirement);
 
 			return Task.CompletedTask;
 		}
