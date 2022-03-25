@@ -2,12 +2,12 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Modules.Interfaces;
 using Domain;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Modules.Core;
+using Modules.Interfaces;
 using Persistence;
 
 namespace Modules.Photos
@@ -34,26 +34,26 @@ namespace Modules.Photos
 
 			public async Task<Result<Photo>> Handle(Command request, CancellationToken cancellationToken)
 			{
-				// var user = await _dbContext.Users.Include(p => p.Photos)
-				//     .FirstOrDefaultAsync(x => x.UserName == _userAccessor.GetUserName());
+				var user = await _dbContext.Users.Include(p => p.Photos)
+					.FirstOrDefaultAsync(x => x.UserName == _userAccessor.GetUserName());
 
-				// if (user == null) return null;
+				if (user == null) return null;
 
-				// var photoUploadResult = await _photoAccessor.AddPhoto(request.File);
+				var photoUploadResult = await _photoAccessor.AddPhoto(request.File);
 
-				// var photo = new Photo
-				// {
-				//     Url = photoUploadResult.Url,
-				//     Id = photoUploadResult.PublicId
-				// };
+				var photo = new Photo
+				{
+					Url = photoUploadResult.Url,
+					Id = photoUploadResult.PublicId
+				};
 
-				// if (!user.Photos.Any(x => x.IsMain)) photo.IsMain = true;
+				if (!user.Photos.Any(x => x.IsProfilePicture)) photo.IsProfilePicture = true;
 
-				// user.Photos.Add(photo);
+				user.Photos.Add(photo);
 
-				// var result = await _dbContext.SaveChangesAsync() > 0;
+				var result = await _dbContext.SaveChangesAsync() > 0;
 
-				// if (result) return Result<Photo>.Success(photo);
+				if (result) return Result<Photo>.Success(photo);
 
 				return Result<Photo>.Failure("Failed while adding photo.");
 			}

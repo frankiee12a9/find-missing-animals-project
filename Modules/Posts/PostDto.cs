@@ -24,6 +24,7 @@ namespace Modules.Posts
 		public ICollection<TagDto> Tags { get; set; }
 		public CategoryDto Category { get; set; }
 		public ICollection<Photo> Photos { get; set; }
+		public DateTime CreatedAt { get; set; } 
 		// public Category Category { get; set; }
 	}
 }

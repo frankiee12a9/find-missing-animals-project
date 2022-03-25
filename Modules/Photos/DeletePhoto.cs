@@ -31,26 +31,26 @@ namespace Application.Photos
 
 			public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
 			{
-				var user = await _dbContext.Users
-					.Include(x => x.Photos)
-					.FirstOrDefaultAsync(x => x.UserName == _userAccessor.GetUserName());
+				// var user = await _dbContext.Users
+				// 	.Include(x => x.Photos)
+				// 	.FirstOrDefaultAsync(x => x.UserName == _userAccessor.GetUserName());
 
-				if (user == null) return null;
+				// if (user == null) return null;
 
-				var photo = user.Photos.FirstOrDefault(x => x.Id == request.Id);
+				// var photo = user.Photos.FirstOrDefault(x => x.Id == request.Id);
 
-				if (photo == null) return null;
+				// if (photo == null) return null;
 
-				// if (photo.IsMain) return Result<Unit>.Failure("You can not deleting main photo.");
-				var result = await _photoAccessor.DeletePhoto(photo.Id);
+				// // if (photo.IsMain) return Result<Unit>.Failure("You can not deleting main photo.");
+				// var result = await _photoAccessor.DeletePhoto(photo.Id);
 
-				if (result == null) return Result<Unit>.Failure("Failed while deleting photo from Cloudinary");
+				// if (result == null) return Result<Unit>.Failure("Failed while deleting photo from Cloudinary");
 
-				user.Photos.Remove(photo);
+				// user.Photos.Remove(photo);
 
-				var success = await _dbContext.SaveChangesAsync() > 0;
+				// var success = await _dbContext.SaveChangesAsync() > 0;
 
-				if (success) return Result<Unit>.Success(Unit.Value);
+				// if (success) return Result<Unit>.Success(Unit.Value);
 
 				return Result<Unit>.Failure("Failed while deleting photo.");
 			}
