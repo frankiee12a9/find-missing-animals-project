@@ -1,7 +1,9 @@
 using System.Text;
 using System.Threading.Tasks;
+using API.Services;
 // using API.Services;
 using Domain;
+using Infrastructure.Security;
 // using Infrastructure.Security;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -42,7 +44,7 @@ namespace API.Extensions
 						ValidateAudience = false,
 					};
 
-					// signalR config
+					// config signalR 
 					opt.Events = new JwtBearerEvents
 					{
 						OnMessageReceived = context =>
@@ -60,19 +62,19 @@ namespace API.Extensions
 				});
 
 			// for host policy to self-created activities 
-			// services.AddAuthorization(opt =>
-			// {
-			// 	opt.AddPolicy("IsActivityHost", policy =>
-			// 	{
-			// 		policy.Requirements.Add(new IsHostRequirement());
-			// 	});
-			// });
+			services.AddAuthorization(opt =>
+			{
+				opt.AddPolicy("IsActivityHost", policy =>
+				{
+					policy.Requirements.Add(new IsHostRequirement());
+				});
+			});
 
 
 			// Todo: read more about AddTransient(), AddScoped(), AddSingleton() 
 			// reference here: https://stackoverflow.com/questions/38138100/addtransient-addscoped-and-addsingleton-services-differences
-			// services.AddTransient<IAuthorizationHandler, IsHostRequirementHandler>();
-			// services.AddScoped<TokenService>();
+			services.AddTransient<IAuthorizationHandler, IsHostRequirementHandler>();
+			services.AddScoped<TokenService>();
 
 			return services;
 		}

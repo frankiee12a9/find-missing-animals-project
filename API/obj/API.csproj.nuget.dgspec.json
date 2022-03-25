@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\PC_1\\desktop\\programming\\netcore-react\\final-project\\API\\API.csproj": {}
+    "C:\\Users\\PC_1\\desktop\\programming\\netcore-react\\final-project\\api\\API.csproj": {}
   },
   "projects": {
-    "C:\\Users\\PC_1\\desktop\\programming\\netcore-react\\final-project\\API\\API.csproj": {
+    "C:\\Users\\PC_1\\desktop\\programming\\netcore-react\\final-project\\api\\API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\PC_1\\desktop\\programming\\netcore-react\\final-project\\API\\API.csproj",
+        "projectUniqueName": "C:\\Users\\PC_1\\desktop\\programming\\netcore-react\\final-project\\api\\API.csproj",
         "projectName": "API",
-        "projectPath": "C:\\Users\\PC_1\\desktop\\programming\\netcore-react\\final-project\\API\\API.csproj",
+        "projectPath": "C:\\Users\\PC_1\\desktop\\programming\\netcore-react\\final-project\\api\\API.csproj",
         "packagesPath": "C:\\Users\\PC_1\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\PC_1\\desktop\\programming\\netcore-react\\final-project\\API\\obj\\",
+        "outputPath": "C:\\Users\\PC_1\\desktop\\programming\\netcore-react\\final-project\\api\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\PC_1\\AppData\\Roaming\\NuGet\\NuGet.Config",

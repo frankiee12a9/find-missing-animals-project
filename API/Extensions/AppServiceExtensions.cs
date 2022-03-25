@@ -7,12 +7,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Modules.Core;
 using Modules.Interfaces;
+using Modules.Posts;
 using Persistence;
 
 namespace API.Extensions
 {
-	// Startup houseKeeping
 	public static class AppServiceExtensions
 	{
 		public static IServiceCollection AddAppServices(this IServiceCollection services,
@@ -28,7 +29,7 @@ namespace API.Extensions
 				opt.UseSqlite(configuration.GetConnectionString("DefaultConnection"));
 			});
 
-			// configure CORS for API call from client
+			// config CORS for API call from client
 			services.AddCors(opt =>
 			{
 				opt.AddPolicy("CorsPolicy", policy =>
@@ -40,23 +41,22 @@ namespace API.Extensions
 				});
 			});
 
-			// signalR config
+			// config signalR 
 			services.AddSignalR(opt =>
 			{
 				opt.EnableDetailedErrors = true;
 			});
 
+			// config mediator 
+			services.AddMediatR(typeof(List.Handler).Assembly);
 
-			// mediator config
-			// services.AddMediatR(typeof(List.Handler).Assembly);
+			// config autoMapper 
+			services.AddAutoMapper(typeof(MappingProfiles).Assembly);
 
-			// autoMapper config
-			// services.AddAutoMapper(typeof(MappingProfiles).Assembly);
-
-			// to get current logged-in userName in everywhere in application
+			// to get current signed in user name in everywhere in application
 			services.AddScoped<IUserAccessor, UserAccessor>();
 
-			// scope for photo accessor 
+			// scope photo accessor 
 			services.AddScoped<IPhotoAccessor, PhotoAccessor>();
 
 			// log EFCore db config, queries, etc.. 
@@ -66,7 +66,7 @@ namespace API.Extensions
 				opt.UseLoggerFactory(LoggerFactory.Create(builder => { builder.AddConsole(); }));
 			});
 
-			// config for Cloudinary
+			// config Cloudinary image upload
 			services.Configure<CloudinaryConfig>(configuration.GetSection("Cloudinary"));
 
 			return services;
