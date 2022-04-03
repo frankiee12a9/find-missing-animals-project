@@ -18,10 +18,7 @@ namespace API.Controllers
 
 		protected ActionResult HandleResult<T>(Result<T> result)
 		{
-			if (result == null)
-			{
-				return NotFound();
-			}
+			if (result == null) return NotFound();
 
 			if (result.IsSuccess && result.Value != null)
 				return Ok(result.Value);
@@ -33,10 +30,7 @@ namespace API.Controllers
 		// handle returning paginated result
 		protected ActionResult HandlePagedResult<T>(Result<PagedList<T>> result)
 		{
-			if (result == null)
-			{
-				return NotFound();
-			}
+			if (result == null) return NotFound();
 
 			if (result.IsSuccess && result.Value != null)
 			{
