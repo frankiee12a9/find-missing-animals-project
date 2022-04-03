@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
+using AutoMapper.Internal;
 using AutoMapper.QueryableExtensions;
 using Domain;
 using MediatR;
@@ -10,12 +11,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Modules.Core;
 using Modules.Interfaces;
+using Modules.Posts.Extensions;
 using Modules.Tags;
 using Persistence;
 
 namespace Modules.Posts
 {
-	public class List
+	public class ListAllPosts
 	{
 		public class Query : IRequest<Result<PagedList<PostDto>>>
 		{
@@ -25,11 +27,11 @@ namespace Modules.Posts
 		public class Handler : IRequestHandler<Query, Result<PagedList<PostDto>>>
 		{
 			private readonly AppDataContext _context;
-			private readonly ILogger<List> _logger;
+			private readonly ILogger<ListAllPosts> _logger;
 			private readonly IMapper _mapper;
 			private readonly IUserAccessor _userAccessor;
 
-			public Handler(AppDataContext context, ILogger<List> logger, IMapper mapper, IUserAccessor userAccessor)
+			public Handler(AppDataContext context, ILogger<ListAllPosts> logger, IMapper mapper, IUserAccessor userAccessor)
 			{
 				_context = context;
 				_logger = logger; ;
@@ -40,14 +42,12 @@ namespace Modules.Posts
 			public async Task<Result<PagedList<PostDto>>> Handle(Query request, CancellationToken cancellationToken)
 			{
 				var result = _context.Posts
-					.Where(x => x.Date >= request.PostQueryParams.StartDate)
 					.OrderBy(x => x.Date)
 					.ProjectTo<PostDto>(_mapper.ConfigurationProvider,
 						new { currentUsername = _userAccessor.GetUserName() })
 					.AsQueryable();
 
-				_logger.LogInformation($"result {result}");
-
+				// location query params
 				string roadLocation = request.PostQueryParams.RoadLocation; // 도로명 filter
 				string location = request.PostQueryParams.Location; // 지번주소 filter
 				string detailedLocation = request.PostQueryParams.DetailedLocation; // 상세주소 filter
@@ -56,7 +56,6 @@ namespace Modules.Posts
 				{
 					result = result
 						.Where(x => x.PostLocation.RoadLocation.Contains(roadLocation));
-					// result = extraResult;
 				}
 
 				if (location != null)
@@ -71,10 +70,33 @@ namespace Modules.Posts
 						.Where(x => x.PostLocation.DetailedLocation.Contains(detailedLocation));
 				}
 
+				// tags query params 
+				string tag1 = request.PostQueryParams.tag1;
+				string tag2 = request.PostQueryParams.tag2;
+				string tag3 = request.PostQueryParams.tag3;
+				string tag4 = request.PostQueryParams.tag4;
+				string tag5 = request.PostQueryParams.tag5;
+
+				if (tag1 != null)
+				{
+					result = result.Where(x => x.Tag1Dto.Tag1Name.Contains(tag1));
+				}
+				if (tag2 != null)
+				{
+					result = result.Where(x => x.Tag2Dto.Tag2Name.Contains(tag2));
+				}
+				if (tag3 != null)
+				{
+					result = result.Where(x => x.Tag3Dto.Tag3Name.Contains(tag3));
+				}
+
 				// return paginated result 
+				// return Result<List<PostDto>>.Success(
+				// 	await result.ToListAsync(cancellationToken)
+
 				return Result<PagedList<PostDto>>.Success(
 					await PagedList<PostDto>.CreateAsync(result, request.PostQueryParams.PageNumber,
-					request.PostQueryParams.PageSize)
+						request.PostQueryParams.PageSize)
 				);
 			}
 		}

@@ -11,7 +11,7 @@ using Persistence;
 
 namespace Modules.Posts
 {
-    public class GetOne
+    public class GetPost
     {
 		public class Query: IRequest<Result<PostDto>>
 		{

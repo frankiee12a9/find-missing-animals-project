@@ -1,0 +1,42 @@
+{
+	"tag": {
+		"tagName": "test tag"
+	},
+	post: {
+		"title": "test title 5",
+		"content": "test content 5",
+		"date": "{{createdAt}}",
+		"postLocation": {
+			"postCode": "34001",
+			"roadLocation": "대전 유성구 라온4길 38-41",
+			"location": "대전 유성구 신동 511",
+			"detailedLocation": ""
+		},
+		"category": {
+			"categoryName": "dog" 
+		},
+	}
+}
+
+class Post 
+{
+	public int Id {get; set;} 
+	public string title {get; set;}
+	public string content {get; set;}
+	public ICollection<PostTag> PostTags {get; set;}
+}
+
+class Tag 
+{
+	public int Id {get; set;}
+	public string TagName {get; set;}
+	public ICollection<PostTag> PostTags {get; set;} 
+}
+
+class PostTag
+{
+	public int PostId {get; set;} 
+	public Post Post {get; set;}
+	public int TagId {get; set;}
+	public Tag Tag {get; set;}
+}
