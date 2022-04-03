@@ -2,11 +2,11 @@ using System;
 
 namespace Domain
 {
-	public class PostTag
+	public class Tag4Post
 	{
 		public Guid PostId { get; set; }
 		public Post Post { get; set; }
-		public int TagId { get; set; }
-		public Tag Tag { get; set; }
+		public int Tag4Id { get; set; }
+		public Tag4 Tag4 { get; set; }
 	}
 }

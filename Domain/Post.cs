@@ -12,23 +12,28 @@ namespace Domain
 		[Required]
 		public string Content { get; set; }
 		public DateTime Date { get; set; }
-		public bool IsFound { get; set; }
+		public bool IsFound { get; set; } // 찾았나요?
+
+		public ICollection<Tag1Post> Tag1Posts { get; set; }
+		public ICollection<Tag2Post> Tag2Posts { get; set; }
+		public ICollection<Tag3Post> Tag3Posts { get; set; }
+		public ICollection<Tag4Post> Tag4Posts { get; set; }
+		public ICollection<Tag5Post> Tag5Posts { get; set; }
+
 		public ICollection<Photo> Photos { get; set; }
 		public ICollection<Comment> Comments { get; set; }
-		public ICollection<PostTag> PostTags { get; set; }
 		public ICollection<PostFollowing> PostFollowers { get; set; }
-		// public int PetLocationId { get; set; }
-		// public PetLocation PetLocation { get; set; }
 		public PostLocation PostLocation { get; set; }
-		public int CategoryId { get; set; }
-		public Category Category { get; set; }
-		public Post()
-		{
-			Photos = new List<Photo>();
-			Comments = new List<Comment>();
-			PostTags = new List<PostTag>();
-			PostFollowers = new List<PostFollowing>();
-			// ApplicationUsers = new List<ApplicationUser>();
-		}
+		// public Post()
+		// {
+		// 	Tag1Posts = new List<Tag1Post>();
+		// 	Tag2Posts = new List<Tag2Post>();
+		// 	Tag3Posts = new List<Tag3Post>();
+		// 	Tag4Posts = new List<Tag4Post>();
+		// 	Tag5Posts = new List<Tag5Post>();
+		// 	Photos = new List<Photo>();
+		// 	Comments = new List<Comment>();
+		// 	PostFollowers = new List<PostFollowing>();
+		// }
 	}
 }
