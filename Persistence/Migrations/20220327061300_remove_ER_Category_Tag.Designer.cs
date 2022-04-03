@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence;
 
 namespace Persistence.Migrations
 {
     [DbContext(typeof(AppDataContext))]
-    partial class AppDataContextModelSnapshot : ModelSnapshot
+    [Migration("20220327061300_remove_ER_Category_Tag")]
+    partial class remove_ER_Category_Tag
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -86,6 +88,20 @@ namespace Persistence.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("Domain.Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("CategoryName")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Categories");
+                });
+
             modelBuilder.Entity("Domain.Comment", b =>
                 {
                     b.Property<int>("Id")
@@ -145,6 +161,9 @@ namespace Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Content")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -163,6 +182,8 @@ namespace Persistence.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
 
                     b.HasIndex("PostLocationId");
 
@@ -221,7 +242,22 @@ namespace Persistence.Migrations
                     b.ToTable("PostLocation");
                 });
 
-            modelBuilder.Entity("Domain.Tag1", b =>
+            modelBuilder.Entity("Domain.PostTag", b =>
+                {
+                    b.Property<Guid>("PostId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("TagId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("PostId", "TagId");
+
+                    b.HasIndex("TagId");
+
+                    b.ToTable("PostTags");
+                });
+
+            modelBuilder.Entity("Domain.Tag", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -232,138 +268,7 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Tag1s");
-                });
-
-            modelBuilder.Entity("Domain.Tag1Post", b =>
-                {
-                    b.Property<Guid>("PostId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("Tag1Id")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("PostId", "Tag1Id");
-
-                    b.HasIndex("Tag1Id");
-
-                    b.ToTable("Tag1Posts");
-                });
-
-            modelBuilder.Entity("Domain.Tag2", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("TagName")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Tag2s");
-                });
-
-            modelBuilder.Entity("Domain.Tag2Post", b =>
-                {
-                    b.Property<Guid>("PostId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("Tag2Id")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("PostId", "Tag2Id");
-
-                    b.HasIndex("Tag2Id");
-
-                    b.ToTable("Tag2Posts");
-                });
-
-            modelBuilder.Entity("Domain.Tag3", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("TagName")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Tag3s");
-                });
-
-            modelBuilder.Entity("Domain.Tag3Post", b =>
-                {
-                    b.Property<Guid>("PostId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("Tag3Id")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("PostId", "Tag3Id");
-
-                    b.HasIndex("Tag3Id");
-
-                    b.ToTable("Tag3Posts");
-                });
-
-            modelBuilder.Entity("Domain.Tag4", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("TagName")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Tag4s");
-                });
-
-            modelBuilder.Entity("Domain.Tag4Post", b =>
-                {
-                    b.Property<Guid>("PostId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("Tag4Id")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("PostId", "Tag4Id");
-
-                    b.HasIndex("Tag4Id");
-
-                    b.ToTable("Tag4Posts");
-                });
-
-            modelBuilder.Entity("Domain.Tag5", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("TagName")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Tag5s");
-                });
-
-            modelBuilder.Entity("Domain.Tag5Post", b =>
-                {
-                    b.Property<Guid>("PostId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("Tag5Id")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("PostId", "Tag5Id");
-
-                    b.HasIndex("Tag5Id");
-
-                    b.ToTable("Tag5Posts");
+                    b.ToTable("Tags");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -524,9 +429,17 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Post", b =>
                 {
+                    b.HasOne("Domain.Category", "Category")
+                        .WithMany("Posts")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Domain.PostLocation", "PostLocation")
                         .WithMany()
                         .HasForeignKey("PostLocationId");
+
+                    b.Navigation("Category");
 
                     b.Navigation("PostLocation");
                 });
@@ -550,99 +463,23 @@ namespace Persistence.Migrations
                     b.Navigation("Post");
                 });
 
-            modelBuilder.Entity("Domain.Tag1Post", b =>
+            modelBuilder.Entity("Domain.PostTag", b =>
                 {
                     b.HasOne("Domain.Post", "Post")
-                        .WithMany("Tag1Posts")
+                        .WithMany("PostTags")
                         .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.Tag1", "Tag1")
-                        .WithMany("Tag1Posts")
-                        .HasForeignKey("Tag1Id")
+                    b.HasOne("Domain.Tag", "Tag")
+                        .WithMany("PostTags")
+                        .HasForeignKey("TagId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Post");
 
-                    b.Navigation("Tag1");
-                });
-
-            modelBuilder.Entity("Domain.Tag2Post", b =>
-                {
-                    b.HasOne("Domain.Post", "Post")
-                        .WithMany("Tag2Posts")
-                        .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Tag2", "Tag2")
-                        .WithMany("Tag2Posts")
-                        .HasForeignKey("Tag2Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Post");
-
-                    b.Navigation("Tag2");
-                });
-
-            modelBuilder.Entity("Domain.Tag3Post", b =>
-                {
-                    b.HasOne("Domain.Post", "Post")
-                        .WithMany("Tag3Posts")
-                        .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Tag3", "Tag3")
-                        .WithMany("Tag3Posts")
-                        .HasForeignKey("Tag3Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Post");
-
-                    b.Navigation("Tag3");
-                });
-
-            modelBuilder.Entity("Domain.Tag4Post", b =>
-                {
-                    b.HasOne("Domain.Post", "Post")
-                        .WithMany("Tag4Posts")
-                        .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Tag4", "Tag4")
-                        .WithMany("Tag4Posts")
-                        .HasForeignKey("Tag4Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Post");
-
-                    b.Navigation("Tag4");
-                });
-
-            modelBuilder.Entity("Domain.Tag5Post", b =>
-                {
-                    b.HasOne("Domain.Post", "Post")
-                        .WithMany("Tag5Posts")
-                        .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Tag5", "Tag5")
-                        .WithMany("Tag5Posts")
-                        .HasForeignKey("Tag5Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Post");
-
-                    b.Navigation("Tag5");
+                    b.Navigation("Tag");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -703,6 +540,11 @@ namespace Persistence.Migrations
                     b.Navigation("PostFollowings");
                 });
 
+            modelBuilder.Entity("Domain.Category", b =>
+                {
+                    b.Navigation("Posts");
+                });
+
             modelBuilder.Entity("Domain.Post", b =>
                 {
                     b.Navigation("Comments");
@@ -711,40 +553,12 @@ namespace Persistence.Migrations
 
                     b.Navigation("PostFollowers");
 
-                    b.Navigation("Tag1Posts");
-
-                    b.Navigation("Tag2Posts");
-
-                    b.Navigation("Tag3Posts");
-
-                    b.Navigation("Tag4Posts");
-
-                    b.Navigation("Tag5Posts");
+                    b.Navigation("PostTags");
                 });
 
-            modelBuilder.Entity("Domain.Tag1", b =>
+            modelBuilder.Entity("Domain.Tag", b =>
                 {
-                    b.Navigation("Tag1Posts");
-                });
-
-            modelBuilder.Entity("Domain.Tag2", b =>
-                {
-                    b.Navigation("Tag2Posts");
-                });
-
-            modelBuilder.Entity("Domain.Tag3", b =>
-                {
-                    b.Navigation("Tag3Posts");
-                });
-
-            modelBuilder.Entity("Domain.Tag4", b =>
-                {
-                    b.Navigation("Tag4Posts");
-                });
-
-            modelBuilder.Entity("Domain.Tag5", b =>
-                {
-                    b.Navigation("Tag5Posts");
+                    b.Navigation("PostTags");
                 });
 #pragma warning restore 612, 618
         }
