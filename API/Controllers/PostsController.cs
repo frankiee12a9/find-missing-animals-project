@@ -10,10 +10,10 @@ using Modules.Posts.Extensions;
 
 namespace API.Controllers
 {
-	public class PostController : BaseApiController
+	public class PostsController : BaseApiController
 	{
 		public IMediator _mediator { get; set; }
-		public PostController(IMediator mediator)
+		public PostsController(IMediator mediator)
 		{
 			_mediator = mediator;
 		}
@@ -38,10 +38,18 @@ namespace API.Controllers
 		}
 
 		[Authorize(Policy = "IsPostOwner")]
-		[HttpPut("edit/{id}")]
+		[HttpPut("{id}")]
 		public async Task<IActionResult> EditPost(Guid id, [FromBody] EditPostDto post)
 		{
+			post.Id = id;
 			return HandleResult(await Mediator.Send(new EditPost.Command { Post = post }));
+		}
+
+		[Authorize(Policy = "IsPostOwner")]
+		[HttpDelete("{id}")]
+		public async Task<IActionResult> DeleteActivity(Guid id)
+		{
+			return HandleResult(await Mediator.Send(new DeletePost.Command { Id = id }));
 		}
 	}
 }
