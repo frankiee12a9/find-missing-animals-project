@@ -38,13 +38,13 @@ namespace Infrastructure.Security
 
 			var postId = Guid.Parse(currentContextId);
 
-			var attendee = _dbContext.PostFollowers
+			var postOwner = _dbContext.PostFollowers
 				.AsNoTracking()
 				.FirstOrDefault(x => x.ApplicationUserId == userId && x.PostId == postId);
 
-			if (attendee == null) return Task.CompletedTask;
+			if (postOwner == null) return Task.CompletedTask;
 
-			if (attendee.isPoster) context.Succeed(requirement);
+			if (postOwner.isPoster) context.Succeed(requirement);
 
 			return Task.CompletedTask;
 		}
