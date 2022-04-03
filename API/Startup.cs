@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Modules.Posts;
 
 namespace API
 {
@@ -32,10 +33,12 @@ namespace API
 			});
 
 			// config validator
-			// services.AddControllers().AddFluentValidation(config =>
-			// {
-			// 	config.RegisterValidatorsFromAssemblyContaining<Create>();
-			// });
+			services.AddControllers().AddFluentValidation(config =>
+			{
+				config.RegisterValidatorsFromAssemblyContaining<CreatePost>();
+			});
+
+			// services.AddControllers().AddNewtonsoftJson();
 
 			// startup class houseKeeping! 
 			// all services config bellow has been moved to AddAppServices file
