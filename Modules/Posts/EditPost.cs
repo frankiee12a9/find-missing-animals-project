@@ -1,3 +1,4 @@
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -14,6 +15,7 @@ namespace Modules.Posts
 		public class Command : IRequest<Result<Unit>>
 		{
 			public EditPostDto Post { get; set; }
+			// public Guid PostId { get; set; }
 		}
 
 		public class Handler : IRequestHandler<Command, Result<Unit>>
