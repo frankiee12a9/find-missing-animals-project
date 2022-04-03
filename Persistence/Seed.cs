@@ -13,8 +13,11 @@ namespace Persistence
 		   UserManager<ApplicationUser> userManager)
 		{
 			IList<ApplicationUser> users = null;
-			IList<Tag> tags = null;
-			IList<Category> categories = null;
+			IList<Tag1> tag1s = null;
+			IList<Tag2> tag2s = null;
+			IList<Tag3> tag3s = null;
+			IList<Tag4> tag4s = null;
+			IList<Tag5> tag5s = null;
 
 			if (!userManager.Users.Any())
 			{
@@ -46,78 +49,55 @@ namespace Persistence
 				}
 			}
 
-			if (!context.Categories.Any())
+			if (!context.Tag1s.Any())
 			{
-				categories = new List<Category>
+				tag1s = new List<Tag1>
 				{
-					new Category
+					new Tag1
 					{
-						CategoryName = "cat"
-					},
-					new Category
-					{
-						CategoryName = "dog"
-					},
+						TagName = "dog"
+					}
 				};
-				await context.Categories.AddRangeAsync(categories);
+				await context.Tag1s.AddRangeAsync(tag1s);
 				await context.SaveChangesAsync();
 			}
 
-			if (!context.Tags.Any())
+			if (!context.Tag2s.Any())
 			{
-				tags = new List<Tag>
+				tag2s = new List<Tag2>
 				{
-					new Tag
+					new Tag2
 					{
-						TagName = "Persian Cat",
-						Category = categories?[0],
-						PostTags = null
-					},
-					new Tag
-					{
-						TagName = "British Cat",
-						Category = categories?[0],
-						PostTags = null
-					},
-					new Tag
-					{
-						TagName = "Scottish Cat",
-						Category = categories?[0],
-						PostTags = null
-					},
-					new Tag
-					{
-						TagName = "Maine Cat",
-						Category = categories?[0],
-						PostTags = null
-					},
-					new Tag
-					{
-						TagName = "Bulldog",
-						Category = categories?[1],
-						PostTags = null
-					},
-					new Tag
-					{
-						TagName = "Poodle",
-						Category = categories?[1],
-						PostTags = null
-					},
-					new Tag
-					{
-						TagName = "Golden Retriever",
-						Category = categories?[1],
-						PostTags = null
-					},
-					new Tag
-					{
-						TagName = "Shiba niu",
-						Category = categories?[1],
-						PostTags = null
-					},
+						TagName = "cat"
+					}
 				};
+				await context.Tag2s.AddRangeAsync(tag2s);
+				await context.SaveChangesAsync();
+			}
 
-				await context.Tags.AddRangeAsync(tags);
+			if (!context.Tag3s.Any())
+			{
+				tag3s = new List<Tag3>
+				{
+					new Tag3
+					{
+						TagName = "chicken"
+					}
+				};
+				await context.Tag3s.AddRangeAsync(tag3s);
+				await context.SaveChangesAsync();
+			}
+
+			if (!context.Tag4s.Any())
+			{
+				tag4s = new List<Tag4>
+				{
+					new Tag4
+					{
+						TagName = "bird"
+					}
+				};
+				await context.Tag4s.AddRangeAsync(tag4s);
 				await context.SaveChangesAsync();
 			}
 
@@ -128,7 +108,7 @@ namespace Persistence
 					new Post
 					{
 						Title = "This is post title 1 ",
-						Date = DateTime.Now.AddMonths(1),
+						Date = DateTime.Now,
 						Content = "This is post content 1",
 						PostLocation = new PostLocation
 						{
@@ -152,23 +132,46 @@ namespace Persistence
 								isPoster = false
 							}
 						},
-						PostTags = new List<PostTag>
+						Tag1Posts = new List<Tag1Post>
 						{
-							new PostTag
+							new Tag1Post
 							{
-								Tag = tags?[0]
-							},
-							new PostTag
-							{
-								Tag = tags?[1]
+								Tag1 = tag1s?[0]
 							},
 						},
-						Category = categories?[0]
+						Tag2Posts = new List<Tag2Post>
+						{
+							new Tag2Post
+							{
+								Tag2 = tag2s?[0]
+							}
+						},
+						Tag3Posts = new List<Tag3Post>
+						{
+							new Tag3Post
+							{
+								Tag3 = tag3s?[0]
+							}
+						},
+						Tag4Posts = new List<Tag4Post>
+						{
+							new Tag4Post
+							{
+								Tag4 = tag4s?[0]
+							}
+						},
+						Tag5Posts = new List<Tag5Post>
+						{
+							new Tag5Post
+							{
+								Tag5 = tag5s?[0]
+							}
+						},
 					},
 					new Post
 					{
 						Title = "This is post title 2",
-						Date = DateTime.Now.AddMonths(2),
+						Date = DateTime.Now,
 						Content = "This is post content 1",
 						PostLocation = new PostLocation
 						{
@@ -187,18 +190,27 @@ namespace Persistence
 								isPoster = false
 							}
 						},
-						PostTags = new List<PostTag>
+						Tag1Posts = new List<Tag1Post>
 						{
-							new PostTag
+							new Tag1Post
 							{
-								Tag = tags?[2]
-							},
-							new PostTag
-							{
-								Tag = tags?[3]
+								Tag1 = tag1s?[0]
 							},
 						},
-						Category = categories?[1]
+						Tag2Posts = new List<Tag2Post>
+						{
+							new Tag2Post
+							{
+								Tag2 = tag2s?[0]
+							}
+						},
+						Tag3Posts = new List<Tag3Post>
+						{
+							new Tag3Post
+							{
+								Tag3 = tag3s?[0]
+							}
+						},
 					},
 				};
 

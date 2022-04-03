@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "sSek0c8sQeJ/6WfVa8F49PczybXo4DeRPiW09vAse8bVISyQg9AizxoDmm9FeX3/jO4IAolJP0GnuczN8d+LtQ==",
+  "dgSpecHash": "utzsX6tJdrjiBREC6HwN14wdaNl/iA2C47IHkdsGEdJ25v1vnejl7Ij6Wre2N6MqRDTGp22F938E4d+UAaZoaQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\PC_1\\desktop\\programming\\netcore-react\\final-project\\api\\API.csproj",
   "expectedPackageFiles": [
@@ -74,7 +74,7 @@
     "C:\\Users\\PC_1\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
     "C:\\Users\\PC_1\\.nuget\\packages\\microsoft.win32.registry\\4.7.0\\microsoft.win32.registry.4.7.0.nupkg.sha512",
     "C:\\Users\\PC_1\\.nuget\\packages\\microsoft.win32.systemevents\\4.7.0\\microsoft.win32.systemevents.4.7.0.nupkg.sha512",
-    "C:\\Users\\PC_1\\.nuget\\packages\\newtonsoft.json\\12.0.3\\newtonsoft.json.12.0.3.nupkg.sha512",
+    "C:\\Users\\PC_1\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512",
     "C:\\Users\\PC_1\\.nuget\\packages\\nwebsec.aspnetcore.core\\3.0.0\\nwebsec.aspnetcore.core.3.0.0.nupkg.sha512",
     "C:\\Users\\PC_1\\.nuget\\packages\\nwebsec.aspnetcore.middleware\\3.0.0\\nwebsec.aspnetcore.middleware.3.0.0.nupkg.sha512",
     "C:\\Users\\PC_1\\.nuget\\packages\\runtime.native.system\\4.3.0\\runtime.native.system.4.3.0.nupkg.sha512",

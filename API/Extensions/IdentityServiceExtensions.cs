@@ -61,10 +61,10 @@ namespace API.Extensions
 					};
 				});
 
-			// for host policy to self-created activities 
+			// post owner can edit post 
 			services.AddAuthorization(opt =>
 			{
-				opt.AddPolicy("IsActivityHost", policy =>
+				opt.AddPolicy("IsPostOwner", policy =>
 				{
 					policy.Requirements.Add(new IsHostRequirement());
 				});

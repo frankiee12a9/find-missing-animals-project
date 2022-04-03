@@ -48,7 +48,7 @@ namespace API.Extensions
 			});
 
 			// config mediator 
-			services.AddMediatR(typeof(List.Handler).Assembly);
+			services.AddMediatR(typeof(ListAllPosts.Handler).Assembly);
 
 			// config autoMapper 
 			services.AddAutoMapper(typeof(MappingProfiles).Assembly);

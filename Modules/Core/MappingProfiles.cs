@@ -3,12 +3,13 @@ using System.Linq;
 using System.Runtime.ExceptionServices;
 using AutoMapper;
 using Domain;
-using Modules.AppUsers;
+using Modules.AppUsers.Dtos;
 using Modules.Categories;
-using Modules.Comments;
+using Modules.Comments.Dtos;
 using Modules.Interfaces;
 using Modules.Locations;
 using Modules.Posts;
+using Modules.Posts.Dtos;
 using Modules.Tags;
 
 namespace Modules.Core
@@ -21,21 +22,42 @@ namespace Modules.Core
 
 			CreateMap<Post, PostDto>();
 
-			CreateMap<Tag, TagDto>()
-				.ForMember(dest => dest.Id, o => o.MapFrom(src => src.Id))
-				.ForMember(dest => dest.TagName, o => o.MapFrom(src => src.TagName));
+			// CreateMap<PostTag, TagDto>()
+			// 	.ForMember(dest => dest.Id, o => o.MapFrom(src => src.TagId))
+			// 	.ForMember(dest => dest.TagName, o => o.MapFrom(src => src.Tag.TagName));
+			// .ForMember(dest => dest.Posts, o => o.MapFrom(src => src.Post));
 
-			CreateMap<PostTag, TagDto>()
-				.ForMember(dest => dest.Id, o => o.MapFrom(src => src.TagId))
-				.ForMember(dest => dest.TagName, o => o.MapFrom(src => src.Tag.TagName));
+			// CreateMap<PostTag, PostDto>() // Note: deleted property
+			// 	.ForMember(dest => dest.Id, o => o.MapFrom(src => src.PostId))
+			// 	.ForMember(dest => dest.Title, o => o.MapFrom(src => src.Post.Title))
+			// 	.ForMember(dest => dest.Content, o => o.MapFrom(src => src.Post.Content))
+			// 	// .ForMember(dest => dest.)
+			// 	.ForMember(dest => dest.PosterName,
+			// 		o => o.MapFrom(src => src.Post.PostFollowers.FirstOrDefault(x => x.isPoster).ApplicationUser.UserName));
 
-			CreateMap<Category, CategoryDto>()
-				.ForMember(dest => dest.Id, o => o.MapFrom(src => src.Id))
-				.ForMember(dest => dest.CategoryName, o => o.MapFrom(src => src.CategoryName));
+			CreateMap<Tag1, Tag1Dto>()
+				.ForMember(dest => dest.Tag1Name, o => o.MapFrom(src => src.TagName));
+
+			CreateMap<Tag2, Tag2Dto>()
+				.ForMember(dest => dest.Tag2Name, o => o.MapFrom(src => src.TagName));
+
+			CreateMap<Tag3, Tag3Dto>()
+				.ForMember(dest => dest.Tag3Name, o => o.MapFrom(src => src.TagName));
+
+			CreateMap<Tag4, Tag4Dto>()
+				.ForMember(dest => dest.Tag4Name, o => o.MapFrom(src => src.TagName));
+
+			CreateMap<Tag5, Tag5Dto>()
+				.ForMember(dest => dest.Tag5Name, o => o.MapFrom(src => src.TagName));
 
 			// mapping PostFollowing - PostParticipant
-			// CreateMap<PostFollowing, PostParticipantDto>()
-			// 	.ForMember(dest => dest.DisplayName, o => o.MapFrom(src => src.ApplicationUser.DisplayName));
+			CreateMap<PostFollowing, PostParticipantDto>()
+				.ForMember(dest => dest.DisplayName, o => o.MapFrom(src => src.ApplicationUser.DisplayName))
+				.ForMember(dest => dest.Username, o => o.MapFrom(src => src.ApplicationUser.UserName))
+				.ForMember(dest => dest.Bio, o => o.MapFrom(src => src.ApplicationUser.Bio))
+				.ForMember(dest => dest.Image, o => o.MapFrom(src => src.ApplicationUser.Photos.FirstOrDefault(p => p.IsProfilePicture).Url))
+				.ForMember(dest => dest.IsParticipating, o =>
+					o.MapFrom(src => src.ApplicationUser.PostFollowings.Any(x => x.ApplicationUser.UserName == currentUsername)));
 
 			CreateMap<PostLocation, PostLocationDto>()
 				.ForMember(dest => dest.Id, o => o.MapFrom(src => src.Id))
@@ -50,8 +72,11 @@ namespace Modules.Core
 				.ForMember(dest => dest.PosterName,
 				o => o.MapFrom(src => src.PostFollowers.FirstOrDefault(x => x.isPoster).ApplicationUser.UserName))
 				.ForMember(dest => dest.PostLocation, o => o.MapFrom(src => src.PostLocation))
-				.ForMember(dest => dest.Tags, o => o.MapFrom(src => src.PostTags))
-				.ForMember(dest => dest.Category, o => o.MapFrom(src => src.Category))
+				.ForMember(dest => dest.Tag1Dto, o => o.MapFrom(src => src.Tag1Posts.Select(tag => tag.Tag1).FirstOrDefault()))
+				.ForMember(dest => dest.Tag2Dto, o => o.MapFrom(src => src.Tag2Posts.Select(tag => tag.Tag2).FirstOrDefault()))
+				.ForMember(dest => dest.Tag3Dto, o => o.MapFrom(src => src.Tag3Posts.Select(tag => tag.Tag3).FirstOrDefault()))
+				.ForMember(dest => dest.Tag4Dto, o => o.MapFrom(src => src.Tag4Posts.Select(tag => tag.Tag4).FirstOrDefault()))
+				.ForMember(dest => dest.Tag5Dto, o => o.MapFrom(src => src.Tag5Posts.Select(tag => tag.Tag5).FirstOrDefault()))
 				.ForMember(dest => dest.PostParticipants, o => o.MapFrom(src => src.PostFollowers));
 
 			// CreateMap<ApplicationUser, PostParticipantDto>()
@@ -62,7 +87,6 @@ namespace Modules.Core
 				.ForMember(dest => dest.Username, o => o.MapFrom(src => src.ApplicationUser.UserName))
 				.ForMember(dest => dest.ImageUrl, o => o.MapFrom(src => src.ApplicationUser.Photos
 					.FirstOrDefault(x => x.IsProfilePicture).Url));
-
 		}
 	}
 }
