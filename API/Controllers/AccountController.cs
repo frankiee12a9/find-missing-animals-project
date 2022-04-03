@@ -1,7 +1,7 @@
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using API.DTOs;
+using API.Dtos;
 using API.Services;
 using Domain;
 using Microsoft.AspNetCore.Authorization;
@@ -29,7 +29,7 @@ namespace API.Controllers
 			_tokenService = tokenService;
 		}
 
-		[HttpPost("login")]  
+		[HttpPost("login")]
 		public async Task<ActionResult<UserDto>> Login([FromBody] LoginDto loginDto)
 		{
 			// var user = await _userManager.Users
@@ -57,7 +57,7 @@ namespace API.Controllers
 			{
 				// not code this
 				// return BadRequest("Email is already taken.");
-				
+
 				// code this!
 				ModelState.AddModelError("email", "Email already taken.");
 				return ValidationProblem(ModelState);
