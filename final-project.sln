@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API", "API\API.csproj", "{91D01BDA-1940-49DA-96D9-ADD1276AE0B1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Modules", "Modules\Modules.csproj", "{7EF814EC-ECE6-4492-BA43-8E665AAA7E85}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UseCases", "UseCases\Modules.csproj", "{7EF814EC-ECE6-4492-BA43-8E665AAA7E85}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Persistence", "Persistence\Persistence.csproj", "{77B710D9-5268-4591-ACAC-1C23088BAAE0}"
 EndProject
