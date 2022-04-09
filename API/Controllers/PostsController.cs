@@ -4,9 +4,10 @@ using Domain;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Modules.Posts;
-using Modules.Posts.Dtos;
-using Modules.Posts.Extensions;
+using UseCases.PostParticipating;
+using UseCases.Posts;
+using UseCases.Posts.Dtos;
+using UseCases.Posts.Extensions;
 
 namespace API.Controllers
 {
@@ -21,7 +22,6 @@ namespace API.Controllers
 		[HttpGet]
 		public async Task<IActionResult> GetPostList([FromQuery] PostQueryParams param)
 		{
-			// return HandlePagedResult(await Mediator.Send(new ListAllPosts.Query { PostQueryParams = param }));
 			return HandleResult(await Mediator.Send(new ListAllPosts.Query { PostQueryParams = param }));
 		}
 
@@ -32,7 +32,7 @@ namespace API.Controllers
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> CreatePost([FromBody] CreatePostParams createPostParams)
+		public async Task<IActionResult> CreatePost([FromForm] CreatePostParams createPostParams)
 		{
 			return HandleResult(await Mediator.Send(new CreatePost.Command { NewPostParams = createPostParams }));
 		}
@@ -47,9 +47,16 @@ namespace API.Controllers
 
 		[Authorize(Policy = "IsPostOwner")]
 		[HttpDelete("{id}")]
-		public async Task<IActionResult> DeleteActivity(Guid id)
+		public async Task<IActionResult> DeletePost(Guid id)
 		{
 			return HandleResult(await Mediator.Send(new DeletePost.Command { Id = id }));
+		}
+
+		[HttpPost("follow/{postId}")]
+		public async Task<IActionResult> FollowPost(Guid postId)
+		{
+			// return HandleResult(await Mediator.Send(new ToggleFollowing.Command { PostId = postId }));
+			return HandleResult(await Mediator.Send(new FollowingPost.Command { PostId = postId }));
 		}
 	}
 }
