@@ -1,0 +1,71 @@
+// Flex Grid 정의
+.flex-grid {
+	display: -webkit-box;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: flex;
+	width: 100%;
+}
+.flex-grid--between {
+	-webkit-box-pack: justify;
+	-moz-justify-content: space-between;
+	-ms-flex-pack: justify;
+	justify-content: space-between;
+}
+.flex-grid--center {
+	-webkit-box-pack: center;
+	-moz-box-justify-content: center;
+	-ms-flex-pack: center;
+	justify-content: center;
+}
+.flex-grid--start {
+	-webkit-box-pack: start;
+	-moz-box-justify-content: flex-start;
+	-ms-flex-pack: start;
+	justify-content: flex-start;
+}
+.flex-grid--end {
+	-webkit-box-pack: end;
+	-moz-box-justify-content: flex-end;
+	-ms-flex-pack: end;
+	justify-content: flex-end;
+}
+.flex-grid--align-center {
+	-webkit-box-align: center;
+	-moz-align-items: center;
+	-ms-flex-align: center;
+	align-items: center;
+}
+.flex-grid--nowrap {
+	-webkit-box-lines: single;
+	-moz-flex-wrap: nowrap;
+	-ms-flex-wrap: nowrap;
+	flex-wrap: nowrap;
+}
+.flex-grid--wrap {
+	-webkit-box-lines: multiple;
+	-moz-flex-wrap: wrap;
+	-ms-flex-wrap: wrap;
+	flex-wrap: wrap;
+}
+.flex-grid--dir-column {
+	-webkit-box-orient: vertical;
+	-moz-flex-direction: column;
+	-ms-flex-direction: column;
+	flex-direction: column;
+}
+
+input {
+	border: 1px solid #bbb;
+}
+
+input,
+textarea,
+select {
+	font-size: 16px;
+}
+
+button {
+	display: block;
+	border: 1px solid #bbb;
+}
