@@ -1,7 +1,6 @@
 using Domain;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-// using Microsoft.EntityFrameworkCore.Internal;
 
 namespace Persistence
 {
@@ -9,7 +8,8 @@ namespace Persistence
 	{
 		public AppDataContext(DbContextOptions options) : base(options)
 		{
-			Database.EnsureCreated();
+			//Note: https://stackoverflow.com/questions/42750991/table-already-exists-exception-when-migrate-db-using-entity-framework-core-and-s
+			// Database.EnsureCreated();
 		}
 
 		public DbSet<Post> Posts { get; set; }
@@ -27,14 +27,22 @@ namespace Persistence
 		public DbSet<Tag3Post> Tag3Posts { get; set; }
 		public DbSet<Tag4Post> Tag4Posts { get; set; }
 		public DbSet<Tag5Post> Tag5Posts { get; set; }
-
-
 		public DbSet<Photo> Photos { get; set; }
 		public DbSet<Comment> Comments { get; set; }
 
 		protected override void OnModelCreating(ModelBuilder builder)
 		{
 			base.OnModelCreating(builder);
+
+			// var keysProperties = builder.Model.GetEntityTypes().Select(x => x.FindPrimaryKey()).SelectMany(x => x.Properties);
+			// foreach (var property in keysProperties)
+			// {
+			// 	property.ValueGenerated = ValueGenerated.OnAdd;
+			// }
+
+			// builder.Entity<PostFollowing>()
+			// 	.Property(e => e.ApplicationUserId)
+			// 	.ValueGeneratedOnAdd();
 
 			// config ER for Posts-Users
 			builder.Entity<PostFollowing>(e => e.HasKey(keys => new { keys.PostId, keys.ApplicationUserId }));
@@ -119,6 +127,16 @@ namespace Persistence
 				.HasOne(e => e.Post)
 				.WithMany(eList => eList.Comments)
 				.OnDelete(DeleteBehavior.Cascade);
+
+			// builder.Entity<Post>()
+			// 	.HasMany(eList => eList.Photos)
+			// 	.WithOne()
+			// 	.OnDelete(DeleteBehavior.Cascade);
+
+			// builder.Entity<Post>()
+			// 	.HasMany(eList => eList.Comments)
+			// 	.WithOne()
+			// 	.OnDelete(DeleteBehavior.Cascade);
 
 			// config for Post-Followers
 			// builder.Entity<PostFollower>(e =>
