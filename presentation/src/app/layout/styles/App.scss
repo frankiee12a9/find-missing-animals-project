@@ -1,0 +1,239 @@
+@import url("./common.scss");
+.landing-page {
+   height: 100%;
+}
+
+.landing-page__inner {
+   position: relative;
+}
+
+.search-form-container {
+   position: absolute;
+   top: 0;
+   left: 0;
+   z-index: 99;
+   width: 100%;
+   padding: 0.75rem 0;
+   .search-form {
+      .form__label {
+         display: block;
+         position: relative;
+         width: 100%;
+         max-width: 300px;
+         margin: 0 auto;
+      }
+      .form__input {
+         display: block;
+         width: 100%;
+         height: 45px;
+         padding: 0 15px 0 35px;
+         font-size: 16px;
+         line-height: 45px;
+         border-radius: 3px;
+         box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.2);
+         &:focus {
+            outline: none;
+            box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.1);
+         }
+      }
+      .btn-box {
+         position: absolute;
+         left: 0;
+         top: 0;
+         width: 33px;
+         height: 45px;
+         .btn {
+            width: 100%;
+            height: 100%;
+            color: transparent;
+            text-indent: -9999px;
+            font-size: 0px;
+            line-height: 1;
+            border: none;
+            // background: transparent url(".../public/images/search-ico.png") 9px center no-repeat;
+            background-size: 20px auto;
+         }
+      }
+   }
+}
+
+.map-container {
+   position: relative;
+   .map {
+      width: 100%;
+      height: 250px;
+      border: 1px solid #eee;
+      .marker-title {
+         display: block;
+         max-width: 140px;
+         font-weight: 700;
+         font-size: 0.75rem;
+         white-space: nowrap;
+         overflow: hidden;
+         text-overflow: ellipsis;
+      }
+   }
+}
+
+.search-result {
+   width: 100%;
+   height: 100%;
+   .result-text {
+      padding: 0.75rem;
+      font-size: 0.9375rem;
+      background-color: #ecf4f7;
+      .result-keyword {
+         margin-right: 0.25rem;
+         font-weight: 700;
+         color: #0f6fff;
+      }
+   }
+   .scroll-wrapper {
+      height: calc(100vh - 336px);
+      padding-bottom: 47px;
+      overflow-x: hidden;
+      overflow-y: auto;
+      background-color: #f3f3f3;
+      box-shadow: inset 0px 7px 9px -6px rgba(0, 0, 0, 0.1);
+   }
+   .places-list {
+      .item {
+         background-color: #fff;
+         .info {
+            position: relative;
+            padding-left: 3rem;
+            border-bottom: 1px solid #eee;
+            .marker {
+               position: absolute;
+               left: 0.5rem;
+               top: 0.5rem;
+               width: 30px;
+               height: 30px;
+               padding-top: 5px;
+               font-weight: 700;
+               font-size: 0.75rem;
+               color: #fff;
+               text-align: center;
+               // background: url('../public/images/spot-ico.png') center center no-repeat;
+               //    background: url("../public/images/cat.jpg") center center no-repeat;
+               background-size: 30px auto;
+            }
+            a {
+               display: block;
+               padding: 0.5rem;
+               .info-item {
+                  display: block;
+                  font-size: 0.6876rem;
+                  line-height: 1.6;
+               }
+               .place-name {
+                  font-weight: 700;
+               }
+               .address-name {
+                  position: relative;
+                  padding-left: 24px;
+                  color: #a8a8a8;
+                  &::before {
+                     content: "지번";
+                     position: absolute;
+                     left: 0;
+                     top: 2px;
+                     font-size: 0.625rem;
+                     color: #fff;
+                     text-align: center;
+                     line-height: 14px;
+                     background-color: #bbb;
+                     border-radius: 4px;
+                     width: 22px;
+                     height: 14px;
+                  }
+               }
+               .tel {
+                  margin-top: 0.5rem;
+                  color: #0f6fff;
+               }
+            }
+         }
+      }
+   }
+   .pagination {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 47px;
+      padding: 0.5rem;
+      background-color: #ecf4f7;
+      box-shadow: 0 -4px 9px -3px rgba(0, 0, 0, 0.1);
+      a {
+         display: inline-block;
+         padding: 0.25rem 0.5rem;
+         font-weight: 200;
+         font-size: 0.875rem;
+         +a {
+            margin-left: 0.5rem;
+         }
+         &.on {
+            font-weight: 700;
+            color: #0f6fff;
+         }
+      }
+   }
+}
+
+
+/* Mobile - Landscape */
+
+@media (min-width: 576px) {
+   .landing-page__inner {
+      padding: 0 1rem;
+   }
+   .search-form-container {
+      position: relative;
+      .search-form {
+         .form__label {
+            margin: 0;
+         }
+         .form__input {
+            box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.1);
+         }
+      }
+   }
+   .map-container {
+      .map {
+         width: 60%;
+         height: calc(100vh - 71px);
+      }
+   }
+   .search-result {
+      width: 40%;
+      .scroll-wrapper {
+         height: 414px;
+      }
+      .pagination {
+         position: static;
+      }
+   }
+}
+
+
+/* Tablet */
+
+@media (min-width: 768px) {
+   .map-container {
+      .map {
+         width: 60%;
+         height: 500px;
+      }
+   }
+}
+
+
+/* Desktop */
+
+@media (min-width: 992px) {}
+
+
+/* Desktop (Large) */
+
+@media (min-width: 1200px) {}
