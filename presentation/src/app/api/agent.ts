@@ -99,6 +99,10 @@ const Account = {
 	currentUser: () => requests.get("account/currentUser"),
 }
 
+const Post = {
+  // createPost: (v)
+}
+
 const agent = {
 	Account,
 }

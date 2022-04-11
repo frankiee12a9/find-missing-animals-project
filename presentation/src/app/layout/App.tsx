@@ -1,37 +1,58 @@
-import React from "react"
-import "./styles/App.scss"
-import Add from "./AddPost"
-import Feed from "./Feed"
-import Leftbar from "./Leftbar"
+import { Grid, makeStyles} from "@material-ui/core"
+import { Container, createTheme, ThemeProvider } from "@mui/material"
+import React, {useState} from "react"
 import Navbar from "./Navbar"
+import Leftbar from "./Leftbar"
+import Feed from "./Feed"
 import Rightbar from "./Rightbar"
-import { Grid, makeStyles } from "@material-ui/core"
-
-const useStyles = makeStyles(theme => ({
-	right: {
-		[theme.breakpoints.down("sm")]: {
-			display: "none",
-		},
-	},
-}))
+import "./styles/App.scss"
+import {Route, Switch} from "react-router-dom"
+import { useAppDispatch } from "../store/storeConfig" 
+import { ToastContainer } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
+import HomePage from "./HomePage"
+import MapLandingPage from "../utils/MapLandingPage"
 
 function App() {
-	const classes = useStyles()
+	const dispatch = useAppDispatch()
+	const [loading, setLoading] = useState(true)
+
+
+	const [darkMode, setDarkMode] = useState(false)
+	const paletteType = darkMode ? "dark": "light"
+	const theme = createTheme({
+		palette: {
+			mode: paletteType, // Todo: fix type error
+			background: {
+				default: paletteType === "light" ? "#eaeaea": "121212"
+			}
+		}
+	})
+
+	function handleThemeChange() {
+		setDarkMode(!darkMode)
+	}
+
+  // Todo: add Loading component soon
+	// if (loading) return <Loading />
+
 	return (
 		<div>
-			<Navbar />
-			<Grid container>
-				<Grid item sm={2} xs={4}>
-					<Leftbar />
-				</Grid>
-				<Grid item sm={7} xs={10}>
-					<Feed />
-				</Grid>
-				<Grid item sm={3} className={classes.right}>
-					<Rightbar />
-				</Grid>
-			</Grid>
-			<Add />
+			<ThemeProvider theme={theme}>
+				<ToastContainer position="bottom-right" hideProgressBar theme="colored"/>
+			<Navbar darkMode={darkMode} handleThemeChange={handleThemeChange}/>
+			<Route exact path="/" component={HomePage} /> 
+			<Route path={"/(.+)"} render={() => (
+			<Container sx={{mt: 4}}>
+				<Switch>
+					<Route exact path="/map" component={MapLandingPage}/>
+					{/* <Route exact path="/map" component={MapLandingPage}/>
+					<Route exact path="/map" component={MapLandingPage}/>
+					<Route exact path="/map" component={MapLandingPage}/> */}
+				</Switch>
+			</Container>
+			)} />
+			</ThemeProvider>
 		</div>
 	)
 }
