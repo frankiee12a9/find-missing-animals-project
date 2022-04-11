@@ -6,7 +6,7 @@ interface Props {
 	history: History
 }
 
-const CustomRouter = ({ history, ...props }) => {
+const CustomRouter = ({ history, ...props }: any) => {
 	const [state, setState] = useState({
 		action: history.action,
 		location: history.location,
