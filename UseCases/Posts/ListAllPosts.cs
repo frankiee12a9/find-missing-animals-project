@@ -79,20 +79,16 @@ namespace UseCases.Posts
 
 				if (tag1 != null)
 				{
-					result = result.Where(x => x.Tag1Dto.Tag1Name.Contains(tag1));
+					result = result.Where(x => x.Tag1.Tag1Name.Contains(tag1));
 				}
 				if (tag2 != null)
 				{
-					result = result.Where(x => x.Tag2Dto.Tag2Name.Contains(tag2));
+					result = result.Where(x => x.Tag2.Tag2Name.Contains(tag2));
 				}
 				if (tag3 != null)
 				{
-					result = result.Where(x => x.Tag3Dto.Tag3Name.Contains(tag3));
+					result = result.Where(x => x.Tag3.Tag3Name.Contains(tag3));
 				}
-
-				// return paginated result 
-				// return Result<List<PostDto>>.Success(
-				// 	await result.ToListAsync(cancellationToken)
 
 				return Result<PagedList<PostDto>>.Success(
 					await PagedList<PostDto>.CreateAsync(result, request.PostQueryParams.PageNumber,

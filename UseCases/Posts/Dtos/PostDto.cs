@@ -23,13 +23,13 @@ namespace UseCases.Posts
 		// public bool IsFollowing { get; set; }
 		public ICollection<PostParticipantDto> PostParticipants { get; set; }
 		[Required]
-		public Tag1Dto Tag1Dto { get; set; }
+		public Tag1Dto Tag1 { get; set; }
 		[Required]
-		public Tag2Dto Tag2Dto { get; set; }
+		public Tag2Dto Tag2 { get; set; }
 		[Required]
-		public Tag3Dto Tag3Dto { get; set; }
-		public Tag4Dto Tag4Dto { get; set; }
-		public Tag5Dto Tag5Dto { get; set; }
+		public Tag3Dto Tag3 { get; set; }
+		public Tag4Dto Tag4 { get; set; }
+		public Tag5Dto Tag5 { get; set; }
 		public PostLocationDto PostLocation { get; set; }
 		public ICollection<Photo> Photos { get; set; }
 		public DateTime CreatedAt { get; set; }

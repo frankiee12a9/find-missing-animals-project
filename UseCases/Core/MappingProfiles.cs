@@ -4,7 +4,6 @@ using System.Runtime.ExceptionServices;
 using AutoMapper;
 using Domain;
 using UseCases.AppUsers.Dtos;
-// using UseCases.Categories;
 using UseCases.Comments.Dtos;
 using UseCases.Interfaces;
 using UseCases.Locations;
@@ -73,11 +72,11 @@ namespace UseCases.Core
 				.ForMember(dest => dest.PosterName,
 				o => o.MapFrom(src => src.PostFollowers.FirstOrDefault(x => x.isPoster).ApplicationUser.UserName))
 				.ForMember(dest => dest.PostLocation, o => o.MapFrom(src => src.PostLocation))
-				.ForMember(dest => dest.Tag1Dto, o => o.MapFrom(src => src.Tag1Posts.Select(tag => tag.Tag1).FirstOrDefault()))
-				.ForMember(dest => dest.Tag2Dto, o => o.MapFrom(src => src.Tag2Posts.Select(tag => tag.Tag2).FirstOrDefault()))
-				.ForMember(dest => dest.Tag3Dto, o => o.MapFrom(src => src.Tag3Posts.Select(tag => tag.Tag3).FirstOrDefault()))
-				.ForMember(dest => dest.Tag4Dto, o => o.MapFrom(src => src.Tag4Posts.Select(tag => tag.Tag4).FirstOrDefault()))
-				.ForMember(dest => dest.Tag5Dto, o => o.MapFrom(src => src.Tag5Posts.Select(tag => tag.Tag5).FirstOrDefault()))
+				.ForMember(dest => dest.Tag1, o => o.MapFrom(src => src.Tag1Posts.Select(tag => tag.Tag1).FirstOrDefault()))
+				.ForMember(dest => dest.Tag2, o => o.MapFrom(src => src.Tag2Posts.Select(tag => tag.Tag2).FirstOrDefault()))
+				.ForMember(dest => dest.Tag3, o => o.MapFrom(src => src.Tag3Posts.Select(tag => tag.Tag3).FirstOrDefault()))
+				.ForMember(dest => dest.Tag4, o => o.MapFrom(src => src.Tag4Posts.Select(tag => tag.Tag4).FirstOrDefault()))
+				.ForMember(dest => dest.Tag5, o => o.MapFrom(src => src.Tag5Posts.Select(tag => tag.Tag5).FirstOrDefault()))
 				.ForMember(dest => dest.Photos, o => o.MapFrom(src => src.Photos))
 			// .ForMember(dest => dest.Photo1, o => o.MapFrom(src => src.Photos.Select(photo => photo).FirstOrDefault()))
 			// .ForMember(dest => dest.Photo2, o => o.MapFrom(src => src.Photos.Select(photo => photo).FirstOrDefault()))
