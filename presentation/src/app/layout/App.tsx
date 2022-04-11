@@ -6,11 +6,12 @@ import Leftbar from "./Leftbar"
 import Feed from "./Feed"
 import Rightbar from "./Rightbar"
 import "./styles/App.scss"
-import {Route, Switch} from "react-router"
+import {Route, Switch} from "react-router-dom"
 import { useAppDispatch } from "../store/storeConfig" 
 import { ToastContainer } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 import HomePage from "./HomePage"
+import MapLandingPage from "../utils/MapLandingPage"
 
 function App() {
 	const dispatch = useAppDispatch()
@@ -39,15 +40,18 @@ function App() {
 		<div>
 			<ThemeProvider theme={theme}>
 				<ToastContainer position="bottom-right" hideProgressBar theme="colored"/>
-        <Navbar darkMode={darkMode} handleThemeChange={handleThemeChange}/>
-        <Route exact path="/" component={HomePage} /> 
-        <Route path={"/(.+)"} render={() => (
-          <Container sx={{mt: 4}}>
-            <Switch>
-              {/* <Route /> */}
-              </Switch>
-          </Container>
-        )} />
+			<Navbar darkMode={darkMode} handleThemeChange={handleThemeChange}/>
+			<Route exact path="/" component={HomePage} /> 
+			<Route path={"/(.+)"} render={() => (
+			<Container sx={{mt: 4}}>
+				<Switch>
+					<Route exact path="/map" component={MapLandingPage}/>
+					{/* <Route exact path="/map" component={MapLandingPage}/>
+					<Route exact path="/map" component={MapLandingPage}/>
+					<Route exact path="/map" component={MapLandingPage}/> */}
+				</Switch>
+			</Container>
+			)} />
 			</ThemeProvider>
 		</div>
 	)
