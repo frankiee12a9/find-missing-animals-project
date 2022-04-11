@@ -7,6 +7,7 @@ import {
 	InputBase,
 	makeStyles,
 	Toolbar,
+	Switch,
 	Typography,
 } from "@material-ui/core"
 import { Cancel, Mail, Notifications, Search } from "@material-ui/icons"
@@ -71,15 +72,21 @@ const useStyles = makeStyles(theme => ({
 	},
 }))
 
-const Navbar = () => {
+interface Props {
+	darkMode: boolean,
+	handleThemeChange: () => void
+}
+
+const Navbar = ({darkMode, handleThemeChange}: Props) => {
 	const [open, setOpen] = useState(false)
 	const classes = useStyles({ open })
 	return (
 		<AppBar position="fixed">
 			<Toolbar className={classes.toolbar}>
 				<Typography variant="h6" className={classes.logoLg}>
-					발려동물.찾기.컴
+					반려동물.찾기.컴
 				</Typography>
+				<Switch checked={darkMode} onChange={handleThemeChange} />
 				<Typography variant="h6" className={classes.logoSm}>
 					LAMA
 				</Typography>
@@ -121,3 +128,5 @@ const Navbar = () => {
 		</AppBar>
 	)
 }
+
+export default Navbar

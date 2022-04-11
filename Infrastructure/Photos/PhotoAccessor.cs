@@ -7,8 +7,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using Modules.Interfaces;
-using Modules.Photos;
+using UseCases.Interfaces;
+using UseCases.Photos;
 
 namespace Infrastructure.Photos
 {
