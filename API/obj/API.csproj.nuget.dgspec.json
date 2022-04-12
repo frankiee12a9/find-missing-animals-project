@@ -1,41 +1,42 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\PC_1\\desktop\\programming\\netcore-react\\final-project\\api\\API.csproj": {}
+    "/Users/kienneymar/Desktop/netcore-react/Find-Missing-Animals-App-Final-Project/API/API.csproj": {}
   },
   "projects": {
-    "C:\\Users\\PC_1\\desktop\\programming\\netcore-react\\final-project\\api\\API.csproj": {
+    "/Users/kienneymar/Desktop/netcore-react/Find-Missing-Animals-App-Final-Project/API/API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\PC_1\\desktop\\programming\\netcore-react\\final-project\\api\\API.csproj",
+        "projectUniqueName": "/Users/kienneymar/Desktop/netcore-react/Find-Missing-Animals-App-Final-Project/API/API.csproj",
         "projectName": "API",
-        "projectPath": "C:\\Users\\PC_1\\desktop\\programming\\netcore-react\\final-project\\api\\API.csproj",
-        "packagesPath": "C:\\Users\\PC_1\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\PC_1\\desktop\\programming\\netcore-react\\final-project\\api\\obj\\",
+        "projectPath": "/Users/kienneymar/Desktop/netcore-react/Find-Missing-Animals-App-Final-Project/API/API.csproj",
+        "packagesPath": "/Users/kienneymar/.nuget/packages/",
+        "outputPath": "/Users/kienneymar/Desktop/netcore-react/Find-Missing-Animals-App-Final-Project/API/obj/",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "C:\\Users\\PC_1\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/Users/kienneymar/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net5.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net5.0": {
             "targetAlias": "net5.0",
             "projectReferences": {
-              "C:\\Users\\PC_1\\desktop\\programming\\netcore-react\\final-project\\Infrastructure\\Infrastructure.csproj": {
-                "projectPath": "C:\\Users\\PC_1\\desktop\\programming\\netcore-react\\final-project\\Infrastructure\\Infrastructure.csproj"
+              "/Users/kienneymar/Desktop/netcore-react/Find-Missing-Animals-App-Final-Project/Infrastructure/Infrastructure.csproj": {
+                "projectPath": "/Users/kienneymar/Desktop/netcore-react/Find-Missing-Animals-App-Final-Project/Infrastructure/Infrastructure.csproj"
               },
-              "C:\\Users\\PC_1\\desktop\\programming\\netcore-react\\final-project\\Modules\\Modules.csproj": {
-                "projectPath": "C:\\Users\\PC_1\\desktop\\programming\\netcore-react\\final-project\\Modules\\Modules.csproj"
+              "/Users/kienneymar/Desktop/netcore-react/Find-Missing-Animals-App-Final-Project/Persistence/Persistence.csproj": {
+                "projectPath": "/Users/kienneymar/Desktop/netcore-react/Find-Missing-Animals-App-Final-Project/Persistence/Persistence.csproj"
               },
-              "C:\\Users\\PC_1\\desktop\\programming\\netcore-react\\final-project\\Persistence\\Persistence.csproj": {
-                "projectPath": "C:\\Users\\PC_1\\desktop\\programming\\netcore-react\\final-project\\Persistence\\Persistence.csproj"
+              "/Users/kienneymar/Desktop/netcore-react/Find-Missing-Animals-App-Final-Project/UseCases/Modules.csproj": {
+                "projectPath": "/Users/kienneymar/Desktop/netcore-react/Find-Missing-Animals-App-Final-Project/UseCases/Modules.csproj"
               }
             }
           }
@@ -137,28 +138,29 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.301\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/5.0.202/RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\PC_1\\desktop\\programming\\netcore-react\\final-project\\Domain\\Domain.csproj": {
+    "/Users/kienneymar/Desktop/netcore-react/Find-Missing-Animals-App-Final-Project/Domain/Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\PC_1\\desktop\\programming\\netcore-react\\final-project\\Domain\\Domain.csproj",
+        "projectUniqueName": "/Users/kienneymar/Desktop/netcore-react/Find-Missing-Animals-App-Final-Project/Domain/Domain.csproj",
         "projectName": "Domain",
-        "projectPath": "C:\\Users\\PC_1\\desktop\\programming\\netcore-react\\final-project\\Domain\\Domain.csproj",
-        "packagesPath": "C:\\Users\\PC_1\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\PC_1\\desktop\\programming\\netcore-react\\final-project\\Domain\\obj\\",
+        "projectPath": "/Users/kienneymar/Desktop/netcore-react/Find-Missing-Animals-App-Final-Project/Domain/Domain.csproj",
+        "packagesPath": "/Users/kienneymar/.nuget/packages/",
+        "outputPath": "/Users/kienneymar/Desktop/netcore-react/Find-Missing-Animals-App-Final-Project/Domain/obj/",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "C:\\Users\\PC_1\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/Users/kienneymar/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net5.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -197,36 +199,37 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.301\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/5.0.202/RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\PC_1\\desktop\\programming\\netcore-react\\final-project\\Infrastructure\\Infrastructure.csproj": {
+    "/Users/kienneymar/Desktop/netcore-react/Find-Missing-Animals-App-Final-Project/Infrastructure/Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\PC_1\\desktop\\programming\\netcore-react\\final-project\\Infrastructure\\Infrastructure.csproj",
+        "projectUniqueName": "/Users/kienneymar/Desktop/netcore-react/Find-Missing-Animals-App-Final-Project/Infrastructure/Infrastructure.csproj",
         "projectName": "Infrastructure",
-        "projectPath": "C:\\Users\\PC_1\\desktop\\programming\\netcore-react\\final-project\\Infrastructure\\Infrastructure.csproj",
-        "packagesPath": "C:\\Users\\PC_1\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\PC_1\\desktop\\programming\\netcore-react\\final-project\\Infrastructure\\obj\\",
+        "projectPath": "/Users/kienneymar/Desktop/netcore-react/Find-Missing-Animals-App-Final-Project/Infrastructure/Infrastructure.csproj",
+        "packagesPath": "/Users/kienneymar/.nuget/packages/",
+        "outputPath": "/Users/kienneymar/Desktop/netcore-react/Find-Missing-Animals-App-Final-Project/Infrastructure/obj/",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "C:\\Users\\PC_1\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/Users/kienneymar/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net5.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net5.0": {
             "targetAlias": "net5.0",
             "projectReferences": {
-              "C:\\Users\\PC_1\\desktop\\programming\\netcore-react\\final-project\\Modules\\Modules.csproj": {
-                "projectPath": "C:\\Users\\PC_1\\desktop\\programming\\netcore-react\\final-project\\Modules\\Modules.csproj"
+              "/Users/kienneymar/Desktop/netcore-react/Find-Missing-Animals-App-Final-Project/UseCases/Modules.csproj": {
+                "projectPath": "/Users/kienneymar/Desktop/netcore-react/Find-Missing-Animals-App-Final-Project/UseCases/Modules.csproj"
               }
             }
           }
@@ -265,111 +268,37 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.301\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/5.0.202/RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\PC_1\\desktop\\programming\\netcore-react\\final-project\\Modules\\Modules.csproj": {
+    "/Users/kienneymar/Desktop/netcore-react/Find-Missing-Animals-App-Final-Project/Persistence/Persistence.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\PC_1\\desktop\\programming\\netcore-react\\final-project\\Modules\\Modules.csproj",
-        "projectName": "Modules",
-        "projectPath": "C:\\Users\\PC_1\\desktop\\programming\\netcore-react\\final-project\\Modules\\Modules.csproj",
-        "packagesPath": "C:\\Users\\PC_1\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\PC_1\\desktop\\programming\\netcore-react\\final-project\\Modules\\obj\\",
-        "projectStyle": "PackageReference",
-        "configFilePaths": [
-          "C:\\Users\\PC_1\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
-        ],
-        "originalTargetFrameworks": [
-          "net5.0"
-        ],
-        "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://api.nuget.org/v3/index.json": {}
-        },
-        "frameworks": {
-          "net5.0": {
-            "targetAlias": "net5.0",
-            "projectReferences": {
-              "C:\\Users\\PC_1\\desktop\\programming\\netcore-react\\final-project\\Domain\\Domain.csproj": {
-                "projectPath": "C:\\Users\\PC_1\\desktop\\programming\\netcore-react\\final-project\\Domain\\Domain.csproj"
-              },
-              "C:\\Users\\PC_1\\desktop\\programming\\netcore-react\\final-project\\Persistence\\Persistence.csproj": {
-                "projectPath": "C:\\Users\\PC_1\\desktop\\programming\\netcore-react\\final-project\\Persistence\\Persistence.csproj"
-              }
-            }
-          }
-        },
-        "warningProperties": {
-          "warnAsError": [
-            "NU1605"
-          ]
-        }
-      },
-      "frameworks": {
-        "net5.0": {
-          "targetAlias": "net5.0",
-          "dependencies": {
-            "AutoMapper.Extensions.Microsoft.DependencyInjection": {
-              "target": "Package",
-              "version": "[8.1.1, )"
-            },
-            "FluentValidation.AspNetCore": {
-              "target": "Package",
-              "version": "[10.3.3, )"
-            },
-            "MediatR.Extensions.Microsoft.DependencyInjection": {
-              "target": "Package",
-              "version": "[9.0.0, )"
-            }
-          },
-          "imports": [
-            "net461",
-            "net462",
-            "net47",
-            "net471",
-            "net472",
-            "net48"
-          ],
-          "assetTargetFallback": true,
-          "warn": true,
-          "frameworkReferences": {
-            "Microsoft.NETCore.App": {
-              "privateAssets": "all"
-            }
-          },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.301\\RuntimeIdentifierGraph.json"
-        }
-      }
-    },
-    "C:\\Users\\PC_1\\desktop\\programming\\netcore-react\\final-project\\Persistence\\Persistence.csproj": {
-      "version": "1.0.0",
-      "restore": {
-        "projectUniqueName": "C:\\Users\\PC_1\\desktop\\programming\\netcore-react\\final-project\\Persistence\\Persistence.csproj",
+        "projectUniqueName": "/Users/kienneymar/Desktop/netcore-react/Find-Missing-Animals-App-Final-Project/Persistence/Persistence.csproj",
         "projectName": "Persistence",
-        "projectPath": "C:\\Users\\PC_1\\desktop\\programming\\netcore-react\\final-project\\Persistence\\Persistence.csproj",
-        "packagesPath": "C:\\Users\\PC_1\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\PC_1\\desktop\\programming\\netcore-react\\final-project\\Persistence\\obj\\",
+        "projectPath": "/Users/kienneymar/Desktop/netcore-react/Find-Missing-Animals-App-Final-Project/Persistence/Persistence.csproj",
+        "packagesPath": "/Users/kienneymar/.nuget/packages/",
+        "outputPath": "/Users/kienneymar/Desktop/netcore-react/Find-Missing-Animals-App-Final-Project/Persistence/obj/",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "C:\\Users\\PC_1\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/Users/kienneymar/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net5.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net5.0": {
             "targetAlias": "net5.0",
             "projectReferences": {
-              "C:\\Users\\PC_1\\desktop\\programming\\netcore-react\\final-project\\Domain\\Domain.csproj": {
-                "projectPath": "C:\\Users\\PC_1\\desktop\\programming\\netcore-react\\final-project\\Domain\\Domain.csproj"
+              "/Users/kienneymar/Desktop/netcore-react/Find-Missing-Animals-App-Final-Project/Domain/Domain.csproj": {
+                "projectPath": "/Users/kienneymar/Desktop/netcore-react/Find-Missing-Animals-App-Final-Project/Domain/Domain.csproj"
               }
             }
           }
@@ -416,7 +345,87 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.301\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/5.0.202/RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/Users/kienneymar/Desktop/netcore-react/Find-Missing-Animals-App-Final-Project/UseCases/Modules.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/kienneymar/Desktop/netcore-react/Find-Missing-Animals-App-Final-Project/UseCases/Modules.csproj",
+        "projectName": "Modules",
+        "projectPath": "/Users/kienneymar/Desktop/netcore-react/Find-Missing-Animals-App-Final-Project/UseCases/Modules.csproj",
+        "packagesPath": "/Users/kienneymar/.nuget/packages/",
+        "outputPath": "/Users/kienneymar/Desktop/netcore-react/Find-Missing-Animals-App-Final-Project/UseCases/obj/",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "/Users/kienneymar/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net5.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net5.0": {
+            "targetAlias": "net5.0",
+            "projectReferences": {
+              "/Users/kienneymar/Desktop/netcore-react/Find-Missing-Animals-App-Final-Project/Domain/Domain.csproj": {
+                "projectPath": "/Users/kienneymar/Desktop/netcore-react/Find-Missing-Animals-App-Final-Project/Domain/Domain.csproj"
+              },
+              "/Users/kienneymar/Desktop/netcore-react/Find-Missing-Animals-App-Final-Project/Persistence/Persistence.csproj": {
+                "projectPath": "/Users/kienneymar/Desktop/netcore-react/Find-Missing-Animals-App-Final-Project/Persistence/Persistence.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net5.0": {
+          "targetAlias": "net5.0",
+          "dependencies": {
+            "AutoMapper.Extensions.Microsoft.DependencyInjection": {
+              "target": "Package",
+              "version": "[8.1.1, )"
+            },
+            "FluentValidation.AspNetCore": {
+              "target": "Package",
+              "version": "[10.3.3, )"
+            },
+            "JsonModelBinder": {
+              "target": "Package",
+              "version": "[2.1.1, )"
+            },
+            "MediatR.Extensions.Microsoft.DependencyInjection": {
+              "target": "Package",
+              "version": "[9.0.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/5.0.202/RuntimeIdentifierGraph.json"
         }
       }
     }
