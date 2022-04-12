@@ -7,69 +7,69 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using Modules.Core;
-using Modules.Interfaces;
-using Modules.Posts;
+using UseCases.Core;
+using UseCases.Interfaces;
+using UseCases.Posts;
 using Persistence;
 
 namespace API.Extensions
 {
-	public static class AppServiceExtensions
-	{
-		public static IServiceCollection AddAppServices(this IServiceCollection services,
-			IConfiguration configuration)
-		{
-			services.AddSwaggerGen(c =>
-			{
-				c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
-			});
+    public static class AppServiceExtensions
+    {
+        public static IServiceCollection AddAppServices(this IServiceCollection services,
+            IConfiguration configuration)
+        {
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
+            });
 
-			services.AddDbContext<AppDataContext>(opt =>
-			{
-				opt.UseSqlite(configuration.GetConnectionString("DefaultConnection"));
-			});
+            services.AddDbContext<AppDataContext>(opt =>
+            {
+                opt.UseSqlite(configuration.GetConnectionString("DefaultConnection"));
+            });
 
-			// config CORS for API call from client
-			services.AddCors(opt =>
-			{
-				opt.AddPolicy("CorsPolicy", policy =>
-				{
-					policy.AllowAnyMethod()
-						.AllowAnyHeader()
-						.AllowCredentials() // resolve connecting error (CORS policy) of signalR on client 
-						.WithOrigins("http://localhost:3000"); // client host 
-				});
-			});
+            // config CORS for API call from client
+            services.AddCors(opt =>
+            {
+                opt.AddPolicy("CorsPolicy", policy =>
+                {
+                    policy.AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials() // resolve connecting error (CORS policy) of signalR on client 
+                        .WithOrigins("http://localhost:3000"); // client host 
+                });
+            });
 
-			// config signalR 
-			services.AddSignalR(opt =>
-			{
-				opt.EnableDetailedErrors = true;
-			});
+            // config signalR 
+            services.AddSignalR(opt =>
+            {
+                opt.EnableDetailedErrors = true;
+            });
 
-			// config mediator 
-			services.AddMediatR(typeof(ListAllPosts.Handler).Assembly);
+            // config mediator 
+            services.AddMediatR(typeof(ListAllPosts.Handler).Assembly);
 
-			// config autoMapper 
-			services.AddAutoMapper(typeof(MappingProfiles).Assembly);
+            // config autoMapper 
+            services.AddAutoMapper(typeof(MappingProfiles).Assembly);
 
-			// to get current signed in user name in everywhere in application
-			services.AddScoped<IUserAccessor, UserAccessor>();
+            // to get current signed in user name in everywhere in application
+            services.AddScoped<IUserAccessor, UserAccessor>();
 
-			// scope photo accessor 
-			services.AddScoped<IPhotoAccessor, PhotoAccessor>();
+            // scope photo accessor 
+            services.AddScoped<IPhotoAccessor, PhotoAccessor>();
 
-			// log EFCore db config, queries, etc.. 
-			services.AddDbContext<AppDataContext>(opt =>
-			{
-				opt.UseSqlite(configuration.GetConnectionString("DefaultConnection"));
-				opt.UseLoggerFactory(LoggerFactory.Create(builder => { builder.AddConsole(); }));
-			});
+            // log EFCore db config, queries, etc.. 
+            services.AddDbContext<AppDataContext>(opt =>
+            {
+                opt.UseSqlite(configuration.GetConnectionString("DefaultConnection"));
+                opt.UseLoggerFactory(LoggerFactory.Create(builder => { builder.AddConsole(); }));
+            });
 
-			// config Cloudinary image upload
-			services.Configure<CloudinaryConfig>(configuration.GetSection("Cloudinary"));
+            // config Cloudinary image upload
+            services.Configure<CloudinaryConfig>(configuration.GetSection("Cloudinary"));
 
-			return services;
-		}
-	}
+            return services;
+        }
+    }
 }
