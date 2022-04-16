@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,13 +11,13 @@ using Persistence;
 using UseCases.Core;
 using UseCases.Interfaces;
 
-namespace Modules.Tags
+namespace UseCases.Tags
 {
-	public class getTag
+	public class GetTag
 	{
 		public class Query : IRequest<Result<TagDto>>
 		{
-			public int TagId { get; set; }
+			public Guid TagId { get; set; }
 		}
 
 		public class Handler : IRequestHandler<Query, Result<TagDto>>
@@ -31,21 +32,39 @@ namespace Modules.Tags
 
 			public async Task<Result<TagDto>> Handle(Query request, CancellationToken cancellationToken)
 			{
-				// var result = await _context.Tags
-				// 	.ProjectTo<TagDto>(_mapper.ConfigurationProvider)
-				// 	.FirstOrDefaultAsync(tag => tag.Id == request.TagId);
-				// .FindAsync(request.TagId)
-				// .(x => x.PostTags)
-				// .ThenInclude(p => p.Post)
-				// .AsSplitQuery()
-				// .ToListAsync()
-				;
+				var result = await _context.Tag1s
+					.ProjectTo<TagDto>(_mapper.ConfigurationProvider,
+						new { currentUsername = _userAccessor.GetUserName() })
+					.FirstOrDefaultAsync(tag => tag.Id == request.TagId);
 
-				// if (result == null) return null;
+				if (result != null)
+					return Result<TagDto>.Success(result);
 
-				// return Result<TagDto>.Success(result);
+				var result2 = await _context.Tag2s
+					.ProjectTo<TagDto>(_mapper.ConfigurationProvider,
+						new { currentUsername = _userAccessor.GetUserName() })
+					.FirstOrDefaultAsync(tag => tag.Id == request.TagId);
 
-				return Result<TagDto>.Success(null);
+				if (result2 != null)
+					return Result<TagDto>.Success(result2);
+
+				var result3 = await _context.Tag3s
+					.ProjectTo<TagDto>(_mapper.ConfigurationProvider,
+						new { currentUsername = _userAccessor.GetUserName() })
+					.FirstOrDefaultAsync(tag => tag.Id == request.TagId);
+
+				if (result3 != null)
+					return Result<TagDto>.Success(result3);
+
+				var result4 = await _context.Tag3s
+					.ProjectTo<TagDto>(_mapper.ConfigurationProvider,
+						new { currentUsername = _userAccessor.GetUserName() })
+					.FirstOrDefaultAsync(tag => tag.Id == request.TagId);
+
+				if (result4 != null)
+					return Result<TagDto>.Success(result4);
+
+				return null;
 			}
 		}
 	}
