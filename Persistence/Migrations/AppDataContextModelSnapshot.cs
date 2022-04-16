@@ -218,9 +218,9 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Tag1", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("TagName")
                         .HasColumnType("TEXT");
@@ -235,8 +235,8 @@ namespace Persistence.Migrations
                     b.Property<Guid>("PostId")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("Tag1Id")
-                        .HasColumnType("INTEGER");
+                    b.Property<Guid>("Tag1Id")
+                        .HasColumnType("TEXT");
 
                     b.HasKey("PostId", "Tag1Id");
 
@@ -247,9 +247,9 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Tag2", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("TagName")
                         .HasColumnType("TEXT");
@@ -264,8 +264,8 @@ namespace Persistence.Migrations
                     b.Property<Guid>("PostId")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("Tag2Id")
-                        .HasColumnType("INTEGER");
+                    b.Property<Guid>("Tag2Id")
+                        .HasColumnType("TEXT");
 
                     b.HasKey("PostId", "Tag2Id");
 
@@ -276,9 +276,9 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Tag3", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("TagName")
                         .HasColumnType("TEXT");
@@ -293,8 +293,8 @@ namespace Persistence.Migrations
                     b.Property<Guid>("PostId")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("Tag3Id")
-                        .HasColumnType("INTEGER");
+                    b.Property<Guid>("Tag3Id")
+                        .HasColumnType("TEXT");
 
                     b.HasKey("PostId", "Tag3Id");
 
@@ -305,9 +305,9 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Tag4", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("TagName")
                         .HasColumnType("TEXT");
@@ -322,8 +322,8 @@ namespace Persistence.Migrations
                     b.Property<Guid>("PostId")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("Tag4Id")
-                        .HasColumnType("INTEGER");
+                    b.Property<Guid>("Tag4Id")
+                        .HasColumnType("TEXT");
 
                     b.HasKey("PostId", "Tag4Id");
 
@@ -334,9 +334,9 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Tag5", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("TagName")
                         .HasColumnType("TEXT");
@@ -351,8 +351,8 @@ namespace Persistence.Migrations
                     b.Property<Guid>("PostId")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("Tag5Id")
-                        .HasColumnType("INTEGER");
+                    b.Property<Guid>("Tag5Id")
+                        .HasColumnType("TEXT");
 
                     b.HasKey("PostId", "Tag5Id");
 
