@@ -10,6 +10,7 @@ namespace Persistence
 		{
 			//Note: https://stackoverflow.com/questions/42750991/table-already-exists-exception-when-migrate-db-using-entity-framework-core-and-s
 			// Database.EnsureCreated();
+			Database.Migrate();
 		}
 
 		public DbSet<Post> Posts { get; set; }
