@@ -49,11 +49,60 @@ namespace UseCases.Core
 			CreateMap<Tag5, Tag5Dto>()
 				.ForMember(dest => dest.Tag5Name, o => o.MapFrom(src => src.TagName));
 
-			// mapping PostFollowing - PostParticipant
+			// PURPOSE: mapping this way to avoid using .Include() and .ThenInclude() query,
+			// that makes query's performance very slow!
+			// And by mapping this way, we can perform multiple queries of different DOMAINS in just one method!
+			// Ex). Tag1, Tag2, Tag3, Tag4, Tag5 Domains in just one method
+
+			// Note: mapping TagNth -> PostDto (1)
+			CreateMap<Tag1, PostDto>()
+				.ForMember(dest => dest.Tag1, o => o.MapFrom(src => src.Tag1Posts.Select(tag1 => tag1).FirstOrDefault()));
+			CreateMap<Tag2, PostDto>()
+							.ForMember(dest => dest.Tag1, o => o.MapFrom(src => src.Tag2Posts.Select(tag1 => tag1).FirstOrDefault()));
+			CreateMap<Tag3, PostDto>()
+							.ForMember(dest => dest.Tag1, o => o.MapFrom(src => src.Tag3Posts.Select(tag1 => tag1).FirstOrDefault()));
+			CreateMap<Tag4, PostDto>()
+							.ForMember(dest => dest.Tag1, o => o.MapFrom(src => src.Tag4Posts.Select(tag1 => tag1).FirstOrDefault()));
+			CreateMap<Tag5, PostDto>()
+							.ForMember(dest => dest.Tag1, o => o.MapFrom(src => src.Tag5Posts.Select(tag1 => tag1).FirstOrDefault()));
+
+			// Note: mapping TagNthPost -> PostDto (2)
+			CreateMap<Tag1Post, PostDto>()
+				.ForMember(dest => dest.Tag1, o => o.MapFrom(src => src.Tag1));
+			CreateMap<Tag2Post, PostDto>()
+				.ForMember(dest => dest.Tag2, o => o.MapFrom(src => src.Tag2));
+			CreateMap<Tag3Post, PostDto>()
+				.ForMember(dest => dest.Tag3, o => o.MapFrom(src => src.Tag3));
+			CreateMap<Tag4Post, PostDto>()
+				.ForMember(dest => dest.Tag4, o => o.MapFrom(src => src.Tag4));
+			CreateMap<Tag5Post, PostDto>()
+				.ForMember(dest => dest.Tag5, o => o.MapFrom(src => src.Tag5));
+
+			CreateMap<Tag1, TagDto>()
+				.ForMember(dest => dest.TagName, o => o.MapFrom(src => src.TagName))
+				.ForMember(dest => dest.Posts, o => o.MapFrom(src => src.Tag1Posts));
+
+			CreateMap<Tag2, TagDto>()
+				.ForMember(dest => dest.TagName, o => o.MapFrom(src => src.TagName))
+				.ForMember(dest => dest.Posts, o => o.MapFrom(src => src.Tag2Posts));
+
+			CreateMap<Tag3, TagDto>()
+				.ForMember(dest => dest.TagName, o => o.MapFrom(src => src.TagName))
+				.ForMember(dest => dest.Posts, o => o.MapFrom(src => src.Tag3Posts));
+
+			CreateMap<Tag4, TagDto>()
+				.ForMember(dest => dest.TagName, o => o.MapFrom(src => src.TagName))
+				.ForMember(dest => dest.Posts, o => o.MapFrom(src => src.Tag4Posts));
+
+			CreateMap<Tag5, TagDto>()
+				.ForMember(dest => dest.TagName, o => o.MapFrom(src => src.TagName))
+				.ForMember(dest => dest.Posts, o => o.MapFrom(src => src.Tag5Posts));
+
+			// Note: mapping PostFollowing - PostParticipant
 			CreateMap<PostFollowing, PostParticipantDto>()
-				.ForMember(dest => dest.DisplayName, o => o.MapFrom(src => src.ApplicationUser.DisplayName))
-				.ForMember(dest => dest.Username, o => o.MapFrom(src => src.ApplicationUser.UserName))
-				.ForMember(dest => dest.Bio, o => o.MapFrom(src => src.ApplicationUser.Bio));
+							.ForMember(dest => dest.DisplayName, o => o.MapFrom(src => src.ApplicationUser.DisplayName))
+							.ForMember(dest => dest.Username, o => o.MapFrom(src => src.ApplicationUser.UserName))
+							.ForMember(dest => dest.Bio, o => o.MapFrom(src => src.ApplicationUser.Bio));
 			// .ForMember(dest => dest.Image, o => o.MapFrom(src => src.ApplicationUser.Photos.FirstOrDefault(p => p.IsProfilePicture).Url))
 			// .ForMember(dest => dest.IsParticipating, o =>
 			// 	o.MapFrom(src => src.ApplicationUser.PostFollowings.Any(x => x.ApplicationUser.UserName == currentUsername)));
@@ -78,9 +127,7 @@ namespace UseCases.Core
 				.ForMember(dest => dest.Tag4, o => o.MapFrom(src => src.Tag4Posts.Select(tag => tag.Tag4).FirstOrDefault()))
 				.ForMember(dest => dest.Tag5, o => o.MapFrom(src => src.Tag5Posts.Select(tag => tag.Tag5).FirstOrDefault()))
 				.ForMember(dest => dest.Photos, o => o.MapFrom(src => src.Photos))
-			// .ForMember(dest => dest.Photo1, o => o.MapFrom(src => src.Photos.Select(photo => photo).FirstOrDefault()))
-			// .ForMember(dest => dest.Photo2, o => o.MapFrom(src => src.Photos.Select(photo => photo).FirstOrDefault()))
-			.ForMember(dest => dest.PostParticipants, o => o.MapFrom(src => src.PostFollowers));
+				.ForMember(dest => dest.PostParticipants, o => o.MapFrom(src => src.PostFollowers));
 
 			// Note: cyclic mapping for EditPost (2)
 			CreateMap<EditPostDto, Post>()

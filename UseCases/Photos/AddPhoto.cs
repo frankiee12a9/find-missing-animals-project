@@ -6,8 +6,8 @@ using Domain;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
-using UseCases.Core;
 using Persistence;
+using UseCases.Core;
 using UseCases.Interfaces;
 
 namespace Modules.Photos
@@ -48,8 +48,8 @@ namespace Modules.Photos
 					Id = photoUploadResult.PublicId
 				};
 
+				// if (user.ProfilePictureUrl == null)
 				user.ProfilePictureUrl = photo.Url;
-				// if (!user.Photo.IsProfilePicture) photo.IsProfilePicture = true;
 
 				var result = await _dbContext.SaveChangesAsync() > 0;
 

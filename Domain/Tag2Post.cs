@@ -6,7 +6,7 @@ namespace Domain
 	{
 		public Guid PostId { get; set; }
 		public Post Post { get; set; }
-		public int Tag2Id { get; set; }
+		public Guid Tag2Id { get; set; }
 		public Tag2 Tag2 { get; set; }
 	}
 }

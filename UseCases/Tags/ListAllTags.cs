@@ -12,7 +12,7 @@ using Persistence;
 using UseCases.Core;
 using UseCases.Interfaces;
 
-namespace Modules.Tags
+namespace UseCases.Tags
 {
 	public class ListAllTags
 	{
@@ -38,12 +38,36 @@ namespace Modules.Tags
 
 			public async Task<Result<List<TagDto>>> Handle(Query request, CancellationToken cancellationToken)
 			{
-				// var result = await _context.Tags
-				// 	.OrderBy(x => x.TagName)
-				// 	.ProjectTo<TagDto>(_mapper.ConfigurationProvider)
-				// 	.ToListAsync();
+				var tag1List = await _context.Tag1s
+					.OrderBy(x => x.TagName)
+					.ProjectTo<TagDto>(_mapper.ConfigurationProvider)
+					.ToListAsync();
 
-				// return Result<List<TagDto>>.Success(result);
+				var tag2List = await _context.Tag2s
+					.OrderBy(x => x.TagName)
+					.ProjectTo<TagDto>(_mapper.ConfigurationProvider)
+					.ToListAsync();
+
+				var tag3List = await _context.Tag3s
+					.OrderBy(x => x.TagName)
+					.ProjectTo<TagDto>(_mapper.ConfigurationProvider)
+					.ToListAsync();
+
+				var tag4List = await _context.Tag4s
+					.OrderBy(x => x.TagName)
+					.ProjectTo<TagDto>(_mapper.ConfigurationProvider)
+					.ToListAsync();
+
+				var tag5List = await _context.Tag5s
+					.OrderBy(x => x.TagName)
+					.ProjectTo<TagDto>(_mapper.ConfigurationProvider)
+					.ToListAsync();
+
+				// concat multiple list of tags to one
+				var result = tag1List.Concat(tag2List).Concat(tag3List).Concat(tag4List).Concat(tag5List).ToList();
+
+				if (result != null)
+					return Result<List<TagDto>>.Success(result);
 
 				return Result<List<TagDto>>.Success(null);
 			}
