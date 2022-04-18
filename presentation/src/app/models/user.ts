@@ -7,12 +7,12 @@ export interface User {
 	image: string
 }
 
-export interface Login {
+export interface LoginDto {
 	email: string
 	password: string
 }
 
-export interface Register {
+export interface RegisterDto {
 	email: string
 	password: string
 	username: string
