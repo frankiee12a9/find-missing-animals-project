@@ -3,6 +3,7 @@ import { toast } from "react-toastify"
 import { history } from "../../index"
 import { PaginatedResponse } from "../models/pagination"
 import { store } from "../store/storeConfig"
+import { LoginDto, RegisterDto } from "../models/user"
 
 const sleep = () => new Promise(resolve => setTimeout(resolve, 500))
 
@@ -93,18 +94,23 @@ function createFormData(item: any) {
 	return formData
 }
 
-const Account = {
-	login: (values: any) => requests.post("account/login", values),
-	register: (values: any) => requests.post("account/register", values),
+const Auth = {
+	login: (loginDto: any) => requests.post("account/login", loginDto),
+	register: (registerDto: any) => requests.post("account/register", registerDto),
 	currentUser: () => requests.get("account/currentUser"),
 }
 
 const Post = {
-  // createPost: (v)
+	createPost: (post: any) => requests.postForm("posts", createFormData(post)),
+	// updatePost: (post: any) => requests.putForm("posts", createFormData(post)),
+	updatePost: (post: any) => requests.put(`posts/${post.id}`, post),
+	getPost: (postId: string) => requests.get(`posts/${postId}`),
+	deletePost: (postId: string) => requests.delete(`posts/${postId}`)
 }
 
 const agent = {
-	Account,
+	Auth,
+	Post
 }
 
 export default agent
