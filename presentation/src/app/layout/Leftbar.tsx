@@ -12,6 +12,8 @@ import {
 	Storefront,
 	TabletMac,
 } from "@material-ui/icons"
+import { Link } from "react-router-dom"
+
 
 const useStyles = makeStyles(theme => ({
 	container: {
@@ -66,7 +68,7 @@ const Leftbar = () => {
 				{/* <List className={classes.icon} /> */}
 				{/* <AddLocationAlt className={classes.icon} /> */}
 				<Map className={classes.icon} />
-				<Typography className={classes.text}>맵으로 검색</Typography>
+				<Typography component={Link} to="/map" className={classes.text}>맵으로 검색</Typography>
 			</div>
 			{/* <div className={classes.item}>
 				<PhotoCamera className={classes.icon} />
