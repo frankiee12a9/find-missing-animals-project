@@ -24,16 +24,16 @@ namespace Domain
 		public ICollection<Comment> Comments { get; set; }
 		public ICollection<PostFollowing> PostFollowers { get; set; }
 		public PostLocation PostLocation { get; set; }
-		// public Post()
-		// {
-		// 	Tag1Posts = new List<Tag1Post>();
-		// 	Tag2Posts = new List<Tag2Post>();
-		// 	Tag3Posts = new List<Tag3Post>();
-		// 	Tag4Posts = new List<Tag4Post>();
-		// 	Tag5Posts = new List<Tag5Post>();
-		// 	Photos = new List<Photo>();
-		// 	Comments = new List<Comment>();
-		// 	PostFollowers = new List<PostFollowing>();
-		// }
+		public Post()
+		{
+			Tag1Posts = new List<Tag1Post>();
+			Tag2Posts = new List<Tag2Post>();
+			Tag3Posts = new List<Tag3Post>();
+			Tag4Posts = new List<Tag4Post>();
+			Tag5Posts = new List<Tag5Post>();
+			Photos = new List<Photo>();
+			Comments = new List<Comment>();
+			PostFollowers = new List<PostFollowing>();
+		}
 	}
 }
