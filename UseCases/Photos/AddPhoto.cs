@@ -10,7 +10,7 @@ using Persistence;
 using UseCases.Core;
 using UseCases.Interfaces;
 
-namespace Modules.Photos
+namespace UseCases.Photos
 {
 	public class AddPhoto
 	{
