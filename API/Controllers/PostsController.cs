@@ -19,12 +19,14 @@ namespace API.Controllers
 			_mediator = mediator;
 		}
 
+		[AllowAnonymous]
 		[HttpGet]
 		public async Task<IActionResult> GetPostList([FromQuery] PostQueryParams param)
 		{
 			return HandleResult(await Mediator.Send(new ListAllPosts.Query { PostQueryParams = param }));
 		}
 
+		[AllowAnonymous]
 		[HttpGet("{id}")]
 		public async Task<IActionResult> GetAPost(Guid id)
 		{

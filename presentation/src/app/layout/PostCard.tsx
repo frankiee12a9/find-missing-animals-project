@@ -1,3 +1,4 @@
+import React, {useEffect} from "react"
 import {
 	Button,
 	Card,
@@ -8,6 +9,9 @@ import {
 	makeStyles,
 	Typography,
 } from "@material-ui/core"
+import {Post} from "../models/post"
+import { useAppSelector } from '../store/storeConfig';
+
 
 const useStyles = makeStyles(theme => ({
 	card: {
@@ -24,24 +28,27 @@ const useStyles = makeStyles(theme => ({
 interface Props {
 	img: string
 	title: string
+	post: Post
 }
 
-const Post = ({ img, title }: Props) => {
+export default function PostCard({ img, title, post}: Props) {
 	const classes = useStyles()
+
+	console.log("PostCard", post)
 	return (
 		<Card className={classes.card}>
 			<CardActionArea>
 				<CardMedia
 					className={classes.media}
-					image={img}
+					image={post.photos.length > 0 ? post.photos[0]?.url: img}
 					title="My Post"
 				/>
 				<CardContent>
 					<Typography gutterBottom variant="h5">
-						{title}
+						{post.title}
 					</Typography>
 					<Typography variant="body2">
-						Putting here a very descriptive content about lost pet!!
+						{post.content}
 					</Typography>
 				</CardContent>
 			</CardActionArea>
@@ -56,4 +63,4 @@ const Post = ({ img, title }: Props) => {
 		</Card>
 	)
 }
-export default Post
+

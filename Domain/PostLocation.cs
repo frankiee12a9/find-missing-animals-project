@@ -1,4 +1,3 @@
-
 namespace Domain
 {
 	public class PostLocation : PetLocation

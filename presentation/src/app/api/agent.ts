@@ -4,6 +4,8 @@ import { history } from "../../index"
 import { PaginatedResponse } from "../models/pagination"
 import { store } from "../store/storeConfig"
 import { LoginDto, RegisterDto } from "../models/user"
+import { fetchAllPostAsync } from '../../features/post/postSlice';
+import { TagDto } from '../models/tag';
 
 const sleep = () => new Promise(resolve => setTimeout(resolve, 500))
 
@@ -13,10 +15,10 @@ axios.defaults.withCredentials = true
 const responseBody = (response: AxiosResponse) => response.data
 
 axios.interceptors.request.use(config => {
-	const token = store.getState().account.user?.token
-	if (token) {
-		config.headers!.Authorization = `Bearer ${token}`
-	}
+	// const token = store.getState().account.user?.token
+	// if (token) {
+	// 	config.headers!.Authorization = `Bearer ${token}`
+	// }
 	return config
 })
 
@@ -101,16 +103,23 @@ const Auth = {
 }
 
 const Post = {
-	createPost: (post: any) => requests.postForm("posts", createFormData(post)),
+	createAPost: (post: any) => requests.postForm("posts", createFormData(post)),
 	// updatePost: (post: any) => requests.putForm("posts", createFormData(post)),
-	updatePost: (post: any) => requests.put(`posts/${post.id}`, post),
-	getPost: (postId: string) => requests.get(`posts/${postId}`),
-	deletePost: (postId: string) => requests.delete(`posts/${postId}`)
+	updateAPost: (post: any) => requests.put(`posts/${post.id}`, post),
+	getAPost: (postId: string) => requests.get(`posts/${postId}`),
+	deleteAPost: (postId: string) => requests.delete(`posts/${postId}`),
+	getAllPosts: () => requests.get("posts") 
+}
+
+const Tag = {
+	getATag: (tagId: string) => requests.get(`tags/${tagId}`),
+	getAllTags: () => requests.get("tags")
 }
 
 const agent = {
 	Auth,
-	Post
+	Post,
+	Tag
 }
 
 export default agent

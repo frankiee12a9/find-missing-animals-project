@@ -1,5 +1,5 @@
 import {
-	Link,
+	// Link,
 	Avatar,
 	Container,
 	ImageList,
@@ -8,7 +8,11 @@ import {
 	Typography,
 	Divider,
 } from "@material-ui/core"
+import {Link} from "react-router-dom"
 import { AvatarGroup } from "@material-ui/lab"
+import React, {useEffect} from "react"
+import { Tag } from "../models/tag"
+
 
 const useStyles = makeStyles(theme => ({
 	container: {
@@ -29,11 +33,20 @@ const useStyles = makeStyles(theme => ({
 	},
 }))
 
-const Rightbar = () => {
+interface Props {
+	tags: Tag[]
+}
+
+const Rightbar = ({tags}: Props) => {
 	const classes = useStyles()
+
+	useEffect(() => {
+		console.log("RightBar", tags)
+	}, [tags])
+
 	return (
 		<Container className={classes.container}>
-			<Typography
+			{/* <Typography
 				className={classes.title}
 				style={{ color: "blue" }}
 				gutterBottom>
@@ -56,16 +69,22 @@ const Rightbar = () => {
 				토끼
 			</Link>
 			<br />
-			<br />
+			<br /> */}
 			<Typography
 				className={classes.title}
 				style={{ color: "blue" }}
 				gutterBottom>
 				태그
 			</Typography>
-			<Link href="#" className={classes.link} variant="body2">
-				희색
-			</Link>
+			{tags.map((aTag, idx) => {
+				return (
+					<Link to={`tags/${aTag.id}`} className={classes.link}>
+						{aTag.tagName}
+					</Link>
+				)
+			})}
+
+			{/* 			
 			<Link href="#" className={classes.link} variant="body2">
 				하양색
 			</Link>
@@ -78,7 +97,8 @@ const Rightbar = () => {
 			</Link>
 			<Link href="#" className={classes.link} variant="body2">
 				뚱뚱함
-			</Link>
+			</Link> */}
+
 			{/* <Typography className={classes.title} gutterBottom>
 				Online Friends
 			</Typography>

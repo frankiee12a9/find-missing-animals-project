@@ -17,6 +17,8 @@ const Map = (props: propsType) => {
 
 	useEffect(() => {
 		const mapContainer = document.getElementById("map")
+		console.log("window", window)
+		console.log("map", kakao)
 		const mapOption = {
 			center: new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
 			level: 3, // 지도의 확대 레벨

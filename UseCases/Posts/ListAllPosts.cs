@@ -9,7 +9,7 @@ using Domain;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Modules.Tags;
+using UseCases.Tags;
 using Persistence;
 using UseCases.Core;
 using UseCases.Interfaces;

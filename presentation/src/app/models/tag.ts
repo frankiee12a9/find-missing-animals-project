@@ -1,3 +1,6 @@
+import {Post} from "./post"
+
+
 export interface Tag1 {
     Id: number
     tagName: string
@@ -23,3 +26,13 @@ export interface Tag5 {
     tagName: string
 }
 
+export interface Tag {
+    id: number
+    tagName: string
+}
+
+export interface TagDto {
+    id: number 
+    tagName: string 
+    posts: Post[]
+}

@@ -8,19 +8,23 @@ namespace UseCases.Core
 {
 	public class PagedList<T> : List<T>
 	{
-		public PagedList(IEnumerable<T> items, int count, int pageNumber, int pageSize)
-		{
-			CurrentPage = pageNumber;
-			TotalPages = (int)Math.Ceiling(count / (double)pageSize);
-			PageSize = pageSize;
-			TotalCount = count;
-			AddRange(items); // handle returning 0 items 
+        public PagedList(IEnumerable<T> items, int count, int pageNumber, int pageSize)
+        {
+            PaginatedData = new PaginatedData
+            {
+                CurrentPage = pageNumber,
+            	TotalPages = (int)Math.Ceiling(count / (double)pageSize),
+            	PageSize = pageSize, 
+            	TotalCount = count
+            };
+            AddRange(items); // handle returning 0 items 
 		}
 
-		public int CurrentPage { get; set; }
-		public int TotalPages { get; set; }
-		public int PageSize { get; set; }
-		public int TotalCount { get; set; }
+		public PaginatedData PaginatedData { get; set; }
+		// public int CurrentPage { get; set; }
+		// public int TotalPages { get; set; }
+		// public int PageSize { get; set; }
+		// public int TotalCount { get; set; }
 
 		public static async Task<PagedList<T>> CreateAsync(IQueryable<T> source, int pageNumber,
 			int pageSize)
@@ -30,11 +34,6 @@ namespace UseCases.Core
 									.Take(pageSize)
 									.ToListAsync();
 			return new PagedList<T>(items, count, pageNumber, pageSize);
-		}
-
-		internal static Task<PagedList<Posts.PostDto>> CreateAsync(Task<List<Posts.PostDto>> result, int pageNumber, int pageSize)
-		{
-			throw new NotImplementedException();
 		}
 	}
 }
