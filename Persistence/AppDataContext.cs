@@ -10,7 +10,7 @@ namespace Persistence
 		{
 			//Note: https://stackoverflow.com/questions/42750991/table-already-exists-exception-when-migrate-db-using-entity-framework-core-and-s
 			// Database.EnsureCreated();
-			Database.Migrate();
+			// Database.Migrate();
 		}
 
 		public DbSet<Post> Posts { get; set; }
@@ -21,7 +21,6 @@ namespace Persistence
 		public DbSet<Tag3> Tag3s { get; set; }
 		public DbSet<Tag4> Tag4s { get; set; }
 		public DbSet<Tag5> Tag5s { get; set; }
-
 
 		public DbSet<Tag1Post> Tag1Posts { get; set; }
 		public DbSet<Tag2Post> Tag2Posts { get; set; }
@@ -68,7 +67,7 @@ namespace Persistence
 
 			builder.Entity<Tag1Post>()
 				.HasOne(e => e.Tag1)
-				.WithMany(eList => eList.Tag1Posts)
+				.WithMany(eList => eList.Posts)
 				.HasForeignKey(fk => fk.Tag1Id);
 
 			// config ER for Post-Tag2
@@ -81,7 +80,7 @@ namespace Persistence
 
 			builder.Entity<Tag2Post>()
 				.HasOne(e => e.Tag2)
-				.WithMany(eList => eList.Tag2Posts)
+				.WithMany(eList => eList.Posts)
 				.HasForeignKey(fk => fk.Tag2Id);
 
 			// config ER for Post-Tag3
@@ -94,7 +93,7 @@ namespace Persistence
 
 			builder.Entity<Tag3Post>()
 				.HasOne(e => e.Tag3)
-				.WithMany(e => e.Tag3Posts)
+				.WithMany(e => e.Posts)
 				.HasForeignKey(fk => fk.Tag3Id);
 
 			// config ER for Post-Tag4
@@ -107,7 +106,7 @@ namespace Persistence
 
 			builder.Entity<Tag4Post>()
 				.HasOne(e => e.Tag4)
-				.WithMany(e => e.Tag4Posts)
+				.WithMany(e => e.Posts)
 				.HasForeignKey(fk => fk.Tag4Id);
 
 			// config ER for Post-Tag5

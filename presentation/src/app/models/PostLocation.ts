@@ -6,6 +6,6 @@ export interface PostLocation {
     location: string 
     detailedLocation: string 
     extraLocation: string 
-    Longtitute: number 
+    longtitute: number 
     latitude: number
 }

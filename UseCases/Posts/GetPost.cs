@@ -35,8 +35,9 @@ namespace UseCases.Posts
 			public async Task<Result<PostDto>> Handle(Query request, CancellationToken cancellationToken)
 			{
 				var result = await _context.Posts
-					.ProjectTo<PostDto>(_mapper.ConfigurationProvider,
-						new { currentUsername = _userAccessor.GetUserName() })
+					.ProjectTo<PostDto>(_mapper.ConfigurationProvider
+						// ,new { currentUsername = _userAccessor.GetUserName() }
+						)
 					.FirstOrDefaultAsync(x => x.Id == request.Id);
 
 				if (result == null) return null;

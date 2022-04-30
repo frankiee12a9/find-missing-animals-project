@@ -1,9 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit"
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux"
+import { postSlice } from "../../features/post/postSlice"
+import { tagSlice } from '../../features/tags/tagSlice';
 
 export const store = configureStore({
 	reducer: {
 		// slices here
+		posts: postSlice.reducer,
+		tags: tagSlice.reducer
 	},
 })
 

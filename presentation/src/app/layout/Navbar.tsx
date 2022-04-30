@@ -12,7 +12,8 @@ import {
 } from "@material-ui/core"
 import { Cancel, Mail, Notifications, Search } from "@material-ui/icons"
 import { useState } from "react"
-
+import {Link} from "react-router-dom"
+ 
 interface DisplayProps {
 	open: boolean
 }
@@ -83,7 +84,7 @@ const Navbar = ({darkMode, handleThemeChange}: Props) => {
 	return (
 		<AppBar position="fixed">
 			<Toolbar className={classes.toolbar}>
-				<Typography variant="h6" className={classes.logoLg}>
+				<Typography component={Link} to="/" variant="h6" className={classes.logoLg}>
 					반려동물.찾기.컴
 				</Typography>
 				<Switch checked={darkMode} onChange={handleThemeChange} />

@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Domain;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using UseCases.Tags;
 
@@ -15,12 +16,14 @@ namespace API.Controllers
 			_mediator = mediator;
 		}
 
+		[AllowAnonymous]
 		[HttpGet]
 		public async Task<IActionResult> GetAllTags()
 		{
 			return HandleResult(await Mediator.Send(new ListAllTags.Query { }));
 		}
 
+		[AllowAnonymous]
 		[HttpGet("{id}")]
 		public async Task<IActionResult> GetATag(Guid id)
 		{
