@@ -1,20 +1,22 @@
-import React, { useEffect } from 'react'
+import React, { useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from '../store/storeConfig';
-import { postSelectors, fetchAllPostAsync} from '../../features/post/postSlice';
-
+import {
+  postSelectors,
+  fetchAllPostsAsync,
+} from '../../features/post/postSlice';
 
 export default function usePosts() {
-    const posts = useAppSelector(postSelectors.selectAll)
-    const {loadingPosts, paginatedData } = useAppSelector(state => state.posts)  
-    const dispatch = useAppDispatch()
-    
-    useEffect(() => {
-        if (!loadingPosts) dispatch(fetchAllPostAsync())
-    },[loadingPosts, dispatch])
+  const posts = useAppSelector(postSelectors.selectAll);
+  const { loadingPosts, metaData } = useAppSelector((state) => state.posts);
+  const dispatch = useAppDispatch();
 
-    return {
-        posts,
-        loadingPosts,
-        paginatedData
-    }
+  useEffect(() => {
+    if (!loadingPosts) dispatch(fetchAllPostsAsync());
+  }, [loadingPosts, dispatch]);
+
+  return {
+    posts,
+    loadingPosts,
+    metaData,
+  };
 }

@@ -1,60 +1,90 @@
-import { Grid, makeStyles} from "@material-ui/core"
-import { Container, createTheme, ThemeProvider } from "@mui/material"
-import React, {useState} from "react"
-import Navbar from "./Navbar"
-import Leftbar from "./Leftbar"
-import Feed from "./Feed"
-import Rightbar from "./Rightbar"
-import "./styles/App.scss"
-import {Route, Switch} from "react-router-dom"
-import { useAppDispatch } from "../store/storeConfig" 
-import { ToastContainer } from "react-toastify"
-import "react-toastify/dist/ReactToastify.css"
-import HomePage from "./HomePage"
-import MapLandingPage from "../utils/MapLandingPage"
+import { Grid, makeStyles } from '@material-ui/core';
+import {
+  Container,
+  createTheme,
+  CssBaseline,
+  Palette,
+  ThemeProvider,
+} from '@mui/material';
+import React, { useCallback, useEffect, useState } from 'react';
+import Navbar from './Navbar';
+import './styles/App.scss';
+import { Route, Switch } from 'react-router-dom';
+import { useAppDispatch } from '../store/storeConfig';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import HomePage from './HomePage';
+import MapLandingPage from '../utils/MapLandingPage';
+import Loading from './Loading';
+import PostDetails from '../../features/post/PostDetails';
+import TagDetails from '../../features/tags/TagDetails';
+import NotFound from '../errors/NotFound';
+import ServerError from '../errors/ServerError';
+import PostUpsert from '../../features/post/PostUpsert';
+import Leftbar from './Leftbar';
 
 function App() {
-	const dispatch = useAppDispatch()
-	const [loading, setLoading] = useState(true)
+  const dispatch = useAppDispatch();
+  const [loading, setLoading] = useState(true);
 
+  // app's darkMode config
+  const [mode, setMode] = useState('light');
+  const paletteType = mode === 'light' ? 'light' : 'dark';
+  const darkTheme = createTheme({
+    palette: {
+      mode: paletteType,
+    },
+  });
 
-	const [darkMode, setDarkMode] = useState(false)
-	const paletteType = darkMode ? "dark": "light"
-	const theme = createTheme({
-		palette: {
-			mode: paletteType, // Todo: fix type error
-			background: {
-				default: paletteType === "light" ? "#eaeaea": "121212"
-			}
-		}
-	})
+  const initializeApp = useCallback(async () => {
+    try {
+      // perform async dispatch(...) here
+      // ex) logged in user related data
+      return new Promise((resolve) => resolve(true));
+    } catch (err: any) {
+      console.error(err);
+    }
+  }, [dispatch]);
 
-	function handleThemeChange() {
-		setDarkMode(!darkMode)
-	}
+  useEffect(() => {
+    initializeApp().then(() => setLoading(false));
+  }, [initializeApp]);
 
-  // Todo: add Loading component soon
-	// if (loading) return <Loading />
+  if (loading) return <Loading message="Initializing App..." />;
 
-	return (
-		<div>
-			<ThemeProvider theme={theme}>
-				<ToastContainer position="bottom-right" hideProgressBar theme="colored"/>
-			<Navbar darkMode={darkMode} handleThemeChange={handleThemeChange}/>
-			<Route exact path="/" component={HomePage} /> 
-			<Route path={"/(.+)"} render={() => (
-			<Container sx={{mt: 4}}>
-				<Switch>
-					<Route exact path="/map" component={MapLandingPage}/>
-					{/* <Route exact path="/map" component={MapLandingPage}/>
-					<Route exact path="/map" component={MapLandingPage}/>
-					<Route exact path="/map" component={MapLandingPage}/> */}
-				</Switch>
-			</Container>
-			)} />
-			</ThemeProvider>
-		</div>
-	)
+  return (
+    <div>
+      <ThemeProvider theme={darkTheme}>
+        <ToastContainer
+          position="bottom-right"
+          hideProgressBar
+          theme="colored"
+        />
+        <CssBaseline />
+        <Navbar />
+        <Leftbar themeMode={mode} setThemeMode={setMode} />
+        <Route exact path="/" component={HomePage} />
+        <Route
+          path={'/(.+)'}
+          render={() => (
+            <Container sx={{ mt: 4 }}>
+              <Switch>
+                <Route exact path="/map" component={MapLandingPage} />
+                <Route exact path="/posts/:id" component={PostDetails} />
+                <Route exact path="/posts/:id/edit" component={PostUpsert} />
+                <Route path="/posts/new" component={PostUpsert} />
+
+                <Route exact path="/tags/:id" component={TagDetails} />
+
+                <Route component={ServerError} />
+                <Route component={NotFound} />
+              </Switch>
+            </Container>
+          )}
+        />
+      </ThemeProvider>
+    </div>
+  );
 }
 
-export default App
+export default App;

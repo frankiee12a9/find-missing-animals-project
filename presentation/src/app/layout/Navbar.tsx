@@ -1,133 +1,183 @@
-import React from "react"
+import React, { useState } from 'react';
+// import {
+//   alpha,
+//   AppBar,
+//   Avatar,
+//   Badge,
+//   InputBase,
+//   makeStyles,
+//   Toolbar,
+//   Switch,
+//   Typography,
+// } from '@material-ui/core';
+
 import {
-	alpha,
-	AppBar,
-	Avatar,
-	Badge,
-	InputBase,
-	makeStyles,
-	Toolbar,
-	Switch,
-	Typography,
-} from "@material-ui/core"
-import { Cancel, Mail, Notifications, Search } from "@material-ui/icons"
-import { useState } from "react"
-import {Link} from "react-router-dom"
- 
+  AppBar,
+  Avatar,
+  Badge,
+  Box,
+  InputBase,
+  makeStyles,
+  Menu,
+  MenuItem,
+  styled,
+  Toolbar,
+  Typography,
+} from '@mui/material';
+import { Cancel, Mail, Notifications, Search, Pets } from '@mui/icons-material';
+import { Link } from 'react-router-dom';
+
 interface DisplayProps {
-	open: boolean
+  open: boolean;
 }
 
-const useStyles = makeStyles(theme => ({
-	toolbar: {
-		display: "flex",
-		justifyContent: "space-between",
-	},
-	logoLg: {
-		display: "none",
-		[theme.breakpoints.up("sm")]: {
-			display: "block",
-		},
-	},
-	logoSm: {
-		display: "block",
-		[theme.breakpoints.up("sm")]: {
-			display: "none",
-		},
-	},
-	search: {
-		display: "flex",
-		alignItems: "center",
-		backgroundColor: alpha(theme.palette.common.white, 0.15),
-		"&:hover": {
-			backgroundColor: alpha(theme.palette.common.white, 0.25),
-		},
-		borderRadius: theme.shape.borderRadius,
-		width: "50%",
-		[theme.breakpoints.down("sm")]: {
-			display: (props: DisplayProps) => (props.open ? "flex" : "none"),
-			width: "70%",
-		},
-	},
-	input: {
-		color: "white",
-		marginLeft: theme.spacing(1),
-	},
-	cancel: {
-		[theme.breakpoints.up("sm")]: {
-			display: "none",
-		},
-	},
-	searchButton: {
-		marginRight: theme.spacing(2),
-		[theme.breakpoints.up("sm")]: {
-			display: "none",
-		},
-	},
-	icons: {
-		alignItems: "center",
-		display: (props: DisplayProps) => (props.open ? "none" : "flex"),
-	},
-	badge: {
-		marginRight: theme.spacing(2),
-	},
-}))
+// const useStyles = makeStyles((theme: any) => ({
+//   toolbar: {
+//     display: 'flex',
+//     justifyContent: 'space-between',
+//   },
+//   logoLg: {
+//     display: 'none',
+//     [theme.breakpoints.up('sm')]: {
+//       display: 'block',
+//     },
+//   },
+//   logoSm: {
+//     display: 'block',
+//     [theme.breakpoints.up('sm')]: {
+//       display: 'none',
+//     },
+//   },
+//   //   search: {
+//   //     display: 'flex',
+//   //     alignItems: 'center',
+//   //     backgroundColor: alpha(theme.palette.common.white, 0.15),
+//   //     '&:hover': {
+//   //       backgroundColor: alpha(theme.palette.common.white, 0.25),
+//   //     },
+//   //     borderRadius: theme.shape.borderRadius,
+//   //     width: '50%',
+//   //     [theme.breakpoints.down('sm')]: {
+//   //       display: (props: DisplayProps) => (props.open ? 'flex' : 'none'),
+//   //       width: '70%',
+//   //     },
+//   //   },
+//   input: {
+//     color: 'white',
+//     marginLeft: theme.spacing(1),
+//   },
+//   cancel: {
+//     [theme.breakpoints.up('sm')]: {
+//       display: 'none',
+//     },
+//   },
+//   searchButton: {
+//     marginRight: theme.spacing(2),
+//     [theme.breakpoints.up('sm')]: {
+//       display: 'none',
+//     },
+//   },
+//   icons: {
+//     alignItems: 'center',
+//     display: (props: DisplayProps) => (props.open ? 'none' : 'flex'),
+//   },
+//   badge: {
+//     marginRight: theme.spacing(2),
+//   },
+// }));
 
-interface Props {
-	darkMode: boolean,
-	handleThemeChange: () => void
+const StyledToolbar = styled(Toolbar)({
+  display: 'flex',
+  justifyContent: 'space-between',
+});
+
+// // const Search = styled('div')(({ theme }) => ({
+// //   backgroundColor: 'white',
+// //   padding: '0 10px',
+// //   borderRadius: theme.shape.borderRadius,
+// //   width: '40%',
+// // }));
+
+const Icons = styled(Box)(({ theme }) => ({
+  display: 'none',
+  alignItems: 'center',
+  gap: '20px',
+  [theme.breakpoints.up('sm')]: {
+    display: 'flex',
+  },
+}));
+
+const UserBox = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '10px',
+  [theme.breakpoints.up('sm')]: {
+    display: 'none',
+  },
+}));
+
+// const UserBox = makeStyles((theme: any) => ({
+//   display: 'flex',
+//   alignItems: 'center',
+//   gap: '10px',
+//   [theme.breakpoints.up('sm')]: {
+//     display: 'none',
+//   },
+// }));
+
+export default function Navbar() {
+  const [open, setOpen] = useState(false);
+  //   const classes = useStyles({ open });
+
+  return (
+    <AppBar position="sticky">
+      <StyledToolbar>
+        <Typography variant="h6" sx={{ display: { xs: 'none', sm: 'block' } }}>
+          Where are my Missing Pets you?
+        </Typography>
+        <Pets sx={{ display: { xs: 'block', sm: 'none' } }} />
+        <Search>
+          <InputBase placeholder="search..." />
+        </Search>
+        <Icons>
+          <Badge badgeContent={4} color="error">
+            <Mail />
+          </Badge>
+          <Badge badgeContent={2} color="error">
+            <Notifications />
+          </Badge>
+          <Avatar
+            sx={{ width: 30, height: 30 }}
+            src="https://images.pexels.com/photos/846741/pexels-photo-846741.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+            onClick={(e) => setOpen(true)}
+          />
+        </Icons>
+        <UserBox onClick={(e: any) => setOpen(true)}>
+          <Avatar
+            sx={{ width: 30, height: 30 }}
+            src="https://images.pexels.com/photos/846741/pexels-photo-846741.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+          />
+          <Typography variant="caption">John</Typography>
+        </UserBox>
+      </StyledToolbar>
+      <Menu
+        id="demo-positioned-menu"
+        aria-labelledby="demo-positioned-button"
+        open={open}
+        onClose={(e) => setOpen(false)}
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+      >
+        <MenuItem>Profile</MenuItem>
+        <MenuItem>My account</MenuItem>
+        <MenuItem>Logout</MenuItem>
+      </Menu>
+    </AppBar>
+  );
 }
-
-const Navbar = ({darkMode, handleThemeChange}: Props) => {
-	const [open, setOpen] = useState(false)
-	const classes = useStyles({ open })
-	return (
-		<AppBar position="fixed">
-			<Toolbar className={classes.toolbar}>
-				<Typography component={Link} to="/" variant="h6" className={classes.logoLg}>
-					반려동물.찾기.컴
-				</Typography>
-				<Switch checked={darkMode} onChange={handleThemeChange} />
-				<Typography variant="h6" className={classes.logoSm}>
-					LAMA
-				</Typography>
-				<div className={classes.search}>
-					<Search />
-					<InputBase
-						placeholder="검색 키워드 입력..."
-						className={classes.input}
-					/>
-					<Cancel
-						className={classes.cancel}
-						onClick={() => setOpen(false)}
-					/>
-				</div>
-				<div className={classes.icons}>
-					<Search
-						className={classes.searchButton}
-						onClick={() => setOpen(true)}
-					/>
-					<Badge
-						badgeContent={4}
-						color="secondary"
-						className={classes.badge}>
-						<Mail />
-					</Badge>
-					<Badge
-						badgeContent={2}
-						color="secondary"
-						className={classes.badge}>
-						<Notifications />
-					</Badge>
-					<Avatar
-						alt="Remy Sharp"
-						// src="https://images.pexels.com/photos/8647814/pexels-photo-8647814.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
-						src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSyhipSRxq94EUJMm7d2J0n6vjdrUyE9d04N89u_szECLc4933GdvPrHJc9VDeROEAyniY&usqp=CAU"
-					/>
-				</div>
-			</Toolbar>
-		</AppBar>
-	)
-}
-
-export default Navbar
