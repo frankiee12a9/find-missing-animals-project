@@ -132,9 +132,6 @@ namespace UseCases.Core
 				.ForMember(dest => dest.DisplayName, o => o.MapFrom(src => src.ApplicationUser.DisplayName))
 				.ForMember(dest => dest.Username, o => o.MapFrom(src => src.ApplicationUser.UserName))
 				.ForMember(dest => dest.Bio, o => o.MapFrom(src => src.ApplicationUser.Bio));
-			// .ForMember(dest => dest.Image, o => o.MapFrom(src => src.ApplicationUser.Photos.FirstOrDefault(p => p.IsProfilePicture).Url))
-			// .ForMember(dest => dest.IsParticipating, o =>
-			// 	o.MapFrom(src => src.ApplicationUser.PostFollowings.Any(x => x.ApplicationUser.UserName == currentUsername)));
 
 			CreateMap<PostLocation, PostLocationDto>()
 				.ForMember(dest => dest.Id, o => o.MapFrom(src => src.Id))
@@ -156,6 +153,7 @@ namespace UseCases.Core
 				.ForMember(dest => dest.Tag4, o => o.MapFrom(src => src.Tag4Posts.Select(tag => tag.Tag4).FirstOrDefault()))
 				.ForMember(dest => dest.Tag5, o => o.MapFrom(src => src.Tag5Posts.Select(tag => tag.Tag5).FirstOrDefault()))
 				.ForMember(dest => dest.Photos, o => o.MapFrom(src => src.Photos))
+				.ForMember(dest => dest.CreatedAt, o => o.MapFrom(src => src.Date))
 				.ForMember(dest => dest.PostParticipants, o => o.MapFrom(src => src.PostFollowers));
 
 			// Note: cyclic mapping for EditPost (2)
@@ -175,14 +173,9 @@ namespace UseCases.Core
 				.ForMember(dest => dest.IsFound, o => o.MapFrom(src => src.IsFound))
 				.ForMember(dest => dest.PostLocation, o => o.MapFrom(src => src.PostLocation));
 
-			// CreateMap<ApplicationUser, PostParticipantDto>()
-			// 	.ForMember(dest => dest.Image, o => o.MapFrom(x => x.Photos.FirstOrDefault(p => p.IsProfilePicture).Url));
-
 			CreateMap<Comment, CommentDto>()
 				.ForMember(dest => dest.DisplayName, o => o.MapFrom(src => src.ApplicationUser.DisplayName))
 				.ForMember(dest => dest.Username, o => o.MapFrom(src => src.ApplicationUser.UserName));
-			// .ForMember(dest => dest.ImageUrl, o => o.MapFrom(src => src.ApplicationUser.Photos
-			// .FirstOrDefault(x => x.IsProfilePicture).Url));
 		}
 	}
 }
