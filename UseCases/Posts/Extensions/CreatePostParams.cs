@@ -17,15 +17,32 @@ namespace UseCases.Posts.Extensions
 		[ModelBinder(BinderType = typeof(JsonModelBinder))]
 		[Required]
 		public Tag1 Tag1 { get; set; }
+
 		[ModelBinder(BinderType = typeof(JsonModelBinder))]
 		[Required]
-		public Tag2 Tag2 { get; set; }
+		public Tag1 Tag2 { get; set; }
+
 		[ModelBinder(BinderType = typeof(JsonModelBinder))]
 		[Required]
-		public Tag3 Tag3 { get; set; }
+		public Tag1 Tag3 { get; set; }
+
 		[ModelBinder(BinderType = typeof(JsonModelBinder))]
-		public Tag4 Tag4 { get; set; }
+		[Required]
+		public Tag1 Tag4 { get; set; }
+
 		[ModelBinder(BinderType = typeof(JsonModelBinder))]
-		public Tag5 Tag5 { get; set; }
+		[Required]
+		public Tag1 Tag5 { get; set; }
+
+		// [ModelBinder(BinderType = typeof(JsonModelBinder))]
+		// [Required]
+		// public Tag2 Tag2 { get; set; }
+		// [ModelBinder(BinderType = typeof(JsonModelBinder))]
+		// [Required]
+		// public Tag3 Tag3 { get; set; }
+		// [ModelBinder(BinderType = typeof(JsonModelBinder))]
+		// public Tag4 Tag4 { get; set; }
+		// [ModelBinder(BinderType = typeof(JsonModelBinder))]
+		// public Tag5 Tag5 { get; set; }
 	}
 }
