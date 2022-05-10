@@ -91,6 +91,7 @@ namespace UseCases.Core
                 .ForMember(dest => dest.Title, o => o.MapFrom(src => src.Post.Title))
                 .ForMember(dest => dest.IsFound, o => o.MapFrom(src => src.Post.IsFound))
                 .ForMember(dest => dest.Content, o => o.MapFrom(src => src.Post.Content))
+				.ForMember(dest => dest.PosterName, o => o.MapFrom(src => src.Post.PostFollowers.FirstOrDefault(x => x.isPoster).ApplicationUser.DisplayName))
                 .ForMember(dest => dest.Photos, o => o.MapFrom(src => src.Post.Photos))
                 .ForMember(dest => dest.PostLocation, o => o.MapFrom(src => src.Post.PostLocation))
                 .ForMember(dest => dest.CreatedAt, o => o.MapFrom(src => src.Post.Date));
