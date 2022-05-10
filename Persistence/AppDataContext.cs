@@ -9,7 +9,7 @@ namespace Persistence
 		public AppDataContext(DbContextOptions options) : base(options)
 		{
 			//Note: https://stackoverflow.com/questions/42750991/table-already-exists-exception-when-migrate-db-using-entity-framework-core-and-s
-			// Database.EnsureCreated();
+			Database.EnsureCreated();
 			// Database.Migrate();
 		}
 
