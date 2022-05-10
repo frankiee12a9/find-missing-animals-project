@@ -24,10 +24,10 @@ namespace API.Controllers
 		}
 
 		[AllowAnonymous]
-		[HttpGet("{id}")]
-		public async Task<IActionResult> GetATag(Guid id)
+		[HttpGet("{tagName}")]
+		public async Task<IActionResult> GetATag(string tagName)
 		{
-			return HandleResult(await Mediator.Send(new GetTag.Query { TagId = id }));
+			return HandleResult(await Mediator.Send(new GetTag.Query { TagName = tagName}));
 		}
 	}
 }

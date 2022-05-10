@@ -17,7 +17,7 @@ namespace Persistence
 			IList<Tag2> tag2s = null;
 			IList<Tag3> tag3s = null;
 			IList<Tag4> tag4s = null;
-			IList<Tag5> tag5s = null;
+			// IList<Tag5> tag5s = null;
 
 			if (!userManager.Users.Any())
 			{

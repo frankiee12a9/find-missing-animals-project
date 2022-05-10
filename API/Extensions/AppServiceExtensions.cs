@@ -11,6 +11,7 @@ using UseCases.Core;
 using UseCases.Interfaces;
 using UseCases.Posts;
 using Persistence;
+using UseCases.Tags;
 
 namespace API.Extensions
 {
@@ -50,6 +51,8 @@ namespace API.Extensions
 
             // config mediator 
             services.AddMediatR(typeof(ListAllPosts.Handler).Assembly);
+
+            services.AddMediatR(typeof(ListAllTags.Handler).Assembly);
 
             // config autoMapper 
             services.AddAutoMapper(typeof(MappingProfiles).Assembly);

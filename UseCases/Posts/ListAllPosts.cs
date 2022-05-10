@@ -89,6 +89,14 @@ namespace UseCases.Posts
 				{
 					result = result.Where(x => x.Tag3.Tag3Name.Contains(tag3));
 				}
+				if (tag4 != null) 
+				{
+					result = result.Where(x => x.Tag4.Tag4Name.Contains(tag4));
+				}
+				if (tag5 != null) 
+				{
+					result = result.Where(x => x.Tag5.Tag5Name.Contains(tag5));
+				}
 
 				return Result<PagedList<PostDto>>.Success(
 					await PagedList<PostDto>.CreateAsync(result, request.PostQueryParams.PageNumber,
