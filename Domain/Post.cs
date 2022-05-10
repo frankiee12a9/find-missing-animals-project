@@ -11,7 +11,7 @@ namespace Domain
 		public string Title { get; set; }
 		[Required]
 		public string Content { get; set; }
-		public DateTime Date { get; set; }
+		public DateTime Date { get; set; } = DateTime.Now;
 		public bool IsFound { get; set; } // 찾았나요?
 
 		public ICollection<Tag1Post> Tag1Posts { get; set; }
