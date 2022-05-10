@@ -27,7 +27,7 @@ namespace API.Controllers
 		[HttpGet("{tagName}")]
 		public async Task<IActionResult> GetATag(string tagName)
 		{
-			return HandleResult(await Mediator.Send(new GetTag.Query { TagName = tagName}));
+			return HandleResult(await Mediator.Send(new GetTag.Query { TagName = tagName }));
 		}
 	}
 }
