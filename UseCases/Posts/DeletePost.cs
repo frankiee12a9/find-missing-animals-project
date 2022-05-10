@@ -10,7 +10,6 @@ namespace UseCases.Posts
 {
 	public class DeletePost
 	{
-		// Command # Query: Command does not return anything!!
 		public class Command : IRequest<Result<Unit>>
 		{
 			public Guid Id { get; set; }
@@ -29,12 +28,10 @@ namespace UseCases.Posts
 				var postToDelete = await _context.Posts
 				.Include(photos => photos.Photos)
 				.FirstOrDefaultAsync(post => post.Id == request.Id);
-				// .FindAsync(request.Id);
 
 				_context.Remove(postToDelete);
 
 				var result = await _context.SaveChangesAsync() > 0;
-
 				if (!result) return Result<Unit>.Failure("Failed to delete activity.");
 
 				return Result<Unit>.Success(Unit.Value);
