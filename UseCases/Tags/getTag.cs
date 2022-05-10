@@ -17,7 +17,7 @@ namespace UseCases.Tags
 	{
 		public class Query : IRequest<Result<TagDto>>
 		{
-			public Guid TagId { get; set; }
+			public string TagName { get; set; }
 		}
 
 		public class Handler : IRequestHandler<Query, Result<TagDto>>
@@ -35,7 +35,7 @@ namespace UseCases.Tags
 				var result = await _context.Tag1s
 					.ProjectTo<TagDto>(_mapper.ConfigurationProvider,
 						new { currentUsername = _userAccessor.GetUserName() })
-					.FirstOrDefaultAsync(tag => tag.Id == request.TagId);
+					.FirstOrDefaultAsync(tag => tag.TagName == request.TagName);
 
 				if (result != null)
 					return Result<TagDto>.Success(result);
@@ -43,7 +43,7 @@ namespace UseCases.Tags
 				var result2 = await _context.Tag2s
 					.ProjectTo<TagDto>(_mapper.ConfigurationProvider,
 						new { currentUsername = _userAccessor.GetUserName() })
-					.FirstOrDefaultAsync(tag => tag.Id == request.TagId);
+					.FirstOrDefaultAsync(tag => tag.TagName == request.TagName);
 
 				if (result2 != null)
 					return Result<TagDto>.Success(result2);
@@ -51,7 +51,7 @@ namespace UseCases.Tags
 				var result3 = await _context.Tag3s
 					.ProjectTo<TagDto>(_mapper.ConfigurationProvider,
 						new { currentUsername = _userAccessor.GetUserName() })
-					.FirstOrDefaultAsync(tag => tag.Id == request.TagId);
+					.FirstOrDefaultAsync(tag => tag.TagName == request.TagName);
 
 				if (result3 != null)
 					return Result<TagDto>.Success(result3);
@@ -59,7 +59,7 @@ namespace UseCases.Tags
 				var result4 = await _context.Tag3s
 					.ProjectTo<TagDto>(_mapper.ConfigurationProvider,
 						new { currentUsername = _userAccessor.GetUserName() })
-					.FirstOrDefaultAsync(tag => tag.Id == request.TagId);
+					.FirstOrDefaultAsync(tag => tag.TagName == request.TagName);
 
 				if (result4 != null)
 					return Result<TagDto>.Success(result4);
