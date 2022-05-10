@@ -4,6 +4,7 @@ using Domain;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using UseCases.PostParticipating;
 using UseCases.Posts;
 using UseCases.Posts.Dtos;
 using UseCases.Posts.Extensions;
@@ -27,7 +28,7 @@ namespace API.Controllers
 
 		[AllowAnonymous]
 		[HttpGet("{id}")]
-		public async Task<IActionResult> GetPost(Guid id)
+		public async Task<IActionResult> GetAPost(Guid id)
 		{
 			return HandleResult(await Mediator.Send(new GetPost.Query { Id = id }));
 		}
@@ -53,16 +54,10 @@ namespace API.Controllers
 			return HandleResult(await Mediator.Send(new DeletePost.Command { Id = id }));
 		}
 
-		[AllowAnonymous]
-		[HttpDelete]
-		public async Task<IActionResult> DeletePostList()
-		{
-			return HandleResult(await Mediator.Send(new DeleteAllPosts.Command {}));
-		}
-
 		[HttpPost("{postId}/follow")]
 		public async Task<IActionResult> FollowPost(Guid postId)
 		{
+			// return HandleResult(await Mediator.Send(new ToggleFollowing.Command { PostId = postId }));
 			return HandleResult(await Mediator.Send(new FollowingPost.Command { PostId = postId }));
 		}
 	}
