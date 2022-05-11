@@ -9,16 +9,7 @@ import { fetchAllTags } from '../../features/tags/tagSlice';
 import { Tag } from '../models/tag';
 import AddPost from './AddPost';
 
-const useStyles = makeStyles((theme) => ({
-  right: {
-    [theme.breakpoints.down('sm')]: {
-      display: 'none',
-    },
-  },
-}));
-
 export default function HomePage() {
-  const classes = useStyles();
   const [tags, setTags] = useState<Tag[]>([]);
   const dispatch = useAppDispatch();
 
@@ -41,7 +32,7 @@ export default function HomePage() {
       <Grid item sm={7} xs={10}>
         {posts.length > 0 && <Feed posts={posts} />}
       </Grid>
-      <Grid item sm={3} className={classes.right}>
+      <Grid item sm={3}>
         {tags.length > 0 && <Rightbar tags={tags} />}
       </Grid>
       <AddPost />
