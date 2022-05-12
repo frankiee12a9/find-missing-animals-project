@@ -11,6 +11,7 @@ using UseCases.Core;
 using UseCases.Interfaces;
 using UseCases.Posts;
 using Persistence;
+using UseCases.Tags;
 
 namespace API.Extensions
 {
@@ -26,7 +27,6 @@ namespace API.Extensions
 
             services.AddDbContext<AppDataContext>(opt =>
             {
-                // opt.UseSqlite(configuration.GetConnectionString("DefaultConnection"));
                 opt.UseNpgsql(configuration.GetConnectionString("DefaultConnection"));
             });
 
@@ -51,6 +51,8 @@ namespace API.Extensions
             // config mediator 
             services.AddMediatR(typeof(ListAllPosts.Handler).Assembly);
 
+            services.AddMediatR(typeof(ListAllTags.Handler).Assembly);
+
             // config autoMapper 
             services.AddAutoMapper(typeof(MappingProfiles).Assembly);
 
@@ -63,7 +65,7 @@ namespace API.Extensions
             // log EFCore db config, queries, etc.. 
             services.AddDbContext<AppDataContext>(opt =>
             {
-                opt.UseSqlite(configuration.GetConnectionString("DefaultConnection"));
+                opt.UseNpgsql(configuration.GetConnectionString("DefaultConnection"));
                 opt.UseLoggerFactory(LoggerFactory.Create(builder => { builder.AddConsole(); }));
             });
 

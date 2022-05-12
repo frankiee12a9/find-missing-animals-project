@@ -9,7 +9,7 @@ namespace Persistence
 		public AppDataContext(DbContextOptions options) : base(options)
 		{
 			//Note: https://stackoverflow.com/questions/42750991/table-already-exists-exception-when-migrate-db-using-entity-framework-core-and-s
-			// Database.EnsureCreated();
+			Database.EnsureCreated();
 			// Database.Migrate();
 		}
 
@@ -34,16 +34,6 @@ namespace Persistence
 		{
 			base.OnModelCreating(builder);
 
-			// var keysProperties = builder.Model.GetEntityTypes().Select(x => x.FindPrimaryKey()).SelectMany(x => x.Properties);
-			// foreach (var property in keysProperties)
-			// {
-			// 	property.ValueGenerated = ValueGenerated.OnAdd;
-			// }
-
-			// builder.Entity<PostFollowing>()
-			// 	.Property(e => e.ApplicationUserId)
-			// 	.ValueGeneratedOnAdd();
-
 			// config ER for Posts-Users
 			builder.Entity<PostFollowing>(e => e.HasKey(keys => new { keys.PostId, keys.ApplicationUserId }));
 
@@ -58,7 +48,7 @@ namespace Persistence
 				.HasForeignKey(fk => fk.PostId);
 
 			// config ER for Post-Tag1
-			builder.Entity<Tag1Post>(e => e.HasKey(keys => new { keys.PostId, keys.Tag1Id }));
+			builder.Entity<Tag1Post>(e => e.HasKey(keys => new { keys.PostId, keys.TagName }));
 
 			builder.Entity<Tag1Post>()
 				.HasOne(e => e.Post)
@@ -68,10 +58,11 @@ namespace Persistence
 			builder.Entity<Tag1Post>()
 				.HasOne(e => e.Tag1)
 				.WithMany(eList => eList.Posts)
-				.HasForeignKey(fk => fk.Tag1Id);
+				.HasPrincipalKey(pk => pk.TagName)
+				.HasForeignKey(fk => fk.TagName);
 
 			// config ER for Post-Tag2
-			builder.Entity<Tag2Post>(e => e.HasKey(keys => new { keys.PostId, keys.Tag2Id }));
+			builder.Entity<Tag2Post>(e => e.HasKey(keys => new { keys.PostId, keys.TagName }));
 
 			builder.Entity<Tag2Post>()
 				.HasOne(e => e.Post)
@@ -81,10 +72,11 @@ namespace Persistence
 			builder.Entity<Tag2Post>()
 				.HasOne(e => e.Tag2)
 				.WithMany(eList => eList.Posts)
-				.HasForeignKey(fk => fk.Tag2Id);
+				.HasPrincipalKey(pk => pk.TagName)
+				.HasForeignKey(fk => fk.TagName);
 
 			// config ER for Post-Tag3
-			builder.Entity<Tag3Post>(e => e.HasKey(keys => new { keys.PostId, keys.Tag3Id }));
+			builder.Entity<Tag3Post>(e => e.HasKey(keys => new { keys.PostId, keys.TagName }));
 
 			builder.Entity<Tag3Post>()
 				.HasOne(e => e.Post)
@@ -94,10 +86,11 @@ namespace Persistence
 			builder.Entity<Tag3Post>()
 				.HasOne(e => e.Tag3)
 				.WithMany(e => e.Posts)
-				.HasForeignKey(fk => fk.Tag3Id);
+				.HasPrincipalKey(pk => pk.TagName)
+				.HasForeignKey(fk => fk.TagName);
 
 			// config ER for Post-Tag4
-			builder.Entity<Tag4Post>(e => e.HasKey(keys => new { keys.PostId, keys.Tag4Id }));
+			builder.Entity<Tag4Post>(e => e.HasKey(keys => new { keys.PostId, keys.TagName }));
 
 			builder.Entity<Tag4Post>()
 				.HasOne(e => e.Post)
@@ -107,10 +100,11 @@ namespace Persistence
 			builder.Entity<Tag4Post>()
 				.HasOne(e => e.Tag4)
 				.WithMany(e => e.Posts)
-				.HasForeignKey(fk => fk.Tag4Id);
+				.HasPrincipalKey(pk => pk.TagName)
+				.HasForeignKey(fk => fk.TagName);
 
 			// config ER for Post-Tag5
-			builder.Entity<Tag5Post>(e => e.HasKey(keys => new { keys.PostId, keys.Tag5Id }));
+			builder.Entity<Tag5Post>(e => e.HasKey(keys => new { keys.PostId, keys.TagName}));
 
 			builder.Entity<Tag5Post>()
 				.HasOne(e => e.Post)
@@ -120,37 +114,14 @@ namespace Persistence
 			builder.Entity<Tag5Post>()
 				.HasOne(e => e.Tag5)
 				.WithMany(e => e.Tag5Posts)
-				.HasForeignKey(fk => fk.Tag5Id);
+				.HasPrincipalKey(pk => pk.TagName)
+				.HasForeignKey(fk => fk.TagName);
 
 			// config ER for Post-Comments 
 			builder.Entity<Comment>()
 				.HasOne(e => e.Post)
 				.WithMany(eList => eList.Comments)
 				.OnDelete(DeleteBehavior.Cascade);
-
-			// builder.Entity<Post>()
-			// 	.HasMany(eList => eList.Photos)
-			// 	.WithOne()
-			// 	.OnDelete(DeleteBehavior.Cascade);
-
-			// builder.Entity<Post>()
-			// 	.HasMany(eList => eList.Comments)
-			// 	.WithOne()
-			// 	.OnDelete(DeleteBehavior.Cascade);
-
-			// config for Post-Followers
-			// builder.Entity<PostFollower>(e =>
-			// {
-			// 	e.HasKey(keys => new { key.ObserverId, keys.TargetPostId };
-
-			// 	e.HasOne(e => e.Observer)
-			// 		.WithMany(eList => eList.FollowingPosts)
-			// 		.HasForeignKey(fk => fk.ObserverId)
-			// 		.OnDelete(DeleteBehavior.Cascade);
-
-			// 	e.HasOne(e => e.TargetPost) 
-			// 		.WithMany(eList => eList.)
-			// });
 		}
 	}
 }

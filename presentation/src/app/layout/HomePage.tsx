@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Grid, makeStyles } from '@material-ui/core';
 import Leftbar from './Leftbar';
 import Feed from './Feed';
 import Rightbar from './Rightbar';
@@ -8,17 +7,9 @@ import { useAppDispatch, useAppSelector } from '../store/storeConfig';
 import { fetchAllTags } from '../../features/tags/tagSlice';
 import { Tag } from '../models/tag';
 import AddPost from './AddPost';
-
-const useStyles = makeStyles((theme) => ({
-  right: {
-    [theme.breakpoints.down('sm')]: {
-      display: 'none',
-    },
-  },
-}));
+import { Grid, Stack } from '@mui/material';
 
 export default function HomePage() {
-  const classes = useStyles();
   const [tags, setTags] = useState<Tag[]>([]);
   const dispatch = useAppDispatch();
 
@@ -35,13 +26,15 @@ export default function HomePage() {
 
   return (
     <Grid container>
-      <Grid item sm={2} xs={4}>
-        {/* <Leftbar /> */}
-      </Grid>
+      {/* <Stack direction="row" spacing={2} justifyContent="space-between">
+        <Feed posts={posts} />
+        <Rightbar tags={tags} />
+      </Stack> */}
+      <Grid item sm={2} xs={4}></Grid>
       <Grid item sm={7} xs={10}>
         {posts.length > 0 && <Feed posts={posts} />}
       </Grid>
-      <Grid item sm={3} className={classes.right}>
+      <Grid item sm={3}>
         {tags.length > 0 && <Rightbar tags={tags} />}
       </Grid>
       <AddPost />

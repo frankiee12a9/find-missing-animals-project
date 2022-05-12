@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Persistence.Migrations
 {
-    public partial class PGQL_Initial : Migration
+    public partial class Initial_Create : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -74,11 +74,12 @@ namespace Persistence.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    TagName = table.Column<string>(type: "text", nullable: true)
+                    TagName = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Tag1s", x => x.Id);
+                    table.UniqueConstraint("AK_Tag1s_TagName", x => x.TagName);
                 });
 
             migrationBuilder.CreateTable(
@@ -86,11 +87,12 @@ namespace Persistence.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    TagName = table.Column<string>(type: "text", nullable: true)
+                    TagName = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Tag2s", x => x.Id);
+                    table.UniqueConstraint("AK_Tag2s_TagName", x => x.TagName);
                 });
 
             migrationBuilder.CreateTable(
@@ -98,11 +100,12 @@ namespace Persistence.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    TagName = table.Column<string>(type: "text", nullable: true)
+                    TagName = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Tag3s", x => x.Id);
+                    table.UniqueConstraint("AK_Tag3s_TagName", x => x.TagName);
                 });
 
             migrationBuilder.CreateTable(
@@ -110,11 +113,12 @@ namespace Persistence.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    TagName = table.Column<string>(type: "text", nullable: true)
+                    TagName = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Tag4s", x => x.Id);
+                    table.UniqueConstraint("AK_Tag4s_TagName", x => x.TagName);
                 });
 
             migrationBuilder.CreateTable(
@@ -122,11 +126,12 @@ namespace Persistence.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    TagName = table.Column<string>(type: "text", nullable: true)
+                    TagName = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Tag5s", x => x.Id);
+                    table.UniqueConstraint("AK_Tag5s_TagName", x => x.TagName);
                 });
 
             migrationBuilder.CreateTable(
@@ -334,11 +339,11 @@ namespace Persistence.Migrations
                 columns: table => new
                 {
                     PostId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Tag1Id = table.Column<Guid>(type: "uuid", nullable: false)
+                    TagName = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Tag1Posts", x => new { x.PostId, x.Tag1Id });
+                    table.PrimaryKey("PK_Tag1Posts", x => new { x.PostId, x.TagName });
                     table.ForeignKey(
                         name: "FK_Tag1Posts_Posts_PostId",
                         column: x => x.PostId,
@@ -346,10 +351,10 @@ namespace Persistence.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Tag1Posts_Tag1s_Tag1Id",
-                        column: x => x.Tag1Id,
+                        name: "FK_Tag1Posts_Tag1s_TagName",
+                        column: x => x.TagName,
                         principalTable: "Tag1s",
-                        principalColumn: "Id",
+                        principalColumn: "TagName",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -358,11 +363,11 @@ namespace Persistence.Migrations
                 columns: table => new
                 {
                     PostId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Tag2Id = table.Column<Guid>(type: "uuid", nullable: false)
+                    TagName = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Tag2Posts", x => new { x.PostId, x.Tag2Id });
+                    table.PrimaryKey("PK_Tag2Posts", x => new { x.PostId, x.TagName });
                     table.ForeignKey(
                         name: "FK_Tag2Posts_Posts_PostId",
                         column: x => x.PostId,
@@ -370,10 +375,10 @@ namespace Persistence.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Tag2Posts_Tag2s_Tag2Id",
-                        column: x => x.Tag2Id,
+                        name: "FK_Tag2Posts_Tag2s_TagName",
+                        column: x => x.TagName,
                         principalTable: "Tag2s",
-                        principalColumn: "Id",
+                        principalColumn: "TagName",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -382,11 +387,11 @@ namespace Persistence.Migrations
                 columns: table => new
                 {
                     PostId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Tag3Id = table.Column<Guid>(type: "uuid", nullable: false)
+                    TagName = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Tag3Posts", x => new { x.PostId, x.Tag3Id });
+                    table.PrimaryKey("PK_Tag3Posts", x => new { x.PostId, x.TagName });
                     table.ForeignKey(
                         name: "FK_Tag3Posts_Posts_PostId",
                         column: x => x.PostId,
@@ -394,10 +399,10 @@ namespace Persistence.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Tag3Posts_Tag3s_Tag3Id",
-                        column: x => x.Tag3Id,
+                        name: "FK_Tag3Posts_Tag3s_TagName",
+                        column: x => x.TagName,
                         principalTable: "Tag3s",
-                        principalColumn: "Id",
+                        principalColumn: "TagName",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -406,11 +411,11 @@ namespace Persistence.Migrations
                 columns: table => new
                 {
                     PostId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Tag4Id = table.Column<Guid>(type: "uuid", nullable: false)
+                    TagName = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Tag4Posts", x => new { x.PostId, x.Tag4Id });
+                    table.PrimaryKey("PK_Tag4Posts", x => new { x.PostId, x.TagName });
                     table.ForeignKey(
                         name: "FK_Tag4Posts_Posts_PostId",
                         column: x => x.PostId,
@@ -418,10 +423,10 @@ namespace Persistence.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Tag4Posts_Tag4s_Tag4Id",
-                        column: x => x.Tag4Id,
+                        name: "FK_Tag4Posts_Tag4s_TagName",
+                        column: x => x.TagName,
                         principalTable: "Tag4s",
-                        principalColumn: "Id",
+                        principalColumn: "TagName",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -430,11 +435,11 @@ namespace Persistence.Migrations
                 columns: table => new
                 {
                     PostId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Tag5Id = table.Column<Guid>(type: "uuid", nullable: false)
+                    TagName = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Tag5Posts", x => new { x.PostId, x.Tag5Id });
+                    table.PrimaryKey("PK_Tag5Posts", x => new { x.PostId, x.TagName });
                     table.ForeignKey(
                         name: "FK_Tag5Posts_Posts_PostId",
                         column: x => x.PostId,
@@ -442,10 +447,10 @@ namespace Persistence.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Tag5Posts_Tag5s_Tag5Id",
-                        column: x => x.Tag5Id,
+                        name: "FK_Tag5Posts_Tag5s_TagName",
+                        column: x => x.TagName,
                         principalTable: "Tag5s",
-                        principalColumn: "Id",
+                        principalColumn: "TagName",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -512,29 +517,29 @@ namespace Persistence.Migrations
                 column: "PostLocationId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Tag1Posts_Tag1Id",
+                name: "IX_Tag1Posts_TagName",
                 table: "Tag1Posts",
-                column: "Tag1Id");
+                column: "TagName");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Tag2Posts_Tag2Id",
+                name: "IX_Tag2Posts_TagName",
                 table: "Tag2Posts",
-                column: "Tag2Id");
+                column: "TagName");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Tag3Posts_Tag3Id",
+                name: "IX_Tag3Posts_TagName",
                 table: "Tag3Posts",
-                column: "Tag3Id");
+                column: "TagName");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Tag4Posts_Tag4Id",
+                name: "IX_Tag4Posts_TagName",
                 table: "Tag4Posts",
-                column: "Tag4Id");
+                column: "TagName");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Tag5Posts_Tag5Id",
+                name: "IX_Tag5Posts_TagName",
                 table: "Tag5Posts",
-                column: "Tag5Id");
+                column: "TagName");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

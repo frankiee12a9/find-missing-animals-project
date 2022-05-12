@@ -228,6 +228,7 @@ namespace Persistence.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("TagName")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -240,12 +241,12 @@ namespace Persistence.Migrations
                     b.Property<Guid>("PostId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("Tag1Id")
-                        .HasColumnType("uuid");
+                    b.Property<string>("TagName")
+                        .HasColumnType("text");
 
-                    b.HasKey("PostId", "Tag1Id");
+                    b.HasKey("PostId", "TagName");
 
-                    b.HasIndex("Tag1Id");
+                    b.HasIndex("TagName");
 
                     b.ToTable("Tag1Posts");
                 });
@@ -257,6 +258,7 @@ namespace Persistence.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("TagName")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -269,12 +271,12 @@ namespace Persistence.Migrations
                     b.Property<Guid>("PostId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("Tag2Id")
-                        .HasColumnType("uuid");
+                    b.Property<string>("TagName")
+                        .HasColumnType("text");
 
-                    b.HasKey("PostId", "Tag2Id");
+                    b.HasKey("PostId", "TagName");
 
-                    b.HasIndex("Tag2Id");
+                    b.HasIndex("TagName");
 
                     b.ToTable("Tag2Posts");
                 });
@@ -286,6 +288,7 @@ namespace Persistence.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("TagName")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -298,12 +301,12 @@ namespace Persistence.Migrations
                     b.Property<Guid>("PostId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("Tag3Id")
-                        .HasColumnType("uuid");
+                    b.Property<string>("TagName")
+                        .HasColumnType("text");
 
-                    b.HasKey("PostId", "Tag3Id");
+                    b.HasKey("PostId", "TagName");
 
-                    b.HasIndex("Tag3Id");
+                    b.HasIndex("TagName");
 
                     b.ToTable("Tag3Posts");
                 });
@@ -315,6 +318,7 @@ namespace Persistence.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("TagName")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -327,12 +331,12 @@ namespace Persistence.Migrations
                     b.Property<Guid>("PostId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("Tag4Id")
-                        .HasColumnType("uuid");
+                    b.Property<string>("TagName")
+                        .HasColumnType("text");
 
-                    b.HasKey("PostId", "Tag4Id");
+                    b.HasKey("PostId", "TagName");
 
-                    b.HasIndex("Tag4Id");
+                    b.HasIndex("TagName");
 
                     b.ToTable("Tag4Posts");
                 });
@@ -344,6 +348,7 @@ namespace Persistence.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("TagName")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -356,12 +361,12 @@ namespace Persistence.Migrations
                     b.Property<Guid>("PostId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("Tag5Id")
-                        .HasColumnType("uuid");
+                    b.Property<string>("TagName")
+                        .HasColumnType("text");
 
-                    b.HasKey("PostId", "Tag5Id");
+                    b.HasKey("PostId", "TagName");
 
-                    b.HasIndex("Tag5Id");
+                    b.HasIndex("TagName");
 
                     b.ToTable("Tag5Posts");
                 });
@@ -558,7 +563,8 @@ namespace Persistence.Migrations
 
                     b.HasOne("Domain.Tag1", "Tag1")
                         .WithMany("Posts")
-                        .HasForeignKey("Tag1Id")
+                        .HasForeignKey("TagName")
+                        .HasPrincipalKey("TagName")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -577,7 +583,8 @@ namespace Persistence.Migrations
 
                     b.HasOne("Domain.Tag2", "Tag2")
                         .WithMany("Posts")
-                        .HasForeignKey("Tag2Id")
+                        .HasForeignKey("TagName")
+                        .HasPrincipalKey("TagName")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -596,7 +603,8 @@ namespace Persistence.Migrations
 
                     b.HasOne("Domain.Tag3", "Tag3")
                         .WithMany("Posts")
-                        .HasForeignKey("Tag3Id")
+                        .HasForeignKey("TagName")
+                        .HasPrincipalKey("TagName")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -615,7 +623,8 @@ namespace Persistence.Migrations
 
                     b.HasOne("Domain.Tag4", "Tag4")
                         .WithMany("Posts")
-                        .HasForeignKey("Tag4Id")
+                        .HasForeignKey("TagName")
+                        .HasPrincipalKey("TagName")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -634,7 +643,8 @@ namespace Persistence.Migrations
 
                     b.HasOne("Domain.Tag5", "Tag5")
                         .WithMany("Tag5Posts")
-                        .HasForeignKey("Tag5Id")
+                        .HasForeignKey("TagName")
+                        .HasPrincipalKey("TagName")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

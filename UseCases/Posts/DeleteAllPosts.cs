@@ -1,18 +1,17 @@
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using Persistence;
+using Microsoft.EntityFrameworkCore;
 using UseCases.Core;
 
 namespace UseCases.Posts
 {
-	public class DeletePost
-	{
-		public class Command : IRequest<Result<Unit>>
+    public class DeleteAllPosts
+    {
+        public class Command : IRequest<Result<Unit>>
 		{
-			public Guid Id { get; set; }
+			// public Guid Id { get; set; }
 		}
 
 		public class Handler : IRequestHandler<Command, Result<Unit>>
@@ -25,17 +24,17 @@ namespace UseCases.Posts
 
 			public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
 			{
-				var postToDelete = await _context.Posts
-				.Include(photos => photos.Photos)
-				.FirstOrDefaultAsync(post => post.Id == request.Id);
+				var allPosts = await _context.Posts
+                    .Include(photos => photos.Photos)
+                    .ToListAsync();
 
-				_context.Remove(postToDelete);
+				_context.Remove(allPosts);
 
 				var result = await _context.SaveChangesAsync() > 0;
 				if (!result) return Result<Unit>.Failure("Failed to delete activity.");
 
 				return Result<Unit>.Success(Unit.Value);
 			}
-		}
-	}
+        }
+    }
 }
