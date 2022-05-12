@@ -16,8 +16,6 @@ namespace UseCases.Core
 		{
 			string currentUsername = "";
 
-			// CreateMap<Post, PostDto>();
-
             CreateMap<Tag1, Tag1Dto>()
                 .ForMember(dest => dest.Tag1Name, o => o.MapFrom(src => src.TagName))
                 .ForMember(dest => dest.Posts, o => o.MapFrom(src => src.Posts));
@@ -178,12 +176,6 @@ namespace UseCases.Core
 				.ForMember(dest => dest.PostLocation, o => o.MapFrom(src => src.PostLocation))
 				// .ForMember(dest => dest.Tag1, o => o.MapFrom(src => src.Tag1Posts.Select(tag => tag.Tag1).FirstOrDefault()))
 				.ForMember(dest => dest.Tags, o => o.MapFrom(src => src.Tag1Posts.Select(tag => tag.Tag1).AsQueryable()))
-				// .ForMember(dest => dest.Tag2, o => o.MapFrom(src => src.Tag1Posts.Select(tag => tag.Tag1).ToList().ElementAt(1)))
-				// .ForMember(dest => dest.Tag3, o => o.MapFrom(src => src.Tag1Posts.Select(tag => tag.Tag1).ToList().ElementAt(2)))
-				// .ForMember(dest => dest.Tag4, o => o.MapFrom(src => src.Tag1Posts.Select(tag => tag.Tag1).ToList().ElementAt(3)))
-				// .ForMember(dest => dest.Tag5, o => o.MapFrom(src => src.Tag1Posts.Select(tag => tag.Tag1).ToList().ElementAt(4)))
-				// .ForMember(dest => dest.Tags, o => o.MapFrom(src => src.Tag1Posts.Select(tag => tag.Tag1).ToList().ElementAt(0)))
-				// .ForMember(dest => dest.Tag2, o => o.MapFrom(src => src.Tag1Posts.Select(tag => tag.Tag1).ElementAt(1)))
 				// .ForMember(dest => dest.Tag3, o => o.MapFrom(src => src.Tag1Posts.Select(tag => tag.Tag1).FirstOrDefault()))
 				// .ForMember(dest => dest.Tag4, o => o.MapFrom(src => src.Tag4Posts.Select(tag => tag.Tag4).FirstOrDefault()))
 				// .ForMember(dest => dest.Tag5, o => o.MapFrom(src => src.Tag5Posts.Select(tag => tag.Tag5).FirstOrDefault()))
