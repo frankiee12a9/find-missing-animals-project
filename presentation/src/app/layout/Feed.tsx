@@ -21,7 +21,6 @@ export default function Feed({ posts }: Props) {
 
   return (
     <Grid container columnSpacing={3}>
-      {/* <Grid></Grid> */}
       <Grid item xs={12}>
         <PostCardList loading={loading} posts={posts} />
       </Grid>

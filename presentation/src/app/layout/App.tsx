@@ -72,7 +72,7 @@ function App() {
                 <Route exact path="/posts/:id" component={PostDetails} />
                 <Route exact path="/posts/:id/edit" component={PostUpsert} />
                 <Route path="/posts/new" component={PostUpsert} />
-
+                
                 <Route exact path="/tags/:id" component={TagDetails} />
 
                 <Route component={ServerError} />

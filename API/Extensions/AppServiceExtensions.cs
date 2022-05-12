@@ -12,6 +12,8 @@ using UseCases.Interfaces;
 using UseCases.Posts;
 using Persistence;
 using UseCases.Tags;
+using Domain;
+using Microsoft.AspNetCore.Identity;
 
 namespace API.Extensions
 {
@@ -29,6 +31,15 @@ namespace API.Extensions
             {
                 opt.UseNpgsql(configuration.GetConnectionString("DefaultConnection"));
             });
+
+            // Identity builder
+            var builder = services.AddIdentityCore<ApplicationUser>();
+            var identityBuilder = new IdentityBuilder(builder.UserType, builder.Services);
+            identityBuilder.AddEntityFrameworkStores<AppDataContext>();
+            identityBuilder.AddSignInManager<SignInManager<ApplicationUser>>();
+
+            // services.AddDefaultIdentity<IdentityUser>()
+            //     .AddEntityFrameworkStores<AppDbContext>();
 
             // config CORS for API call from client
             services.AddCors(opt =>
@@ -48,18 +59,15 @@ namespace API.Extensions
                 opt.EnableDetailedErrors = true;
             });
 
-            // config mediator 
-            services.AddMediatR(typeof(ListAllPosts.Handler).Assembly);
+            // services.AddDefaultIdentity<IdentityUser>()
+            //     .AddEntityFrameworkStores<AppDbContext>();
 
+            services.AddMediatR(typeof(ListAllPosts.Handler).Assembly);
             services.AddMediatR(typeof(ListAllTags.Handler).Assembly);
 
-            // config autoMapper 
             services.AddAutoMapper(typeof(MappingProfiles).Assembly);
 
-            // to get current signed in user name in everywhere in application
             services.AddScoped<IUserAccessor, UserAccessor>();
-
-            // scope photo accessor 
             services.AddScoped<IPhotoAccessor, PhotoAccessor>();
 
             // log EFCore db config, queries, etc.. 

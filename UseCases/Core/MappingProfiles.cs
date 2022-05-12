@@ -16,8 +16,6 @@ namespace UseCases.Core
 		{
 			string currentUsername = "";
 
-			// CreateMap<Post, PostDto>();
-
             CreateMap<Tag1, Tag1Dto>()
                 .ForMember(dest => dest.Tag1Name, o => o.MapFrom(src => src.TagName))
                 .ForMember(dest => dest.Posts, o => o.MapFrom(src => src.Posts));
@@ -57,32 +55,6 @@ namespace UseCases.Core
 
 			CreateMap<Tag5, PostDto>()
 				.ForMember(dest => dest.Tag5, o => o.MapFrom(src => src.Tag5Posts.Select(tag5 => tag5).FirstOrDefault()));
-
-			//  CreateMap<Tag1, PostDto>()
-            //     .ForMember(dest => dest.Tag1.Tag1Name, o => o.MapFrom(src => src.Posts.Select(tag1 => tag1).FirstOrDefault().TagName))
-			// 	.ReverseMap()
-			// 	.ForPath(dest => dest.TagName, o => o.Ignore());
-
-            // CreateMap<Tag2, PostDto>()
-			// 	.ForMember(dest => dest.Tag2.Tag2Name, o => o.MapFrom(src => src.Posts.Select(tag2 => tag2).FirstOrDefault().TagName))
-			// 	.ReverseMap()
-			// 	.ForPath(dest => dest.TagName, o => o.Ignore());
-
-			// CreateMap<Tag3, PostDto>()
-			// 	.ForMember(dest => dest.Tag3.Tag3Name, o => o.MapFrom(src => src.Posts.Select(tag3 => tag3).FirstOrDefault().TagName))
-			// 	.ReverseMap()
-			// 	.ForPath(dest => dest.TagName, o => o.Ignore());
-
-			// CreateMap<Tag4, PostDto>()
-			// 	.ForMember(dest => dest.Tag4.Tag4Name, o => o.MapFrom(src => src.Posts.Select(tag4 => tag4).FirstOrDefault().TagName))
-			// 	.ReverseMap()
-			// 	.ForPath(dest => dest.TagName, o => o.Ignore());
-
-			// CreateMap<Tag5, PostDto>()
-			// 	.ForMember(dest => dest.Tag5.Tag5Name, o => o.MapFrom(src => src.Tag5Posts.Select(tag5 => tag5).FirstOrDefault().TagName))
-			// 	.ReverseMap()
-			// 	.ForPath(dest => dest.TagName, o => o.Ignore());
-
 
             // Note: mapping TagNthPost -> PostDto (2)
             CreateMap<Tag1Post, PostDto>()

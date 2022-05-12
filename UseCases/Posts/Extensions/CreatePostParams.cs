@@ -12,8 +12,10 @@ namespace UseCases.Posts.Extensions
 		// Note: Binding Json object with ModelBinder as JsonModelBinder for request body as form-data
 		[ModelBinder(BinderType = typeof(JsonModelBinder))]
 		public Post Post { get; set; }
+
 		// [Required]
 		public ICollection<IFormFile> Files { get; set; }
+
 		[ModelBinder(BinderType = typeof(JsonModelBinder))]
 		[Required]
 		public Tag1 Tag1 { get; set; }
