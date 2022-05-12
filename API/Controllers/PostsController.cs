@@ -23,7 +23,7 @@ namespace API.Controllers
 		[HttpGet]
 		public async Task<IActionResult> GetPostList([FromQuery] PostQueryParams param)
 		{
-			return HandleResult(await Mediator.Send(new ListAllPosts.Query { PostQueryParams = param }));
+			return HandlePagedResult(await Mediator.Send(new ListAllPosts.Query { PostQueryParams = param }));
 		}
 
 		[AllowAnonymous]
@@ -57,7 +57,6 @@ namespace API.Controllers
 		[HttpPost("{postId}/follow")]
 		public async Task<IActionResult> FollowPost(Guid postId)
 		{
-			// return HandleResult(await Mediator.Send(new ToggleFollowing.Command { PostId = postId }));
 			return HandleResult(await Mediator.Send(new FollowingPost.Command { PostId = postId }));
 		}
 	}
