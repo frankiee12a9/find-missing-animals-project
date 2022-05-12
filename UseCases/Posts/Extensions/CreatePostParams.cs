@@ -27,11 +27,11 @@ namespace UseCases.Posts.Extensions
 		public Tag1 Tag3 { get; set; }
 
 		[ModelBinder(BinderType = typeof(JsonModelBinder))]
-		[Required]
+		// [Required]
 		public Tag1 Tag4 { get; set; }
 
 		[ModelBinder(BinderType = typeof(JsonModelBinder))]
-		[Required]
+		// [Required]
 		public Tag1 Tag5 { get; set; }
 
 		// [ModelBinder(BinderType = typeof(JsonModelBinder))]
