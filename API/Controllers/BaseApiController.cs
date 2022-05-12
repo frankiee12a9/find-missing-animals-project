@@ -33,8 +33,8 @@ namespace API.Controllers
 
             if (result.IsSuccess && result.Value != null)
             {
-                Response.AddPaginationHeader(result.Value.CurrentPage, result.Value.PageSize,
-                    result.Value.TotalCount, result.Value.TotalPages);
+                Response.AddPaginationHeader(result.Value.Pagination.CurrentPage, result.Value.Pagination.PageSize,
+                    result.Value.Pagination.TotalCount, result.Value.Pagination.TotalPages);
                 return Ok(result.Value);
             }
 
