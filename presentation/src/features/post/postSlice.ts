@@ -11,8 +11,8 @@ import {
   UpdatePostDto,
   PostQueryParams,
 } from '../../app/models/post';
-import { MetaData } from '../../app/models/pagination';
 import { RootState } from '../../app/store/storeConfig';
+import { Pagination } from './../../app/models/pagination';
 
 // TODO:
 interface PostState {
@@ -21,7 +21,7 @@ interface PostState {
   loadingPosts: boolean;
   loadingTags: boolean;
   postQueryParams: PostQueryParams | null;
-  metaData: MetaData | null;
+  pagination: Pagination | null;
 }
 
 const initialState = {
@@ -47,7 +47,11 @@ export const fetchAllPostsAsync = createAsyncThunk(
   'post/fetchAllPostsAsync',
   async (_, thunkAPI) => {
     try {
-      return await agent.Post.getAllPosts();
+      const result = await agent.Post.getAllPosts();
+      thunkAPI.dispatch(setMetaData(result.pagination));
+      // console.log('result', result);
+      return result.items;
+      // return await agent.Post.getAllPosts();
     } catch (err: any) {
       return thunkAPI.rejectWithValue({ error: err.data });
     }
@@ -64,7 +68,9 @@ export const fetchPostAsync = createAsyncThunk(
   'post/fetchPostAsync',
   async (postId: string, thunkAPI) => {
     try {
-      return agent.Post.getPost(postId);
+      const result = await agent.Post.getPost(postId);
+      return result;
+      // return agent.Post.getPost(postId);
     } catch (err: any) {
       return thunkAPI.rejectWithValue({ error: err.data });
     }
@@ -128,7 +134,7 @@ export const postSlice = createSlice({
     loadingTags: false,
     status: 'idle',
     postQueryParams: pagingInitParams(),
-    metaData: null,
+    pagination: null,
   }),
   reducers: {
     setPostParams: (state, action) => {
@@ -143,8 +149,8 @@ export const postSlice = createSlice({
       state.loadingPosts = false;
       state.postQueryParams = { ...state.postQueryParams, ...action.payload };
     },
-    setPaginatedData: (state, action) => {
-      state.metaData = action.payload;
+    setMetaData: (state, action) => {
+      state.pagination = action.payload;
     },
     setPost: (state, action) => {
       postsAdapter.upsertOne(state, action.payload);
@@ -208,7 +214,7 @@ export const postSelectors = postsAdapter.getSelectors(
 export const {
   setPostParams,
   setPageSize,
-  setPaginatedData,
+  setMetaData,
   setPost,
   resetPostParams,
   removePost,
