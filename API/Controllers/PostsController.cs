@@ -54,6 +54,12 @@ namespace API.Controllers
 			return HandleResult(await Mediator.Send(new DeletePost.Command { Id = id }));
 		}
 
+		[HttpDelete]
+		public async Task<IActionResult> DeleteAllPosts() 
+		{
+			return HandleResult(await Mediator.Send(new DeleteAllPosts.Command {}));
+		}
+
 		[HttpPost("{postId}/follow")]
 		public async Task<IActionResult> FollowPost(Guid postId)
 		{
