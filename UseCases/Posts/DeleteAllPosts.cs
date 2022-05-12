@@ -28,7 +28,9 @@ namespace UseCases.Posts
                     .Include(photos => photos.Photos)
                     .ToListAsync();
 
-				_context.Remove(allPosts);
+				if (allPosts == null) return null;
+
+				_context.Posts.RemoveRange(allPosts);
 
 				var result = await _context.SaveChangesAsync() > 0;
 				if (!result) return Result<Unit>.Failure("Failed to delete activity.");
