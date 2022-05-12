@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "F4m7mERQYq7/6wUIyKoP02mJSdYjLq3zPrmoA3jlPGI++ZaQPgEl+twyUogYc54hZl079t0INvoWswyOSbaHxA==",
+  "dgSpecHash": "4NNHFSqlIVyulkcqKZP7Hg/JUEFhcOauWYycdojqQsemBs8FIEsXbVomCq+hsysXTwIH85tsMLAND+LMohH4Sg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\cudayanh\\documents\\final-project\\missing-pets-app\\Tests\\UseCases.Tests\\UseCases.Tests.csproj",
+  "projectFilePath": "C:\\Users\\cudayanh\\documents\\final-project\\missing-pets-app\\Tests\\Usecases.Tests\\UseCases.Tests.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\cudayanh\\.nuget\\packages\\automapper\\10.1.1\\automapper.10.1.1.nupkg.sha512",
     "C:\\Users\\cudayanh\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\8.1.1\\automapper.extensions.microsoft.dependencyinjection.8.1.1.nupkg.sha512",

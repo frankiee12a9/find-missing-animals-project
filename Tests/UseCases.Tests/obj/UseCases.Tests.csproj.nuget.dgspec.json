@@ -1,7 +1,7 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\cudayanh\\documents\\final-project\\missing-pets-app\\Tests\\UseCases.Tests\\UseCases.Tests.csproj": {}
+    "C:\\Users\\cudayanh\\documents\\final-project\\missing-pets-app\\Tests\\Usecases.Tests\\UseCases.Tests.csproj": {}
   },
   "projects": {
     "C:\\Users\\cudayanh\\documents\\final-project\\missing-pets-app\\Domain\\Domain.csproj": {
@@ -136,14 +136,14 @@
         }
       }
     },
-    "C:\\Users\\cudayanh\\documents\\final-project\\missing-pets-app\\Tests\\UseCases.Tests\\UseCases.Tests.csproj": {
+    "C:\\Users\\cudayanh\\documents\\final-project\\missing-pets-app\\Tests\\Usecases.Tests\\UseCases.Tests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\cudayanh\\documents\\final-project\\missing-pets-app\\Tests\\UseCases.Tests\\UseCases.Tests.csproj",
+        "projectUniqueName": "C:\\Users\\cudayanh\\documents\\final-project\\missing-pets-app\\Tests\\Usecases.Tests\\UseCases.Tests.csproj",
         "projectName": "UseCases.Tests",
-        "projectPath": "C:\\Users\\cudayanh\\documents\\final-project\\missing-pets-app\\Tests\\UseCases.Tests\\UseCases.Tests.csproj",
+        "projectPath": "C:\\Users\\cudayanh\\documents\\final-project\\missing-pets-app\\Tests\\Usecases.Tests\\UseCases.Tests.csproj",
         "packagesPath": "C:\\Users\\cudayanh\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\cudayanh\\documents\\final-project\\missing-pets-app\\Tests\\UseCases.Tests\\obj\\",
+        "outputPath": "C:\\Users\\cudayanh\\documents\\final-project\\missing-pets-app\\Tests\\Usecases.Tests\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\cudayanh\\AppData\\Roaming\\NuGet\\NuGet.Config"
