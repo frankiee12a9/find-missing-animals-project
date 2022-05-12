@@ -68,10 +68,10 @@ namespace UseCases.Posts
 					tag1 = await _context.Tag1s
 						.FirstOrDefaultAsync(tag =>
 						(string.IsNullOrEmpty(request.NewPostParams.Tag1.TagName)) || tag.TagName == request.NewPostParams.Tag1.TagName 
-							&& request.NewPostParams.Tag2 != null && tag.TagName != request.NewPostParams.Tag2.TagName
-							&& request.NewPostParams.Tag3 != null && tag.TagName != request.NewPostParams.Tag3.TagName
-							&& request.NewPostParams.Tag4 != null && tag.TagName != request.NewPostParams.Tag4.TagName
-							&& request.NewPostParams.Tag5 != null && tag.TagName != request.NewPostParams.Tag5.TagName
+							// && request.NewPostParams.Tag2 != null && tag.TagName != request.NewPostParams.Tag2.TagName
+							// && request.NewPostParams.Tag3 != null && tag.TagName != request.NewPostParams.Tag3.TagName
+							// && request.NewPostParams.Tag4 != null && tag.TagName != request.NewPostParams.Tag4.TagName
+							// && request.NewPostParams.Tag5 != null && tag.TagName != request.NewPostParams.Tag5.TagName
 						);
 
 					if (tag1 == null)
@@ -95,10 +95,10 @@ namespace UseCases.Posts
 					tag2 = await _context.Tag1s
 						.FirstOrDefaultAsync(tag =>
 						(string.IsNullOrEmpty(request.NewPostParams.Tag2.TagName)) || tag.TagName == request.NewPostParams.Tag2.TagName
-							&& request.NewPostParams.Tag1 != null && tag.TagName != request.NewPostParams.Tag1.TagName
-							&& request.NewPostParams.Tag3 != null && tag.TagName != request.NewPostParams.Tag3.TagName
-							&& request.NewPostParams.Tag4 != null && tag.TagName != request.NewPostParams.Tag4.TagName
-							&& request.NewPostParams.Tag5 != null && tag.TagName != request.NewPostParams.Tag5.TagName
+							// && request.NewPostParams.Tag1 != null && tag.TagName != request.NewPostParams.Tag1.TagName
+							// && request.NewPostParams.Tag3 != null && tag.TagName != request.NewPostParams.Tag3.TagName
+							// && request.NewPostParams.Tag4 != null && tag.TagName != request.NewPostParams.Tag4.TagName
+							// && request.NewPostParams.Tag5 != null && tag.TagName != request.NewPostParams.Tag5.TagName
 						);
 
 					if (tag2 == null)
@@ -122,10 +122,10 @@ namespace UseCases.Posts
 					tag3 = await _context.Tag1s
 						.FirstOrDefaultAsync(tag =>
 						(string.IsNullOrEmpty(request.NewPostParams.Tag3.TagName)) || tag.TagName == request.NewPostParams.Tag3.TagName
-							&& request.NewPostParams.Tag1 != null && tag.TagName != request.NewPostParams.Tag1.TagName
-							&& request.NewPostParams.Tag2 != null && tag.TagName != request.NewPostParams.Tag2.TagName
-							&& request.NewPostParams.Tag4 != null && tag.TagName != request.NewPostParams.Tag4.TagName
-							&& request.NewPostParams.Tag5 != null && tag.TagName != request.NewPostParams.Tag5.TagName
+							// && request.NewPostParams.Tag1 != null && tag.TagName != request.NewPostParams.Tag1.TagName
+							// && request.NewPostParams.Tag2 != null && tag.TagName != request.NewPostParams.Tag2.TagName
+							// && request.NewPostParams.Tag4 != null && tag.TagName != request.NewPostParams.Tag4.TagName
+							// && request.NewPostParams.Tag5 != null && tag.TagName != request.NewPostParams.Tag5.TagName
 						);
 
 					if (tag3 == null)
@@ -149,10 +149,10 @@ namespace UseCases.Posts
 					tag4 = await _context.Tag1s
 						.FirstOrDefaultAsync(tag =>
 						(string.IsNullOrEmpty(request.NewPostParams.Tag4.TagName)) || tag.TagName == request.NewPostParams.Tag4.TagName
-							&& request.NewPostParams.Tag1 != null && tag.TagName != request.NewPostParams.Tag1.TagName
-							&& request.NewPostParams.Tag2 != null && tag.TagName != request.NewPostParams.Tag2.TagName
-							&& request.NewPostParams.Tag3 != null && tag.TagName != request.NewPostParams.Tag3.TagName
-							&& request.NewPostParams.Tag5 != null && tag.TagName != request.NewPostParams.Tag5.TagName
+							// && request.NewPostParams.Tag1 != null && tag.TagName != request.NewPostParams.Tag1.TagName
+							// && request.NewPostParams.Tag2 != null && tag.TagName != request.NewPostParams.Tag2.TagName
+							// && request.NewPostParams.Tag3 != null && tag.TagName != request.NewPostParams.Tag3.TagName
+							// && request.NewPostParams.Tag5 != null && tag.TagName != request.NewPostParams.Tag5.TagName
 						);
 
 					if (tag4 == null)
@@ -176,10 +176,10 @@ namespace UseCases.Posts
 					tag5 = await _context.Tag1s
 						.FirstOrDefaultAsync(tag =>
 						(string.IsNullOrEmpty(request.NewPostParams.Tag5.TagName)) || tag.TagName == request.NewPostParams.Tag5.TagName
-							&& request.NewPostParams.Tag1 != null && tag.TagName != request.NewPostParams.Tag1.TagName
-							&& request.NewPostParams.Tag2 != null && tag.TagName != request.NewPostParams.Tag2.TagName
-							&& request.NewPostParams.Tag3 != null && tag.TagName != request.NewPostParams.Tag3.TagName
-							&& request.NewPostParams.Tag4 != null && tag.TagName != request.NewPostParams.Tag4.TagName
+							// && request.NewPostParams.Tag1 != null && tag.TagName != request.NewPostParams.Tag1.TagName
+							// && request.NewPostParams.Tag2 != null && tag.TagName != request.NewPostParams.Tag2.TagName
+							// && request.NewPostParams.Tag3 != null && tag.TagName != request.NewPostParams.Tag3.TagName
+							// && request.NewPostParams.Tag4 != null && tag.TagName != request.NewPostParams.Tag4.TagName
 						);
 
 					if (tag5 == null)
