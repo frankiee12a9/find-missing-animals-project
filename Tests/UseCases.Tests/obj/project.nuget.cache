@@ -1,12 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "jJE+iEaVr7e6DZcls1Qtw51iMJ/K89/0Si0TCt3mchXFJhR4yrNgFQaUQLW+unSi8bAWeVD2dixkRa2gdKK/Aw==",
+  "dgSpecHash": "F4m7mERQYq7/6wUIyKoP02mJSdYjLq3zPrmoA3jlPGI++ZaQPgEl+twyUogYc54hZl079t0INvoWswyOSbaHxA==",
   "success": true,
   "projectFilePath": "C:\\Users\\cudayanh\\documents\\final-project\\missing-pets-app\\Tests\\UseCases.Tests\\UseCases.Tests.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\cudayanh\\.nuget\\packages\\automapper\\10.1.1\\automapper.10.1.1.nupkg.sha512",
     "C:\\Users\\cudayanh\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\8.1.1\\automapper.extensions.microsoft.dependencyinjection.8.1.1.nupkg.sha512",
     "C:\\Users\\cudayanh\\.nuget\\packages\\castle.core\\4.4.1\\castle.core.4.4.1.nupkg.sha512",
+    "C:\\Users\\cudayanh\\.nuget\\packages\\coverlet.collector\\3.0.2\\coverlet.collector.3.0.2.nupkg.sha512",
     "C:\\Users\\cudayanh\\.nuget\\packages\\fluentvalidation\\10.3.3\\fluentvalidation.10.3.3.nupkg.sha512",
     "C:\\Users\\cudayanh\\.nuget\\packages\\fluentvalidation.aspnetcore\\10.3.3\\fluentvalidation.aspnetcore.10.3.3.nupkg.sha512",
     "C:\\Users\\cudayanh\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\10.3.3\\fluentvalidation.dependencyinjectionextensions.10.3.3.nupkg.sha512",
@@ -25,7 +26,7 @@
     "C:\\Users\\cudayanh\\.nuget\\packages\\microsoft.entityframeworkcore\\5.0.10\\microsoft.entityframeworkcore.5.0.10.nupkg.sha512",
     "C:\\Users\\cudayanh\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\5.0.10\\microsoft.entityframeworkcore.abstractions.5.0.10.nupkg.sha512",
     "C:\\Users\\cudayanh\\.nuget\\packages\\microsoft.entityframeworkcore.analyzers\\5.0.10\\microsoft.entityframeworkcore.analyzers.5.0.10.nupkg.sha512",
-    "C:\\Users\\cudayanh\\.nuget\\packages\\microsoft.entityframeworkcore.inmemory\\2.2.0\\microsoft.entityframeworkcore.inmemory.2.2.0.nupkg.sha512",
+    "C:\\Users\\cudayanh\\.nuget\\packages\\microsoft.entityframeworkcore.inmemory\\5.0.10\\microsoft.entityframeworkcore.inmemory.5.0.10.nupkg.sha512",
     "C:\\Users\\cudayanh\\.nuget\\packages\\microsoft.entityframeworkcore.relational\\5.0.10\\microsoft.entityframeworkcore.relational.5.0.10.nupkg.sha512",
     "C:\\Users\\cudayanh\\.nuget\\packages\\microsoft.entityframeworkcore.sqlite\\5.0.10\\microsoft.entityframeworkcore.sqlite.5.0.10.nupkg.sha512",
     "C:\\Users\\cudayanh\\.nuget\\packages\\microsoft.entityframeworkcore.sqlite.core\\5.0.10\\microsoft.entityframeworkcore.sqlite.core.5.0.10.nupkg.sha512",
@@ -151,7 +152,8 @@
     "C:\\Users\\cudayanh\\.nuget\\packages\\xunit.assert\\2.4.1\\xunit.assert.2.4.1.nupkg.sha512",
     "C:\\Users\\cudayanh\\.nuget\\packages\\xunit.core\\2.4.1\\xunit.core.2.4.1.nupkg.sha512",
     "C:\\Users\\cudayanh\\.nuget\\packages\\xunit.extensibility.core\\2.4.1\\xunit.extensibility.core.2.4.1.nupkg.sha512",
-    "C:\\Users\\cudayanh\\.nuget\\packages\\xunit.extensibility.execution\\2.4.1\\xunit.extensibility.execution.2.4.1.nupkg.sha512"
+    "C:\\Users\\cudayanh\\.nuget\\packages\\xunit.extensibility.execution\\2.4.1\\xunit.extensibility.execution.2.4.1.nupkg.sha512",
+    "C:\\Users\\cudayanh\\.nuget\\packages\\xunit.runner.visualstudio\\2.4.3\\xunit.runner.visualstudio.2.4.3.nupkg.sha512"
   ],
   "logs": []
 }

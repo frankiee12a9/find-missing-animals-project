@@ -27,7 +27,6 @@ namespace API.Controllers
             return BadRequest(result.Error);
         }
 
-        // handle returning paginated result
         protected ActionResult HandlePagedResult<T>(Result<PagedList<T>> result)
         {
             if (result == null) return NotFound();

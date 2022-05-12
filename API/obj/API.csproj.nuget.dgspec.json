@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\cudayanh\\documents\\final-project\\missing-pets-app\\API\\API.csproj": {}
+    "C:\\Users\\cudayanh\\documents\\final-project\\missing-pets-app\\api\\API.csproj": {}
   },
   "projects": {
-    "C:\\Users\\cudayanh\\documents\\final-project\\missing-pets-app\\API\\API.csproj": {
+    "C:\\Users\\cudayanh\\documents\\final-project\\missing-pets-app\\api\\API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\cudayanh\\documents\\final-project\\missing-pets-app\\API\\API.csproj",
+        "projectUniqueName": "C:\\Users\\cudayanh\\documents\\final-project\\missing-pets-app\\api\\API.csproj",
         "projectName": "API",
-        "projectPath": "C:\\Users\\cudayanh\\documents\\final-project\\missing-pets-app\\API\\API.csproj",
+        "projectPath": "C:\\Users\\cudayanh\\documents\\final-project\\missing-pets-app\\api\\API.csproj",
         "packagesPath": "C:\\Users\\cudayanh\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\cudayanh\\documents\\final-project\\missing-pets-app\\API\\obj\\",
+        "outputPath": "C:\\Users\\cudayanh\\documents\\final-project\\missing-pets-app\\api\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\cudayanh\\AppData\\Roaming\\NuGet\\NuGet.Config"

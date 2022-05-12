@@ -199,21 +199,23 @@ namespace UseCases.Posts
 				}
 
 				// Note: photos upload
-				var photos = request.NewPostParams.Files;
-				foreach (var file in photos)
+				var photos = request.NewPostParams?.Files;
+				if (photos != null) 
 				{
-					if (file != null)
+					foreach (var file in photos)
 					{
-						var photoToUpload = await _photoAccessor.AddAPhoto(file);
-						var newPhoto = new Photo
+						if (file != null)
 						{
-							Id = photoToUpload.PublicId,
-							Url = photoToUpload.Url
-						};
-						request.NewPostParams.Post.Photos.Add(newPhoto);
+							var photoToUpload = await _photoAccessor.AddAPhoto(file);
+							var newPhoto = new Photo
+							{
+								Id = photoToUpload.PublicId,
+								Url = photoToUpload.Url
+							};
+							request.NewPostParams.Post.Photos.Add(newPhoto);
+						}
 					}
 				}
-
 				request.NewPostParams.Post.PostFollowers.Add(postOwner);
 
 				_context.Posts.Add(request.NewPostParams.Post);

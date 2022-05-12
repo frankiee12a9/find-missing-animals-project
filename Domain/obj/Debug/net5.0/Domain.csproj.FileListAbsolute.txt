@@ -10,4 +10,15 @@ C:\Users\PC_1\desktop\programming\netcore-react\final-project\Domain\obj\Debug\n
 C:\Users\PC_1\desktop\programming\netcore-react\final-project\Domain\obj\Debug\net5.0\Domain.dll
 C:\Users\PC_1\desktop\programming\netcore-react\final-project\Domain\obj\Debug\net5.0\ref\Domain.dll
 C:\Users\PC_1\desktop\programming\netcore-react\final-project\Domain\obj\Debug\net5.0\Domain.pdb
+C:\Users\cudayanh\documents\final-project\missing-pets-app\Domain\bin\Debug\net5.0\Domain.deps.json
 C:\Users\cudayanh\documents\final-project\missing-pets-app\Domain\bin\Debug\net5.0\Domain.dll
+C:\Users\cudayanh\documents\final-project\missing-pets-app\Domain\bin\Debug\net5.0\ref\Domain.dll
+C:\Users\cudayanh\documents\final-project\missing-pets-app\Domain\bin\Debug\net5.0\Domain.pdb
+C:\Users\cudayanh\documents\final-project\missing-pets-app\Domain\obj\Debug\net5.0\Domain.csproj.AssemblyReference.cache
+C:\Users\cudayanh\documents\final-project\missing-pets-app\Domain\obj\Debug\net5.0\Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\cudayanh\documents\final-project\missing-pets-app\Domain\obj\Debug\net5.0\Domain.AssemblyInfoInputs.cache
+C:\Users\cudayanh\documents\final-project\missing-pets-app\Domain\obj\Debug\net5.0\Domain.AssemblyInfo.cs
+C:\Users\cudayanh\documents\final-project\missing-pets-app\Domain\obj\Debug\net5.0\Domain.csproj.CoreCompileInputs.cache
+C:\Users\cudayanh\documents\final-project\missing-pets-app\Domain\obj\Debug\net5.0\Domain.dll
+C:\Users\cudayanh\documents\final-project\missing-pets-app\Domain\obj\Debug\net5.0\ref\Domain.dll
+C:\Users\cudayanh\documents\final-project\missing-pets-app\Domain\obj\Debug\net5.0\Domain.pdb
