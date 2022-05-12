@@ -56,14 +56,14 @@ export default function Leftbar({ themeMode, setThemeMode }: Props) {
               <ListItemText primary="Search on map" />
             </ListItemButton>
           </ListItem>
-          <ListItem disablePadding>
+          {/* <ListItem disablePadding>
             <ListItemButton component="a" href="#simple-list">
               <ListItemIcon>
                 <Person />
               </ListItemIcon>
               <ListItemText primary="Friends" />
             </ListItemButton>
-          </ListItem>
+          </ListItem> */}
           <ListItem disablePadding>
             <ListItemButton component="a" href="#simple-list">
               <ListItemIcon>

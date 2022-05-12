@@ -13,7 +13,7 @@ export default function HomePage() {
   const [tags, setTags] = useState<Tag[]>([]);
   const dispatch = useAppDispatch();
 
-  const { posts, loadingPosts, metaData } = usePosts();
+  const { posts, loadingPosts, pagination } = usePosts();
 
   useEffect(() => {
     dispatch(fetchAllTags())
@@ -26,10 +26,6 @@ export default function HomePage() {
 
   return (
     <Grid container>
-      {/* <Stack direction="row" spacing={2} justifyContent="space-between">
-        <Feed posts={posts} />
-        <Rightbar tags={tags} />
-      </Stack> */}
       <Grid item sm={2} xs={4}></Grid>
       <Grid item sm={7} xs={10}>
         {posts.length > 0 && <Feed posts={posts} />}

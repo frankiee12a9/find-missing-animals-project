@@ -15,6 +15,7 @@ import {
   ListItemText,
   Typography,
 } from '@mui/material';
+import SearchFilters from './SearchFilters';
 
 interface Props {
   tags: Tag[];
@@ -33,33 +34,16 @@ const Rightbar = ({ tags }: Props) => {
         <ListItem>
           {tags.map((aTag) => (
             <Chip
+              title={`View ${aTag.tagName}'s posts`}
+              key={aTag.id}
               component={Link}
-              to={`/tags/${aTag.id}`}
+              to={`/tags/${aTag.tagName}`}
               label={aTag.tagName}
             />
           ))}
         </ListItem>
-        <Typography variant="h6">Tags</Typography>
-        <ImageList cols={3} rowHeight={100} gap={5}>
-          <ImageListItem>
-            <img
-              src="https://material-ui.com/static/images/image-list/breakfast.jpg"
-              alt=""
-            />
-          </ImageListItem>
-          <ImageListItem>
-            <img
-              src="https://material-ui.com/static/images/image-list/burgers.jpg"
-              alt=""
-            />
-          </ImageListItem>
-          <ImageListItem>
-            <img
-              src="https://material-ui.com/static/images/image-list/camera.jpg"
-              alt=""
-            />
-          </ImageListItem>
-        </ImageList>
+        <Typography variant="h6">Filters Search</Typography>
+        <SearchFilters />
         <Typography variant="h6">Latest Viewed Posts</Typography>
         <List
           sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
