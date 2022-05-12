@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -77,25 +78,32 @@ namespace UseCases.Posts
 				string tag4 = request.PostQueryParams.tag4;
 				string tag5 = request.PostQueryParams.tag5;
 
+				Console.Write(result);
+
 				if (tag1 != null)
 				{
-					result = result.Where(x => x.Tag1.Tag1Name.Contains(tag1));
+					// result = result.Where(x => x.Tag1.Tag1Name.Contains(tag1));
+					result = result.Where(x => x.Tags.Any(tag => tag.Tag1Name.Contains(tag1)));
 				}
 				if (tag2 != null)
 				{
-					result = result.Where(x => x.Tag2.Tag2Name.Contains(tag2));
+					// result = result.Where(x => x.Tag2.Tag2Name.Contains(tag2));
+					result = result.Where(x => x.Tags.Any(tag => tag.Tag1Name.Contains(tag2)));
 				}
 				if (tag3 != null)
 				{
-					result = result.Where(x => x.Tag3.Tag3Name.Contains(tag3));
+					// result = result.Where(x => x.Tag3.Tag3Name.Contains(tag3));
+					result = result.Where(x => x.Tags.Any(tag => tag.Tag1Name.Contains(tag3)));
 				}
 				if (tag4 != null) 
 				{
-					result = result.Where(x => x.Tag4.Tag4Name.Contains(tag4));
+					// result = result.Where(x => x.Tag4.Tag4Name.Contains(tag4));
+					result = result.Where(x => x.Tags.Any(tag => tag.Tag1Name.Contains(tag4)));
 				}
 				if (tag5 != null) 
 				{
-					result = result.Where(x => x.Tag5.Tag5Name.Contains(tag5));
+					// result = result.Where(x => x.Tag5.Tag5Name.Contains(tag5));
+					result = result.Where(x => x.Tags.Any(tag => tag.Tag1Name.Contains(tag5)));
 				}
 
 				return Result<PagedList<PostDto>>.Success(
