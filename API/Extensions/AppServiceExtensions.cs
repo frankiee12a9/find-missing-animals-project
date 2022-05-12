@@ -27,7 +27,6 @@ namespace API.Extensions
 
             services.AddDbContext<AppDataContext>(opt =>
             {
-                // opt.UseSqlite(configuration.GetConnectionString("DefaultConnection"));
                 opt.UseNpgsql(configuration.GetConnectionString("DefaultConnection"));
             });
 
@@ -66,7 +65,7 @@ namespace API.Extensions
             // log EFCore db config, queries, etc.. 
             services.AddDbContext<AppDataContext>(opt =>
             {
-                opt.UseSqlite(configuration.GetConnectionString("DefaultConnection"));
+                opt.UseNpgsql(configuration.GetConnectionString("DefaultConnection"));
                 opt.UseLoggerFactory(LoggerFactory.Create(builder => { builder.AddConsole(); }));
             });
 

@@ -1,27 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Users\\PC_1\\desktop\\programming\\netcore-react\\final-project\\Tests\\UseCases.Tests\\UseCases.Tests.csproj": {}
+    "C:\\Users\\cudayanh\\documents\\final-project\\missing-pets-app\\Tests\\UseCases.Tests\\UseCases.Tests.csproj": {}
   },
   "projects": {
-    "c:\\Users\\PC_1\\desktop\\programming\\netcore-react\\final-project\\Domain\\Domain.csproj": {
+    "C:\\Users\\cudayanh\\documents\\final-project\\missing-pets-app\\Domain\\Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\PC_1\\desktop\\programming\\netcore-react\\final-project\\Domain\\Domain.csproj",
+        "projectUniqueName": "C:\\Users\\cudayanh\\documents\\final-project\\missing-pets-app\\Domain\\Domain.csproj",
         "projectName": "Domain",
-        "projectPath": "c:\\Users\\PC_1\\desktop\\programming\\netcore-react\\final-project\\Domain\\Domain.csproj",
-        "packagesPath": "C:\\Users\\PC_1\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\PC_1\\desktop\\programming\\netcore-react\\final-project\\Domain\\obj\\",
+        "projectPath": "C:\\Users\\cudayanh\\documents\\final-project\\missing-pets-app\\Domain\\Domain.csproj",
+        "packagesPath": "C:\\Users\\cudayanh\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\cudayanh\\documents\\final-project\\missing-pets-app\\Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\PC_1\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\cudayanh\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net5.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -60,36 +58,34 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.301\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.407\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "c:\\Users\\PC_1\\desktop\\programming\\netcore-react\\final-project\\Persistence\\Persistence.csproj": {
+    "C:\\Users\\cudayanh\\documents\\final-project\\missing-pets-app\\Persistence\\Persistence.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\PC_1\\desktop\\programming\\netcore-react\\final-project\\Persistence\\Persistence.csproj",
+        "projectUniqueName": "C:\\Users\\cudayanh\\documents\\final-project\\missing-pets-app\\Persistence\\Persistence.csproj",
         "projectName": "Persistence",
-        "projectPath": "c:\\Users\\PC_1\\desktop\\programming\\netcore-react\\final-project\\Persistence\\Persistence.csproj",
-        "packagesPath": "C:\\Users\\PC_1\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\PC_1\\desktop\\programming\\netcore-react\\final-project\\Persistence\\obj\\",
+        "projectPath": "C:\\Users\\cudayanh\\documents\\final-project\\missing-pets-app\\Persistence\\Persistence.csproj",
+        "packagesPath": "C:\\Users\\cudayanh\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\cudayanh\\documents\\final-project\\missing-pets-app\\Persistence\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\PC_1\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\cudayanh\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net5.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net5.0": {
             "targetAlias": "net5.0",
             "projectReferences": {
-              "c:\\Users\\PC_1\\desktop\\programming\\netcore-react\\final-project\\Domain\\Domain.csproj": {
-                "projectPath": "c:\\Users\\PC_1\\desktop\\programming\\netcore-react\\final-project\\Domain\\Domain.csproj"
+              "C:\\Users\\cudayanh\\documents\\final-project\\missing-pets-app\\Domain\\Domain.csproj": {
+                "projectPath": "C:\\Users\\cudayanh\\documents\\final-project\\missing-pets-app\\Domain\\Domain.csproj"
               }
             }
           }
@@ -136,22 +132,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.301\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.407\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "c:\\Users\\PC_1\\desktop\\programming\\netcore-react\\final-project\\Tests\\UseCases.Tests\\UseCases.Tests.csproj": {
+    "C:\\Users\\cudayanh\\documents\\final-project\\missing-pets-app\\Tests\\UseCases.Tests\\UseCases.Tests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\PC_1\\desktop\\programming\\netcore-react\\final-project\\Tests\\UseCases.Tests\\UseCases.Tests.csproj",
+        "projectUniqueName": "C:\\Users\\cudayanh\\documents\\final-project\\missing-pets-app\\Tests\\UseCases.Tests\\UseCases.Tests.csproj",
         "projectName": "UseCases.Tests",
-        "projectPath": "c:\\Users\\PC_1\\desktop\\programming\\netcore-react\\final-project\\Tests\\UseCases.Tests\\UseCases.Tests.csproj",
-        "packagesPath": "C:\\Users\\PC_1\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\PC_1\\desktop\\programming\\netcore-react\\final-project\\Tests\\UseCases.Tests\\obj\\",
+        "projectPath": "C:\\Users\\cudayanh\\documents\\final-project\\missing-pets-app\\Tests\\UseCases.Tests\\UseCases.Tests.csproj",
+        "packagesPath": "C:\\Users\\cudayanh\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\cudayanh\\documents\\final-project\\missing-pets-app\\Tests\\UseCases.Tests\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\PC_1\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\cudayanh\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net5.0"
@@ -163,8 +158,8 @@
           "net5.0": {
             "targetAlias": "net5.0",
             "projectReferences": {
-              "c:\\Users\\PC_1\\desktop\\programming\\netcore-react\\final-project\\UseCases\\Modules.csproj": {
-                "projectPath": "c:\\Users\\PC_1\\desktop\\programming\\netcore-react\\final-project\\UseCases\\Modules.csproj"
+              "C:\\Users\\cudayanh\\documents\\final-project\\missing-pets-app\\UseCases\\Modules.csproj": {
+                "projectPath": "C:\\Users\\cudayanh\\documents\\final-project\\missing-pets-app\\UseCases\\Modules.csproj"
               }
             }
           }
@@ -179,6 +174,10 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "dependencies": {
+            "Microsoft.EntityFrameworkCore.InMemory": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
             "Microsoft.NET.Test.Sdk": {
               "target": "Package",
               "version": "[16.9.4, )"
@@ -187,21 +186,9 @@
               "target": "Package",
               "version": "[4.17.2, )"
             },
-            "coverlet.collector": {
-              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
-              "suppressParent": "All",
-              "target": "Package",
-              "version": "[3.0.2, )"
-            },
             "xunit": {
               "target": "Package",
               "version": "[2.4.1, )"
-            },
-            "xunit.runner.visualstudio": {
-              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
-              "suppressParent": "All",
-              "target": "Package",
-              "version": "[2.4.3, )"
             }
           },
           "imports": [
@@ -219,39 +206,37 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.301\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.407\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "c:\\Users\\PC_1\\desktop\\programming\\netcore-react\\final-project\\UseCases\\Modules.csproj": {
+    "C:\\Users\\cudayanh\\documents\\final-project\\missing-pets-app\\UseCases\\Modules.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\PC_1\\desktop\\programming\\netcore-react\\final-project\\UseCases\\Modules.csproj",
+        "projectUniqueName": "C:\\Users\\cudayanh\\documents\\final-project\\missing-pets-app\\UseCases\\Modules.csproj",
         "projectName": "Modules",
-        "projectPath": "c:\\Users\\PC_1\\desktop\\programming\\netcore-react\\final-project\\UseCases\\Modules.csproj",
-        "packagesPath": "C:\\Users\\PC_1\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\PC_1\\desktop\\programming\\netcore-react\\final-project\\UseCases\\obj\\",
+        "projectPath": "C:\\Users\\cudayanh\\documents\\final-project\\missing-pets-app\\UseCases\\Modules.csproj",
+        "packagesPath": "C:\\Users\\cudayanh\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\cudayanh\\documents\\final-project\\missing-pets-app\\UseCases\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\PC_1\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\cudayanh\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net5.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net5.0": {
             "targetAlias": "net5.0",
             "projectReferences": {
-              "c:\\Users\\PC_1\\desktop\\programming\\netcore-react\\final-project\\Domain\\Domain.csproj": {
-                "projectPath": "c:\\Users\\PC_1\\desktop\\programming\\netcore-react\\final-project\\Domain\\Domain.csproj"
+              "C:\\Users\\cudayanh\\documents\\final-project\\missing-pets-app\\Domain\\Domain.csproj": {
+                "projectPath": "C:\\Users\\cudayanh\\documents\\final-project\\missing-pets-app\\Domain\\Domain.csproj"
               },
-              "c:\\Users\\PC_1\\desktop\\programming\\netcore-react\\final-project\\Persistence\\Persistence.csproj": {
-                "projectPath": "c:\\Users\\PC_1\\desktop\\programming\\netcore-react\\final-project\\Persistence\\Persistence.csproj"
+              "C:\\Users\\cudayanh\\documents\\final-project\\missing-pets-app\\Persistence\\Persistence.csproj": {
+                "projectPath": "C:\\Users\\cudayanh\\documents\\final-project\\missing-pets-app\\Persistence\\Persistence.csproj"
               }
             }
           }
@@ -298,7 +283,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.301\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.407\\RuntimeIdentifierGraph.json"
         }
       }
     }

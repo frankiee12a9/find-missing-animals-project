@@ -1,7 +1,7 @@
 import { Grid } from '@mui/material';
 import React from 'react';
 import { bool } from 'yup';
-import PostCard from '../../app/layout/PostCard';
+import PostCard from './PostCard';
 import { Post } from '../../app/models/post';
 import PostCardSkeleton from './PostCardSkeleton';
 
@@ -10,9 +10,9 @@ interface Props {
   loading: boolean;
 }
 
-export default function PostList({ posts, loading }: Props) {
+export default function PostCardList({ posts, loading }: Props) {
   return (
-    <Grid container spacing={3}>
+    <Grid container columnSpacing={2}>
       {posts.map((post) => (
         <Grid item xs={6} key={post.id}>
           {loading ? (

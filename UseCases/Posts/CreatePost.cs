@@ -107,7 +107,6 @@ namespace UseCases.Posts
 						{
 							TagName = request.NewPostParams.Tag2.TagName
 						};
-						// await _context.Tag2s.AddAsync(tag2);
 						await _context.Tag1s.AddAsync(tag2);
 					}
 					var Tag1Post = new Tag1Post

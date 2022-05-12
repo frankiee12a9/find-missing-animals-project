@@ -1,58 +1,17 @@
+import { Add } from '@mui/icons-material';
+import { SyntheticEvent, useState } from 'react';
+import Postcode from '../utils/Postcode';
 import {
   Button,
   Container,
   Fab,
-  FormControlLabel,
-  FormLabel,
-  makeStyles,
-  MenuItem,
   Modal,
-  Radio,
-  RadioGroup,
   Snackbar,
   TextField,
   Tooltip,
-} from '@material-ui/core';
-import { Add } from '@mui/icons-material';
-import { SyntheticEvent, useState } from 'react';
-import MuiAlert from '@material-ui/lab/Alert';
-import Postcode from '../utils/Postcode';
+} from '@mui/material';
 
-const useStyles = makeStyles((theme) => ({
-  fab: {
-    position: 'fixed',
-    bottom: 20,
-    right: 20,
-  },
-  container: {
-    width: 500,
-    height: 710,
-    backgroundColor: 'white',
-    position: 'absolute',
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    margin: 'auto',
-    [theme.breakpoints.down('sm')]: {
-      width: '100vw',
-      height: '100vh',
-    },
-  },
-  form: {
-    padding: theme.spacing(2),
-  },
-  item: {
-    marginBottom: theme.spacing(3),
-  },
-}));
-
-function Alert(props: any) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
-
-const AddPost = () => {
-  const classes = useStyles();
+export default function AddPost() {
   const [open, setOpen] = useState(false);
   const [openAlert, setOpenAlert] = useState(false);
 
@@ -66,14 +25,14 @@ const AddPost = () => {
   return (
     <>
       <Tooltip title="Add" aria-label="add" onClick={() => setOpen(true)}>
-        <Fab color="primary" className={classes.fab}>
+        <Fab color="primary">
           <Add />
         </Fab>
       </Tooltip>
       <Modal open={open}>
-        <Container className={classes.container}>
-          <form className={classes.form} autoComplete="off">
-            <div className={classes.item}>
+        <Container>
+          <form autoComplete="off">
+            <div>
               <TextField
                 id="standard-basic"
                 label="Title"
@@ -81,7 +40,7 @@ const AddPost = () => {
                 style={{ width: '100%' }}
               />
             </div>
-            <div className={classes.item}>
+            <div>
               <TextField
                 id="outlined-multiline-static"
                 multiline
@@ -103,7 +62,7 @@ const AddPost = () => {
 								<MenuItem value="Private">Private</MenuItem>
 							</TextField>
 						</div> */}
-            <div className={classes.item}>
+            <div>
               <Postcode />
               {/* <FormLabel component="legend">
 								Who can comment?
@@ -121,7 +80,7 @@ const AddPost = () => {
 								/>
 							</RadioGroup> */}
             </div>
-            <div className={classes.item}>
+            <div>
               <Button
                 variant="outlined"
                 color="primary"
@@ -144,15 +103,9 @@ const AddPost = () => {
       <Snackbar
         open={openAlert}
         autoHideDuration={4000}
-        onClose={handleClose}
+        // onClose={handleClose}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
-      >
-        <Alert onClose={handleClose} severity="success">
-          포스트 등록 완료하였습니다!
-        </Alert>
-      </Snackbar>
+      ></Snackbar>
     </>
   );
-};
-
-export default AddPost;
+}

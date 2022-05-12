@@ -11,7 +11,7 @@ using Xunit;
 
 namespace UseCases.Tests.Post
 {
-	public class GetAPostDetailsTest : BaseTest
+	public class GetPostDetailsTest : BaseTest
 	{
 
 	}
