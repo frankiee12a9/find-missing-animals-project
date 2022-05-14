@@ -43,10 +43,25 @@ namespace UseCases.Posts
 			public async Task<Result<PagedList<PostDto>>> Handle(Query request, CancellationToken cancellationToken)
 			{
 				var result = _context.Posts
+					// .Where(x => x.Date >= request.PostQueryParams.StartDate) // get all posts after 'StartDate'
 					.OrderBy(x => x.Date)
 					.ProjectTo<PostDto>(_mapper.ConfigurationProvider,
 						new { currentUsername = _userAccessor.GetUserName() })
 					.AsQueryable();
+
+				// DateTime query params
+				var fromDate = request.PostQueryParams?.FromDate;
+				var toDate = request.PostQueryParams?.ToDate;
+
+				if (fromDate != null) 
+				{
+					result = result.Where(x => x.CreatedAt >= fromDate);
+				}
+				
+				if (toDate != null)
+				{
+					result = result.Where(x => x.CreatedAt <= toDate);
+				}
 
 				// location query params
 				string roadLocation = request.PostQueryParams.RoadLocation; // 도로명 filter
