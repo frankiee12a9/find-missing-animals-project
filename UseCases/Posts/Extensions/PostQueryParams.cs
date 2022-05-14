@@ -16,6 +16,7 @@ namespace UseCases.Posts.Extensions
 		public string tag3 { get; set; }
 		public string tag4 { get; set; }
 		public string tag5 { get; set; }
-		public DateTime StartDate { get; set; } = DateTime.UtcNow;
+		public DateTime FromDate { get; set; }
+		public DateTime ToDate { get; set; } = DateTime.UtcNow;
 	}
 }
