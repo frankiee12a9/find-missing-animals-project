@@ -43,83 +43,65 @@ namespace UseCases.Posts
 			public async Task<Result<PagedList<PostDto>>> Handle(Query request, CancellationToken cancellationToken)
 			{
 				var result = _context.Posts
-					// .Where(x => x.Date >= request.PostQueryParams.StartDate) // get all posts after 'StartDate'
-					.OrderBy(x => x.Date)
 					.ProjectTo<PostDto>(_mapper.ConfigurationProvider,
 						new { currentUsername = _userAccessor.GetUserName() })
 					.AsQueryable();
 
+				// order by filter
+				var orderBy = request.PostQueryParams?.OrderBy;
+				if (orderBy != null) 
+					result = result._Sort(orderBy);
+
+				// search text filter
+				var searchText = request.PostQueryParams?.SearchText;
+				if (searchText != null)
+					result = result._Search(searchText);
+
 				// DateTime query params
 				var fromDate = request.PostQueryParams?.FromDate;
-				var toDate = request.PostQueryParams?.ToDate;
-
 				if (fromDate != null) 
-				{
 					result = result.Where(x => x.CreatedAt >= fromDate);
-				}
 				
+				var toDate = request.PostQueryParams?.ToDate;
 				if (toDate != null)
-				{
 					result = result.Where(x => x.CreatedAt <= toDate);
-				}
 
 				// location query params
-				string roadLocation = request.PostQueryParams.RoadLocation; // 도로명 filter
-				string location = request.PostQueryParams.Location; // 지번주소 filter
-				string detailedLocation = request.PostQueryParams.DetailedLocation; // 상세주소 filter
-
+				string roadLocation = request.PostQueryParams?.RoadLocation; // 도로명 filter
 				if (roadLocation != null)
-				{
 					result = result
 						.Where(x => x.PostLocation.RoadLocation.Contains(roadLocation));
-				}
 
+				string location = request.PostQueryParams?.Location; // 지번주소 filter
 				if (location != null)
-				{
 					result = result
 						.Where(x => x.PostLocation.Location.Contains(location));
-				}
 
+				string detailedLocation = request.PostQueryParams?.DetailedLocation; // 상세주소 filter
 				if (detailedLocation != null)
-				{
 					result = result
 						.Where(x => x.PostLocation.DetailedLocation.Contains(detailedLocation));
-				}
 
 				// tags query params 
-				string tag1 = request.PostQueryParams.tag1;
-				string tag2 = request.PostQueryParams.tag2;
-				string tag3 = request.PostQueryParams.tag3;
-				string tag4 = request.PostQueryParams.tag4;
-				string tag5 = request.PostQueryParams.tag5;
-
-				Console.Write(result);
-
+				string tag1 = request.PostQueryParams?.tag1;
 				if (tag1 != null)
-				{
-					// result = result.Where(x => x.Tag1.Tag1Name.Contains(tag1));
 					result = result.Where(x => x.Tags.Any(tag => tag.Tag1Name.Contains(tag1)));
-				}
+
+				string tag2 = request.PostQueryParams?.tag2;
 				if (tag2 != null)
-				{
-					// result = result.Where(x => x.Tag2.Tag2Name.Contains(tag2));
 					result = result.Where(x => x.Tags.Any(tag => tag.Tag1Name.Contains(tag2)));
-				}
+
+				string tag3 = request.PostQueryParams?.tag3;
 				if (tag3 != null)
-				{
-					// result = result.Where(x => x.Tag3.Tag3Name.Contains(tag3));
 					result = result.Where(x => x.Tags.Any(tag => tag.Tag1Name.Contains(tag3)));
-				}
+
+				string tag4 = request.PostQueryParams?.tag4;
 				if (tag4 != null) 
-				{
-					// result = result.Where(x => x.Tag4.Tag4Name.Contains(tag4));
 					result = result.Where(x => x.Tags.Any(tag => tag.Tag1Name.Contains(tag4)));
-				}
+
+				string tag5 = request.PostQueryParams?.tag5;
 				if (tag5 != null) 
-				{
-					// result = result.Where(x => x.Tag5.Tag5Name.Contains(tag5));
 					result = result.Where(x => x.Tags.Any(tag => tag.Tag1Name.Contains(tag5)));
-				}
 
 				return Result<PagedList<PostDto>>.Success(
 					await PagedList<PostDto>.CreateAsync(result, request.PostQueryParams.PageNumber,
