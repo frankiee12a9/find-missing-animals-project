@@ -28,6 +28,9 @@ namespace API.Extensions
 			.AddEntityFrameworkStores<AppDataContext>()
 			.AddSignInManager<SignInManager<ApplicationUser>>();
 
+			// signalR without Token
+			services.AddSignalR();
+
 			// secret key
 			var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["TokenKey"]));
 
