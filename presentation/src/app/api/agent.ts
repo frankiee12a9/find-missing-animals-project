@@ -106,7 +106,7 @@ const Post = {
   updatePost: (post: any) => requests.put(`posts/${post.id}`, post),
   getPost: (postId: string) => requests.get(`posts/${postId}`),
   deletePost: (postId: string) => requests.delete(`posts/${postId}`),
-  getAllPosts: () => requests.get('posts'),
+  getAllPosts: (params: URLSearchParams) => requests.get('posts', params),
 };
 
 const Tag = {

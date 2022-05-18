@@ -23,18 +23,13 @@ interface Props {
 }
 
 export default function PostCard({ img, title, post }: Props) {
-  // const timeNow = Date.now();
-  var today = new Date();
-  var date =
+  let today = new Date();
+  let date =
     today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+
   return (
     <Card sx={{ margin: 2 }}>
-      <CardActionArea
-        LinkComponent={Link}
-        href={`/posts/${post.id}`}
-        // LinkComponent={NavLink}
-        // to={`/posts/${post.id}`}
-      >
+      <CardActionArea>
         <CardHeader
           avatar={
             <Avatar sx={{ bgcolor: 'red' }} aria-label="recipe">

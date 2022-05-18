@@ -54,7 +54,7 @@ export default function AddPost() {
     <>
       <Tooltip
         onClick={(e) => setOpen(true)}
-        title="Delete"
+        title="Create new post"
         sx={{
           position: 'fixed',
           bottom: 20,

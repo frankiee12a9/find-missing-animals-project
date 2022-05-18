@@ -4,6 +4,7 @@ import {
   Avatar,
   Badge,
   Box,
+  debounce,
   InputBase,
   makeStyles,
   Menu,
@@ -14,6 +15,8 @@ import {
 } from '@mui/material';
 import { Cancel, Mail, Notifications, Pets } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../store/storeConfig';
+import { setPostParams } from '../../features/post/postSlice';
 
 interface DisplayProps {
   open: boolean;
@@ -51,6 +54,14 @@ const UserBox = styled(Box)(({ theme }) => ({
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const { postQueryParams } = useAppSelector((state) => state.posts);
+  const [searchText, setSearchText] = useState(postQueryParams?.searchText);
+  const dispatch = useAppDispatch();
+
+  const debouncedSearch = debounce((event: any) => {
+    console.log(event.target.value);
+    dispatch(setPostParams({ searchText: event.target.value }));
+  });
 
   return (
     <AppBar position="sticky">
@@ -60,7 +71,15 @@ export default function Navbar() {
         </Typography>
         <Pets sx={{ display: { xs: 'block', sm: 'none' } }} />
         <Search>
-          <InputBase placeholder="search..." />
+          <InputBase
+            fullWidth
+            value={searchText || ''}
+            placeholder="search..."
+            onChange={(event: any) => {
+              setSearchText(event.target.value);
+              debouncedSearch(event);
+            }}
+          />
         </Search>
         <Icons>
           <Badge badgeContent={4} color="error">

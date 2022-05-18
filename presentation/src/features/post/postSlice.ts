@@ -20,49 +20,55 @@ interface PostState {
   status: string;
   loadingPosts: boolean;
   loadingTags: boolean;
+  tags: string[];
   postQueryParams: PostQueryParams | null;
   pagination: Pagination | null;
 }
 
-const initialState = {
-  post: null,
-  status: 'idle',
-  loadingPosts: false,
-} as PostState;
+// const initialState = {
+//   post: null,
+//   status: 'idle',
+//   loadingPosts: false,
+// } as PostState;
 
 // TODO: read more about createEntityAdapter
+
 const postsAdapter = createEntityAdapter<Post>({
-  selectId: (post) => post.id,
-  // might not need this one
-  sortComparer: (a, b) => a.title.localeCompare(b.title),
+  selectId: (aPost) => aPost.id,
+  sortComparer: (thisPost, thatPost) =>
+    thisPost.title.localeCompare(thatPost.title),
 });
 
-const getAxiosParams = (postQueryParams: any) => {
+const getAxiosParams = (postQueryParams: PostQueryParams) => {
   const params = new URLSearchParams();
-  // TODO: config post query params here
+  params.append('pageNumber', postQueryParams.pageNumber.toString());
+  params.append('pageSize', postQueryParams.pageSize.toString());
+  params.append('orderBy', postQueryParams.orderBy);
+
+  if (postQueryParams.searchText)
+    params.append('searchText', postQueryParams.searchText);
+  if (postQueryParams.tags.length > 0)
+    params.append('tags', postQueryParams.tags.toString());
+
   return params;
 };
 
-export const fetchAllPostsAsync = createAsyncThunk(
-  'post/fetchAllPostsAsync',
-  async (_, thunkAPI) => {
-    try {
-      const result = await agent.Post.getAllPosts();
-      thunkAPI.dispatch(setMetaData(result.pagination));
-      // console.log('result', result);
-      return result.items;
-      // return await agent.Post.getAllPosts();
-    } catch (err: any) {
-      return thunkAPI.rejectWithValue({ error: err.data });
-    }
+export const fetchAllPostsAsync = createAsyncThunk<
+  Post[],
+  void,
+  { state: RootState }
+>('post/fetchAllPostsAsync', async (_, thunkAPI) => {
+  const params = getAxiosParams(thunkAPI.getState().posts.postQueryParams!);
+  console.log('params', params.toString()); //  Note: use .toString() or .JSON.stringify() to check type of object
+  try {
+    const result = await agent.Post.getAllPosts(params);
+    thunkAPI.dispatch(setMetaData(result.pagination));
+    console.log('result.items', result.items);
+    return result.items;
+  } catch (err: any) {
+    return thunkAPI.rejectWithValue({ error: err.data });
   }
-  // {
-  //     condition: () => {
-  //         // Note: consider this
-  //         // if (!getCookie(""))
-  //     }
-  // }
-);
+});
 
 export const fetchPostAsync = createAsyncThunk(
   'post/fetchPostAsync',
@@ -70,7 +76,6 @@ export const fetchPostAsync = createAsyncThunk(
     try {
       const result = await agent.Post.getPost(postId);
       return result;
-      // return agent.Post.getPost(postId);
     } catch (err: any) {
       return thunkAPI.rejectWithValue({ error: err.data });
     }
@@ -112,12 +117,16 @@ export const deletePostAsync = createAsyncThunk(
 
 const pagingInitParams = () => {
   return {
-    pageStartNumber: 1,
-    pageMaxSize: 6,
+    pageNumber: 1,
+    pageSize: 6,
+    orderBy: 'name',
     isPoster: false,
+    searchText: '',
     roadLocation: '',
     detailedLocation: '',
     location: '',
+    tags: [],
+    // Note: ??
     tag1: '',
     tag2: '',
     tag3: '',
@@ -132,6 +141,7 @@ export const postSlice = createSlice({
     post: null,
     loadingPosts: false,
     loadingTags: false,
+    tags: [],
     status: 'idle',
     postQueryParams: pagingInitParams(),
     pagination: null,
@@ -142,10 +152,11 @@ export const postSlice = createSlice({
       state.postQueryParams = {
         ...state.postQueryParams,
         ...action.payload,
-        pageStartNumber: 1,
+        pageNumber: 1,
       };
+      console.log('postParams', state.postQueryParams);
     },
-    setPageSize: (state, action) => {
+    setPageNumber: (state, action) => {
       state.loadingPosts = false;
       state.postQueryParams = { ...state.postQueryParams, ...action.payload };
     },
@@ -213,7 +224,7 @@ export const postSelectors = postsAdapter.getSelectors(
 
 export const {
   setPostParams,
-  setPageSize,
+  setPageNumber,
   setMetaData,
   setPost,
   resetPostParams,

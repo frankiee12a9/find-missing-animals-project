@@ -12,7 +12,7 @@ import { Route, Switch } from 'react-router-dom';
 import { useAppDispatch } from '../store/storeConfig';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import HomePage from './HomePage';
+import HomePage from '../components/HomePage';
 import MapLandingPage from '../utils/MapLandingPage';
 import Loading from './Loading';
 import PostDetails from '../../features/post/PostDetails';

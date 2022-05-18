@@ -4,6 +4,7 @@ import { bool } from 'yup';
 import PostCard from './PostCard';
 import { Post } from '../../app/models/post';
 import PostCardSkeleton from './PostCardSkeleton';
+import { useAppSelector } from '../../app/store/storeConfig';
 
 interface Props {
   posts: Post[] | [];
@@ -11,11 +12,12 @@ interface Props {
 }
 
 export default function PostCardList({ posts, loading }: Props) {
+  const { loadingPosts } = useAppSelector((state) => state.posts);
   return (
     <Grid container columnSpacing={2}>
       {posts.map((post) => (
         <Grid item xs={6} key={post.id}>
-          {loading ? (
+          {!loadingPosts ? (
             <PostCardSkeleton />
           ) : (
             <PostCard post={post} img={''} title="Looking for my pets " />

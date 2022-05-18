@@ -27,6 +27,7 @@ import { useAppDispatch, useAppSelector } from '../../app/store/storeConfig';
 import PostDetailsSidebar from './PostDetailsSidebar';
 import { fetchPostAsync, postSelectors } from './postSlice';
 import { OnChangeValue } from 'react-select';
+import moment from 'moment';
 
 // Note: Post/Comment section reference: https://codesandbox.io/s/2393m2k5rj?file=/src/index.js
 
@@ -67,7 +68,8 @@ export default function PostDetails() {
             }
             title={currentPost?.title}
             subheader={
-              currentPost?.createdAt ? currentPost?.createdAt : Date.now()
+              moment(currentPost?.createdAt).format()
+              // currentPost?.createdAt ? currentPost?.createdAt : Date.now()
             }
           />
 

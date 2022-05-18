@@ -7,7 +7,9 @@ import {
 
 export default function usePosts() {
   const posts = useAppSelector(postSelectors.selectAll);
-  const { loadingPosts, pagination } = useAppSelector((state) => state.posts);
+  const { loadingPosts, tags, pagination } = useAppSelector(
+    (state) => state.posts
+  );
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -16,6 +18,7 @@ export default function usePosts() {
 
   return {
     posts,
+    tags,
     loadingPosts,
     pagination,
   };

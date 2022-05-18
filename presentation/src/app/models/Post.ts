@@ -34,10 +34,15 @@ export interface CreatePostDto {
 }
 
 export interface PostQueryParams {
+  searchText: string;
+  orderBy: string;
+  pageNumber: number;
+  pageSize: number;
   isPoster: boolean;
   roadLocation: string;
   detailedLocation: string;
   location: string;
+  tags: string[];
   tag1: string;
   tag2: string;
   tag3: string;
