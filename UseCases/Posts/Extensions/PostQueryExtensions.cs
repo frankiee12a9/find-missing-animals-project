@@ -14,8 +14,9 @@ namespace UseCases.Posts.Extensions
             {
                 "title" => query.OrderBy(p => p.Title),
                 "postLocation" => query.OrderBy(p => p.PostLocation.Location),
-                "found" => query.OrderBy(p => p.IsFound),
-                "notFound" => query.OrderBy(p => p.IsFound == false),
+                // "found" => query.OrderBy(p => p.IsFound),
+                "found" => query.Where(p => p.IsFound == true),
+                "notFound" => query.Where(p => p.IsFound == false),
                 _ => query.OrderBy(p => p.CreatedAt)
             };
 
