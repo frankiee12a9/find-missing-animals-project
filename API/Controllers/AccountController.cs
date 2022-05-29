@@ -98,7 +98,6 @@ namespace API.Controllers
 			{
 				DisplayName = user.DisplayName,
 				Image = user.ProfilePictureUrl,
-				// Image = null,
 				Token = _tokenService.CreateToken(user),
 				Username = user.UserName
 			};
