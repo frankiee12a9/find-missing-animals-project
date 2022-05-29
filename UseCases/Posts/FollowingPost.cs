@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Domain;
 using MediatR;
-using Microsoft.AspNetCore.Routing.Constraints;
+using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 using UseCases.Core;
@@ -15,34 +15,34 @@ namespace UseCases.Posts
 {
 	public class FollowingPost
 	{
-		public class Command : IRequest<Result<Unit>>
+		public class Command : IRequest<Result<PostDto>>
 		{
 			public Guid PostId { get; set; }
 		}
 
-		public class Handler : IRequestHandler<Command, Result<Unit>>
+		public class Handler : IRequestHandler<Command, Result<PostDto>>
 		{
 			private readonly AppDataContext _context;
+			private readonly IMapper _mapper;
 			private readonly IUserAccessor _userAccessor;
 
-			public Handler(AppDataContext context, IUserAccessor userAccessor)
+			public Handler(AppDataContext context, IMapper mapper, IUserAccessor userAccessor)
 			{
 				_context = context;
+				_mapper = mapper;
 				_userAccessor = userAccessor;
 			}
 
-			public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
+			public async Task<Result<PostDto>> Handle(Command request, CancellationToken cancellationToken)
 			{
 				var post = await _context.Posts
 					.Include(e => e.PostFollowers)
 						.ThenInclude(e => e.ApplicationUser)
 					.FirstOrDefaultAsync(e => e.Id == request.PostId);
-
 				if (post == null) return null;
 
 				var currentLoginUser = await _context.Users
 					.FirstOrDefaultAsync(e => e.UserName == _userAccessor.GetUserName());
-
 				if (currentLoginUser == null) return null;
 
 				var postOwnerName = post.PostFollowers
@@ -53,14 +53,12 @@ namespace UseCases.Posts
 
 				// block this post, if user is post owner
 				if (postFollower != null && postOwnerName == currentLoginUser.UserName)
-				{
 					post.IsFound = !post.IsFound;
-				}
-				// un-follwing this post if user is not post owner 
+
+				// un-following this post if user is not post owner 
 				if (postFollower != null && postOwnerName != currentLoginUser.UserName)
-				{
 					post.PostFollowers.Remove(postFollower);
-				}
+
 				// start following post
 				if (postFollower == null)
 				{
@@ -75,7 +73,17 @@ namespace UseCases.Posts
 
 				var result = await _context.SaveChangesAsync() > 0;
 
-				return result ? Result<Unit>.Success(Unit.Value) : Result<Unit>.Failure("Failed while updating attendance.");
+				// return currently following post
+				// Note: 'Command' but return value 
+				// reference: https://event-driven.io/en/can_command_return_a_value/
+				var currentFollowingPost = await _context.Posts
+					.ProjectTo<PostDto>(_mapper.ConfigurationProvider)
+					.FirstOrDefaultAsync(x => x.Id == request.PostId);			
+
+				if (result && currentFollowingPost != null) ;
+					return Result<PostDto>.Success(currentFollowingPost);
+
+				return null;
 			}
 		}
 	}
