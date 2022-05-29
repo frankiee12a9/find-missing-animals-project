@@ -58,27 +58,17 @@ namespace UseCases.Posts
 
 				// Note: tags
 				Tag1 tag1 = null;
-				Tag1 tag2 = null;
-				Tag1 tag3 = null;
-				Tag1 tag4 = null;
-				Tag1 tag5 = null;
-
-				if (!string.IsNullOrEmpty(request.NewPostParams?.Tag1?.TagName))
+				if (!string.IsNullOrEmpty(request.NewPostParams?.Tag1))
 				{
 					tag1 = await _context.Tag1s
 						.FirstOrDefaultAsync(tag =>
-						(string.IsNullOrEmpty(request.NewPostParams.Tag1.TagName)) || tag.TagName == request.NewPostParams.Tag1.TagName 
-							// && request.NewPostParams.Tag2 != null && tag.TagName != request.NewPostParams.Tag2.TagName
-							// && request.NewPostParams.Tag3 != null && tag.TagName != request.NewPostParams.Tag3.TagName
-							// && request.NewPostParams.Tag4 != null && tag.TagName != request.NewPostParams.Tag4.TagName
-							// && request.NewPostParams.Tag5 != null && tag.TagName != request.NewPostParams.Tag5.TagName
-						);
+						(string.IsNullOrEmpty(request.NewPostParams.Tag1)) || tag.TagName == request.NewPostParams.Tag1);
 
 					if (tag1 == null)
 					{
 						tag1 = new Tag1
 						{
-							TagName = request.NewPostParams.Tag1.TagName
+							TagName = request.NewPostParams.Tag1
 						};
 						await _context.Tag1s.AddAsync(tag1);
 					}
@@ -90,22 +80,18 @@ namespace UseCases.Posts
 					await _context.Tag1Posts.AddAsync(tag1Post);
 				}
 
-				if (!string.IsNullOrEmpty(request.NewPostParams?.Tag2?.TagName))
+				Tag1 tag2 = null;
+				if (!string.IsNullOrEmpty(request.NewPostParams?.Tag2))
 				{
 					tag2 = await _context.Tag1s
 						.FirstOrDefaultAsync(tag =>
-						(string.IsNullOrEmpty(request.NewPostParams.Tag2.TagName)) || tag.TagName == request.NewPostParams.Tag2.TagName
-							// && request.NewPostParams.Tag1 != null && tag.TagName != request.NewPostParams.Tag1.TagName
-							// && request.NewPostParams.Tag3 != null && tag.TagName != request.NewPostParams.Tag3.TagName
-							// && request.NewPostParams.Tag4 != null && tag.TagName != request.NewPostParams.Tag4.TagName
-							// && request.NewPostParams.Tag5 != null && tag.TagName != request.NewPostParams.Tag5.TagName
-						);
+						(string.IsNullOrEmpty(request.NewPostParams.Tag2)) || tag.TagName == request.NewPostParams.Tag2);
 
 					if (tag2 == null)
 					{
 						tag2 = new Tag1
 						{
-							TagName = request.NewPostParams.Tag2.TagName
+							TagName = request.NewPostParams.Tag2
 						};
 						await _context.Tag1s.AddAsync(tag2);
 					}
@@ -117,22 +103,18 @@ namespace UseCases.Posts
 					await _context.Tag1Posts.AddAsync(Tag1Post);
 				}
 
-				if (!string.IsNullOrEmpty(request.NewPostParams?.Tag3?.TagName))
+				Tag1 tag3 = null;
+				if (!string.IsNullOrEmpty(request.NewPostParams?.Tag3))
 				{
 					tag3 = await _context.Tag1s
 						.FirstOrDefaultAsync(tag =>
-						(string.IsNullOrEmpty(request.NewPostParams.Tag3.TagName)) || tag.TagName == request.NewPostParams.Tag3.TagName
-							// && request.NewPostParams.Tag1 != null && tag.TagName != request.NewPostParams.Tag1.TagName
-							// && request.NewPostParams.Tag2 != null && tag.TagName != request.NewPostParams.Tag2.TagName
-							// && request.NewPostParams.Tag4 != null && tag.TagName != request.NewPostParams.Tag4.TagName
-							// && request.NewPostParams.Tag5 != null && tag.TagName != request.NewPostParams.Tag5.TagName
-						);
+						(string.IsNullOrEmpty(request.NewPostParams.Tag3)) || tag.TagName == request.NewPostParams.Tag3);
 
 					if (tag3 == null)
 					{
 						tag3 = new Tag1
 						{
-							TagName = request.NewPostParams.Tag3.TagName
+							TagName = request.NewPostParams.Tag3
 						};
 						await _context.Tag1s.AddAsync(tag3);
 					}
@@ -144,22 +126,18 @@ namespace UseCases.Posts
 					await _context.Tag1Posts.AddAsync(Tag3Post);
 				}
 
-				if (!string.IsNullOrEmpty(request.NewPostParams?.Tag4?.TagName))
+				Tag1 tag4 = null;
+				if (!string.IsNullOrEmpty(request.NewPostParams?.Tag4))
 				{
 					tag4 = await _context.Tag1s
 						.FirstOrDefaultAsync(tag =>
-						(string.IsNullOrEmpty(request.NewPostParams.Tag4.TagName)) || tag.TagName == request.NewPostParams.Tag4.TagName
-							// && request.NewPostParams.Tag1 != null && tag.TagName != request.NewPostParams.Tag1.TagName
-							// && request.NewPostParams.Tag2 != null && tag.TagName != request.NewPostParams.Tag2.TagName
-							// && request.NewPostParams.Tag3 != null && tag.TagName != request.NewPostParams.Tag3.TagName
-							// && request.NewPostParams.Tag5 != null && tag.TagName != request.NewPostParams.Tag5.TagName
-						);
+						(string.IsNullOrEmpty(request.NewPostParams.Tag4)) || tag.TagName == request.NewPostParams.Tag4);
 
 					if (tag4 == null)
 					{
 						tag4 = new Tag1
 						{
-							TagName = request.NewPostParams.Tag4.TagName
+							TagName = request.NewPostParams.Tag4
 						};
 						await _context.Tag1s.AddAsync(tag4);
 					}
@@ -171,22 +149,18 @@ namespace UseCases.Posts
 					await _context.Tag1Posts.AddAsync(Tag4Post);
 				}
 
-				if (!string.IsNullOrEmpty(request.NewPostParams?.Tag5?.TagName))
+				Tag1 tag5 = null;
+				if (!string.IsNullOrEmpty(request.NewPostParams?.Tag5))
 				{
 					tag5 = await _context.Tag1s
 						.FirstOrDefaultAsync(tag =>
-						(string.IsNullOrEmpty(request.NewPostParams.Tag5.TagName)) || tag.TagName == request.NewPostParams.Tag5.TagName
-							// && request.NewPostParams.Tag1 != null && tag.TagName != request.NewPostParams.Tag1.TagName
-							// && request.NewPostParams.Tag2 != null && tag.TagName != request.NewPostParams.Tag2.TagName
-							// && request.NewPostParams.Tag3 != null && tag.TagName != request.NewPostParams.Tag3.TagName
-							// && request.NewPostParams.Tag4 != null && tag.TagName != request.NewPostParams.Tag4.TagName
-						);
+						(string.IsNullOrEmpty(request.NewPostParams.Tag5)) || tag.TagName == request.NewPostParams.Tag5);
 
 					if (tag5 == null)
 					{
 						tag5 = new Tag1
 						{
-							TagName = request.NewPostParams.Tag4.TagName
+							TagName = request.NewPostParams.Tag4
 						};
 						await _context.Tag1s.AddAsync(tag5);
 					}
@@ -216,6 +190,7 @@ namespace UseCases.Posts
 						}
 					}
 				}
+
 				request.NewPostParams.Post.PostFollowers.Add(postOwner);
 
 				_context.Posts.Add(request.NewPostParams.Post);
