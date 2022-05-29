@@ -2,6 +2,8 @@ import axios, { AxiosError, AxiosResponse } from 'axios';
 import { toast } from 'react-toastify';
 import { history } from '../../index';
 import { PaginatedResponse } from '../models/pagination';
+import { store } from '../store/storeConfig';
+import { Post } from '../models/post';
 
 const sleep = () => new Promise((resolve) => setTimeout(resolve, 500));
 
@@ -11,10 +13,10 @@ axios.defaults.withCredentials = true;
 const responseBody = (response: AxiosResponse) => response.data;
 
 axios.interceptors.request.use((config) => {
-  // const token = store.getState().account.user?.token
-  // if (token) {
-  // 	config.headers!.Authorization = `Bearer ${token}`
-  // }
+  const token = store.getState().auth.user?.token;
+  if (token) {
+    config.headers!.Authorization = `Bearer ${token}`;
+  }
   return config;
 });
 
@@ -31,7 +33,6 @@ axios.interceptors.response.use(
       );
       return response;
     }
-    console.log('response', response);
     return response;
   },
   (error: AxiosError) => {
@@ -93,31 +94,35 @@ function createFormData(item: any) {
   return formData;
 }
 
-const Auth = {
+const AuthStore = {
   login: (loginDto: any) => requests.post('account/login', loginDto),
   register: (registerDto: any) =>
     requests.post('account/register', registerDto),
-  currentUser: () => requests.get('account/currentUser'),
+  fetchCurrentUser: () => requests.get('account'),
 };
 
-const Post = {
+const PostStore = {
   createPost: (post: any) => requests.postForm('posts', createFormData(post)),
   // updatePost: (post: any) => requests.putForm("posts", createFormData(post)),
   updatePost: (post: any) => requests.put(`posts/${post.id}`, post),
+  followingPost: (postToFollow: Post) =>
+    requests.post(`posts/${postToFollow.id}/follow`, postToFollow),
   getPost: (postId: string) => requests.get(`posts/${postId}`),
   deletePost: (postId: string) => requests.delete(`posts/${postId}`),
   getAllPosts: (params: URLSearchParams) => requests.get('posts', params),
+  getAllFollowingPosts: (params: URLSearchParams) =>
+    requests.get('posts/following', params),
 };
 
-const Tag = {
-  getTag: (tagId: string) => requests.get(`tags/${tagId}`),
+const TagStore = {
+  getTag: (tagName: string) => requests.get(`tags/${tagName}`),
   getAllTags: () => requests.get('tags'),
 };
 
 const agent = {
-  Auth,
-  Post,
-  Tag,
+  AuthStore,
+  PostStore,
+  TagStore,
 };
 
 export default agent;
