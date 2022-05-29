@@ -14,6 +14,7 @@ namespace API.Controllers
 	public class PostsController : BaseApiController
 	{
 		public IMediator _mediator { get; set; }
+
 		public PostsController(IMediator mediator)
 		{
 			_mediator = mediator;
@@ -28,7 +29,7 @@ namespace API.Controllers
 
 		[AllowAnonymous]
 		[HttpGet("{id}")]
-		public async Task<IActionResult> GetAPost(Guid id)
+		public async Task<IActionResult> GetPost(Guid id)
 		{
 			return HandleResult(await Mediator.Send(new GetPost.Query { Id = id }));
 		}
@@ -64,6 +65,13 @@ namespace API.Controllers
 		public async Task<IActionResult> FollowPost(Guid postId)
 		{
 			return HandleResult(await Mediator.Send(new FollowingPost.Command { PostId = postId }));
+		}
+
+
+		[HttpGet("following")]
+		public async Task<IActionResult> GetFollowingPostList([FromQuery] PostQueryParams param)
+		{
+			return HandleResult(await Mediator.Send(new ListAllFollowingPosts.Query  { PostQueryParams = param }));
 		}
 	}
 }
