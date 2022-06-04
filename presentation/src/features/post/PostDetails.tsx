@@ -1,23 +1,24 @@
-import { MoreVert, FavoriteBorder, Favorite, Share } from '@mui/icons-material';
+import {
+  MoreVert,
+  FavoriteBorder,
+  Favorite,
+  NotificationAdd,
+  Share,
+  Delete,
+} from '@mui/icons-material';
 import {
   Avatar,
-  AvatarGroup,
-  Box,
   Card,
   CardActions,
   CardContent,
   CardHeader,
   CardMedia,
   Checkbox,
-  Divider,
   Grid,
   IconButton,
-  ImageList,
-  ImageListItem,
-  List,
-  ListItem,
-  ListItemAvatar,
-  ListItemText,
+  Menu,
+  MenuItem,
+  Tooltip,
   Typography,
 } from '@mui/material';
 import React, { SyntheticEvent, useEffect, useState } from 'react';
@@ -25,9 +26,20 @@ import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../app/store/storeConfig';
 import PostDetailsSidebar from './PostDetailsSidebar';
-import { fetchPostAsync, postSelectors } from './postSlice';
-import { OnChangeValue } from 'react-select';
+import {
+  fetchPostAsync,
+  followPostAsync,
+  postSelectors,
+  setLastViewPosts,
+  setPost,
+} from './postSlice';
 import moment from 'moment';
+import { dateTimeFormat, isFollowingThisPost } from '../../app/utils/utils';
+import { toast } from 'react-toastify';
+// import SimpleImageSlider from 'react-simple-image-slider/dist/ImageSlider';
+import SimpleImageSlider from 'react-simple-image-slider';
+import { isArray } from 'lodash';
+import PostSettingOptions from './PostSettingOptions';
 
 // Note: Post/Comment section reference: https://codesandbox.io/s/2393m2k5rj?file=/src/index.js
 
@@ -37,20 +49,74 @@ export default function PostDetails() {
   const currentPost = useAppSelector((state) =>
     postSelectors.selectById(state, id)
   );
+  const { user } = useAppSelector((state) => state.auth);
+  const { lastViewPosts } = useAppSelector((state) => state.posts);
+  const [postSetting, setPostSetting] = useState(false);
+
+  const images = currentPost?.photos.map((photo) => {
+    return { url: photo.url };
+  });
 
   useEffect(() => {
-    console.log('currentPost', currentPost);
     if (!currentPost) {
       dispatch(fetchPostAsync(id));
+    }
+
+    if (currentPost) {
+      const { id, title, content, photos } = currentPost;
+      const currentViewedPost = { id, title, content, photos };
+
+      // get current total viewed posts
+      const totalViewedPosts = JSON.parse(
+        window.localStorage.getItem('lastViewedPosts') || '[]'
+      );
+
+      // destructuring current total viewed posts with newly viewed post
+      currentViewedPost &&
+        window.localStorage.setItem(
+          'lastViewedPosts',
+          JSON.stringify([currentViewedPost, ...Array.from(totalViewedPosts)])
+        );
+
+      //
+      let lastViewedPosts = JSON.parse(
+        window.localStorage.getItem('lastViewedPosts')! || '[]'
+      );
+
+      if (Array.isArray(lastViewedPosts) && lastViewedPosts.length > 3)
+        lastViewedPosts = lastViewedPosts.shift();
+
+      lastViewedPosts && dispatch(setLastViewPosts(lastViewedPosts));
     }
   }, [id, dispatch]);
 
   const [photoDetail, setPhotoDetail] = useState(currentPost?.photos[0].url);
   const onChangePhoto = (e: SyntheticEvent, photoIndex: number) => {
-    console.log('click photo');
     setPhotoDetail(currentPost?.photos[photoIndex].url);
   };
 
+  const [isFollowing, setIsFollowing] = useState(
+    isFollowingThisPost(user!, currentPost!)
+  );
+  const handleFollowPost = () => {
+    dispatch(followPostAsync(currentPost!)).then(() => {
+      console.log(isFollowingThisPost(user!, currentPost!));
+      if (isFollowingThisPost(user!, currentPost!)) {
+        setIsFollowing(false);
+        toast.success('unfollowing this post successfully');
+        return;
+      }
+      setIsFollowing(true);
+      toast.info('started following this post');
+    });
+  };
+
+  useEffect(() => {
+    console.log(isFollowing);
+  }, [isFollowing]);
+
+  // Note: Consider using https://www.npmjs.com/package/react-simple-image-viewer
+  // for viewing photo
   return (
     <Grid container columnSpacing={4}>
       <Grid item sm={10} xs={10}>
@@ -58,21 +124,47 @@ export default function PostDetails() {
           <CardHeader
             avatar={
               <Avatar sx={{ bgcolor: 'red' }} aria-label="recipe">
-                R
+                {currentPost?.posterName[0].toUpperCase()}
               </Avatar>
             }
             action={
-              <IconButton aria-label="settings">
-                <MoreVert />
-              </IconButton>
+              <PostSettingOptions />
+              // <IconButton
+              //   aria-label="settings"
+              //   onClick={() => setPostSetting(true)}
+              // >
+              //   <MoreVert />
+              // </IconButton>
             }
             title={currentPost?.title}
-            subheader={
-              moment(currentPost?.createdAt).format()
-              // currentPost?.createdAt ? currentPost?.createdAt : Date.now()
-            }
+            subheader={`posted by ${currentPost?.posterName} | ${dateTimeFormat(
+              currentPost?.createdAt!
+            )}`}
           />
-
+          <Menu
+            id="demo-positioned-menu"
+            aria-labelledby="demo-positioned-button"
+            style={{ top: '30px' }}
+            open={postSetting}
+            onClose={(e) => setPostSetting(false)}
+            anchorOrigin={{
+              vertical: 'center',
+              horizontal: 'center',
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+          >
+            <MenuItem component={Link} to={``}>
+              Edit Post
+            </MenuItem>
+            <MenuItem>
+              <IconButton>
+                <Delete />
+              </IconButton>
+            </MenuItem>
+          </Menu>
           <CardContent>
             <Typography variant="body2" color="text.secondary">
               {currentPost?.content}
@@ -92,25 +184,42 @@ export default function PostDetails() {
               </p>
             </Typography>
           </CardContent>
-
           <CardMedia
-            component="img"
-            height="500px"
-            // height="10%"
-            // image={currentPost?.photos[0].url}
-            image={photoDetail}
-            alt="Paella dish"
-          />
+            component="div"
+            // image={photoDetail}
+            // alt="Paella dish"
+          >
+            <SimpleImageSlider
+              width={896}
+              height={504}
+              // images={currentPost?.photos.map((photo) => photo.url)!}
+              images={isArray(images) ? images : []}
+              showBullets={true}
+              showNavs={true}
+            />
+          </CardMedia>
           <CardActions disableSpacing>
-            <IconButton aria-label="add to favorites">
-              <Checkbox
-                icon={<FavoriteBorder />}
-                checkedIcon={<Favorite sx={{ color: 'red' }} />}
-              />
-            </IconButton>
-            <IconButton aria-label="share">
-              <Share />
-            </IconButton>
+            <Tooltip title="Like">
+              <IconButton aria-label="add to favorites">
+                <Checkbox
+                  icon={<FavoriteBorder />}
+                  checkedIcon={<Favorite sx={{ color: 'red' }} />}
+                />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Share">
+              <IconButton aria-label="share">
+                <Share />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title={isFollowing ? `Unfollowing` : `Following`}>
+              <IconButton
+                onClick={() => handleFollowPost()}
+                aria-label="following"
+              >
+                <NotificationAdd />
+              </IconButton>
+            </Tooltip>
           </CardActions>
         </Card>
       </Grid>

@@ -1,4 +1,5 @@
-import { TextField } from '@mui/material';
+import { SxProps, TextField } from '@mui/material';
+import { Theme } from '@mui/material/styles/experimental_extendTheme';
 import { UseControllerProps, useController } from 'react-hook-form';
 
 interface Props extends UseControllerProps {
@@ -6,6 +7,9 @@ interface Props extends UseControllerProps {
   multiline?: boolean;
   rows?: number;
   type?: string;
+  placeholder?: string;
+  onClick?: () => void;
+  resize?: string;
 }
 
 export default function AppTextInput(props: Props) {
@@ -21,6 +25,7 @@ export default function AppTextInput(props: Props) {
       variant="outlined"
       error={!!fieldState.error}
       helperText={fieldState.error?.message}
+      placeholder={props.placeholder}
     />
   );
 }

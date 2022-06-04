@@ -13,40 +13,50 @@ import {
   ListItem,
   ListItemAvatar,
   ListItemText,
+  Paper,
+  Stack,
   Typography,
 } from '@mui/material';
 import SearchFilters from '../components/SearchFilters';
 import AppDatePicker from '../components/AppDatePicker';
 import AddPost from './AddPost';
 import { useAppDispatch, useAppSelector } from '../store/storeConfig';
-import usePosts from './../hooks/usePosts';
 import { fetchAllTags } from '../../features/tags/tagSlice';
 
 export default function Rightbar() {
-  const { postQueryParams } = useAppSelector((state) => state.posts);
   const dispatch = useAppDispatch();
-  const {} = usePosts();
+  const { user } = useAppSelector((state) => state.auth);
+  // const { postQueryParams } = useAppSelector((state) => state.posts);
 
   const [tags, setTags] = useState<Tag[]>([]);
   useEffect(() => {
     dispatch(fetchAllTags())
       .unwrap()
-      .then((data) => {
+      .then((data: Tag[]) => {
         setTags(data);
       })
-      .catch((err: any) => console.error('fetch tags failed', err));
+      .catch((err: any) => console.error(err));
   }, [dispatch]);
 
   return (
     <Box flex={2} p={2} sx={{ display: { xs: 'none', sm: 'block' } }}>
-      <Box position="fixed" width={300}>
+      <Box
+        // position="fixed"
+        width={300}
+      >
         <Typography variant="h6">Tags</Typography>
-        <List
-          sx={{ width: '100%', maxWidth: 300, bgcolor: 'background.paper' }}
-        >
-          <ListItem>
+        <Paper style={{ maxWidth: 300 }} sx={{ mb: 2, p: 2 }}>
+          <Stack
+            divider={<Divider orientation="vertical" flexItem />}
+            // maxWidth={200}
+            style={{ width: '100%' }}
+            direction="row"
+            spacing={1}
+          >
             {tags.map((aTag) => (
               <Chip
+                href="#"
+                aria-label="clickable"
                 title={`Click to view ${aTag.tagName}'s posts`}
                 key={aTag.id}
                 component={Link}
@@ -54,16 +64,14 @@ export default function Rightbar() {
                 label={aTag.tagName}
               />
             ))}
-          </ListItem>
-        </List>
-
+          </Stack>
+        </Paper>
+        <br />
         <Typography variant="h6">Filters Search</Typography>
-        <SearchFilters tags={tags!} />
-
+        <SearchFilters />
         <Typography variant="h6">Timestamp Search</Typography>
         <AppDatePicker />
-
-        <AddPost />
+        {user?.token && <AddPost />}
       </Box>
     </Box>
   );

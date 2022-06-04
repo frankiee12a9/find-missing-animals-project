@@ -6,7 +6,7 @@ export interface propsType {
 }
 
 export default function MapLandingPage() {
-  const [Value, setValue] = useState('');
+  const [value, setValue] = useState('');
   const [Keyword, setKeyword] = useState('');
   const keywordChange = (e: {
     preventDefault: () => void;
@@ -18,12 +18,12 @@ export default function MapLandingPage() {
 
   const submitKeyword = (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    setKeyword(Value);
+    setKeyword(value);
   };
 
   const valueChecker = () => {
-    if (Value === '') {
-      alert('ê²€ìƒ‰ì–´ë¥¼ ìž…ë ¥í•´ì£¼ì„¸ìš”.');
+    if (value === '') {
+      alert('°Ë»ö¾î¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä.');
     }
   };
 
@@ -39,21 +39,20 @@ export default function MapLandingPage() {
                 className="form__input"
                 name="place"
                 onChange={keywordChange}
-                placeholder="ê²€ìƒ‰ì–´ë¥¼ ìž…ë ¥í•´ì£¼ì„¸ìš”. (ex: ë…¸ì›êµ¬ ê´‘ìš´ë¡œ)"
+                placeholder="°Ë»ö¾î¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä. (ex: ³ë¿ø±¸ ±¤¿î·Î)"
                 required
               />
               <div className="btn-box">
                 <input
                   className="btn form__submit"
                   type="submit"
-                  value="ê²€ìƒ‰"
+                  value="°Ë»ö"
                   onClick={valueChecker}
                 />
               </div>
             </label>
           </form>
         </div>
-        {/* ì œì¶œí•œ ê²€ìƒ‰ì–´ ë„˜ê¸°ê¸° */}
         <Map searchKeyword={Keyword} />
       </div>
     </div>

@@ -10,13 +10,15 @@ import {
   CreatePostDto,
   UpdatePostDto,
   PostQueryParams,
+  LastViewedPost,
 } from '../../app/models/post';
 import { RootState } from '../../app/store/storeConfig';
 import { Pagination } from './../../app/models/pagination';
 
-// TODO:
 interface PostState {
-  post: Post | null;
+  currentPost: Post | null;
+  lastViewPost: LastViewedPost | null;
+  lastViewPosts: LastViewedPost[] | [];
   status: string;
   loadingPosts: boolean;
   loadingTags: boolean;
@@ -24,14 +26,6 @@ interface PostState {
   postQueryParams: PostQueryParams | null;
   pagination: Pagination | null;
 }
-
-// const initialState = {
-//   post: null,
-//   status: 'idle',
-//   loadingPosts: false,
-// } as PostState;
-
-// TODO: read more about createEntityAdapter
 
 const postsAdapter = createEntityAdapter<Post>({
   selectId: (aPost) => aPost.id,
@@ -45,9 +39,18 @@ const getAxiosParams = (postQueryParams: PostQueryParams) => {
   params.append('pageSize', postQueryParams.pageSize.toString());
   params.append('orderBy', postQueryParams.orderBy);
 
-  if (postQueryParams.searchText)
+  postQueryParams.follower &&
+    params.append('follower', postQueryParams.follower);
+
+  postQueryParams.fromDate &&
+    params.append('fromDate', postQueryParams.fromDate);
+
+  postQueryParams.toDate && params.append('toDate', postQueryParams.toDate);
+
+  postQueryParams.searchText &&
     params.append('searchText', postQueryParams.searchText);
-  if (postQueryParams.tags.length > 0)
+
+  postQueryParams.tags.length > 0 &&
     params.append('tags', postQueryParams.tags.toString());
 
   return params;
@@ -59,12 +62,26 @@ export const fetchAllPostsAsync = createAsyncThunk<
   { state: RootState }
 >('post/fetchAllPostsAsync', async (_, thunkAPI) => {
   const params = getAxiosParams(thunkAPI.getState().posts.postQueryParams!);
-  console.log('params', params.toString()); //  Note: use .toString() or .JSON.stringify() to check type of object
   try {
-    const result = await agent.Post.getAllPosts(params);
-    thunkAPI.dispatch(setMetaData(result.pagination));
-    console.log('result.items', result.items);
+    const result = await agent.PostStore.getAllPosts(params);
+    thunkAPI.dispatch(setPagination(result.pagination));
     return result.items;
+  } catch (err: any) {
+    return thunkAPI.rejectWithValue({ error: err.data });
+  }
+});
+
+export const fetchFollowingPostsAsync = createAsyncThunk<
+  Post[],
+  void,
+  { state: RootState }
+>('post/fetchAllFollowingPostsAsync', async (_, thunkAPI) => {
+  const params = getAxiosParams(thunkAPI.getState().posts.postQueryParams!);
+  try {
+    const result = await agent.PostStore.getAllFollowingPosts(params);
+    thunkAPI.dispatch(setPagination(result.pagination));
+    console.log(result);
+    return result;
   } catch (err: any) {
     return thunkAPI.rejectWithValue({ error: err.data });
   }
@@ -74,7 +91,7 @@ export const fetchPostAsync = createAsyncThunk(
   'post/fetchPostAsync',
   async (postId: string, thunkAPI) => {
     try {
-      const result = await agent.Post.getPost(postId);
+      const result = await agent.PostStore.getPost(postId);
       return result;
     } catch (err: any) {
       return thunkAPI.rejectWithValue({ error: err.data });
@@ -86,7 +103,8 @@ export const createPostAsync = createAsyncThunk(
   'post/createPostAsync',
   async (createPostDto: CreatePostDto, thunkAPI) => {
     try {
-      return await agent.Post.createPost(createPostDto);
+      await agent.PostStore.createPost(createPostDto);
+      const newPost = new CreatePostDto(createPostDto);
     } catch (err: any) {
       return thunkAPI.rejectWithValue({ error: err.data });
     }
@@ -97,7 +115,21 @@ export const updatePostAsync = createAsyncThunk(
   'post/updatePostAsync',
   async (updatePostDto: UpdatePostDto, thunkAPI) => {
     try {
-      return await agent.Post.updatePost(updatePostDto);
+      return await agent.PostStore.updatePost(updatePostDto);
+    } catch (err: any) {
+      return thunkAPI.rejectWithValue({ error: err.data });
+    }
+  }
+);
+
+export const followPostAsync = createAsyncThunk(
+  'post/followPostAsync',
+  async (postToFollow: Post, thunkAPI) => {
+    try {
+      const result = await agent.PostStore.followingPost(postToFollow);
+      console.log('result', result);
+      thunkAPI.dispatch(setPost(result));
+      return result;
     } catch (err: any) {
       return thunkAPI.rejectWithValue({ error: err.data });
     }
@@ -108,25 +140,27 @@ export const deletePostAsync = createAsyncThunk(
   'post/deletePostAsync',
   async (postId: string, thunkAPI) => {
     try {
-      return await agent.Post.deletePost(postId);
+      return await agent.PostStore.deletePost(postId);
     } catch (err: any) {
       return thunkAPI.rejectWithValue({ error: err.data });
     }
   }
 );
 
-const pagingInitParams = () => {
+const initParams = () => {
   return {
     pageNumber: 1,
-    pageSize: 6,
-    orderBy: 'name',
+    pageSize: 10,
+    orderBy: 'title',
+    fromDate: '',
+    toDate: '',
     isPoster: false,
     searchText: '',
+    follower: '',
     roadLocation: '',
     detailedLocation: '',
     location: '',
     tags: [],
-    // Note: ??
     tag1: '',
     tag2: '',
     tag3: '',
@@ -138,16 +172,18 @@ const pagingInitParams = () => {
 export const postSlice = createSlice({
   name: 'posts',
   initialState: postsAdapter.getInitialState<PostState>({
-    post: null,
+    currentPost: null,
+    lastViewPost: null,
+    lastViewPosts: [],
     loadingPosts: false,
     loadingTags: false,
     tags: [],
     status: 'idle',
-    postQueryParams: pagingInitParams(),
+    postQueryParams: initParams(),
     pagination: null,
   }),
   reducers: {
-    setPostParams: (state, action) => {
+    setPostParams: (state: any, action: any) => {
       state.loadingPosts = false;
       state.postQueryParams = {
         ...state.postQueryParams,
@@ -156,41 +192,50 @@ export const postSlice = createSlice({
       };
       console.log('postParams', state.postQueryParams);
     },
-    setPageNumber: (state, action) => {
+    setPageNumber: (state: any, action: any) => {
       state.loadingPosts = false;
+      console.log('action.payload', action.payload);
       state.postQueryParams = { ...state.postQueryParams, ...action.payload };
     },
-    setMetaData: (state, action) => {
+    setPagination: (state: any, action: any) => {
       state.pagination = action.payload;
     },
-    setPost: (state, action) => {
+    setPost: (state: any, action: any) => {
       postsAdapter.upsertOne(state, action.payload);
       state.loadingPosts = false;
     },
-    resetPostParams: (state, action) => {
-      state.postQueryParams = pagingInitParams();
+    setLastViewedPost: (state: PostState, action: any) => {
+      state.lastViewPost = { ...action.payload };
+      console.log('lastViewedPost', state.lastViewPost);
     },
-    removePost: (state, action) => {
+    setLastViewPosts: (state: any, action: any) => {
+      console.log(action.payload);
+      state.lastViewedPosts = { ...action.payload };
+      console.log(state.lastViewedPosts);
+    },
+    resetPostParams: (state: any, action: any) => {
+      state.postQueryParams = initParams();
+    },
+    removePost: (state: any, action: any) => {
       postsAdapter.removeOne(state, action.payload);
       state.loadingPosts = false;
     },
   },
   extraReducers: (builder) => {
     builder.addCase(createPostAsync.pending, (state, action) => {
-      state.status = 'pendingCreatePost' + action.meta.arg.post;
+      state.status = 'pendingCreatePost' + action.meta.arg.content;
     });
     builder.addCase(createPostAsync.rejected, (state, action) => {
       // TODO:
     });
-    builder.addCase(createPostAsync.fulfilled, (state, action) => {
-      // TODO:
-      state.post = action.payload;
-    });
+    // builder.addCase(createPostAsync.fulfilled, (state, action) => {
+    //   // TODO:
+    //   // state.currentPost = action.payload;
+    // });
     // builder.addCase(deletePostAsync.pending, (state, action) => {
     //     state.status = "pendingRemovePost" + action.meta.arg
     // })
     // builder.addCase(deletePostAsync.fulfilled, (state, action) => {
-    //     // hande fulfilled case
     // })
     builder.addCase(fetchPostAsync.pending, (state, action) => {
       state.status = 'pendingFetchPostAsync';
@@ -215,6 +260,29 @@ export const postSlice = createSlice({
       console.log(action);
       state.status = 'idle';
     });
+    builder.addCase(fetchFollowingPostsAsync.pending, (state, action) => {
+      state.status = 'pendingFetchAllFollowingPostsAsync';
+    });
+    builder.addCase(fetchFollowingPostsAsync.fulfilled, (state, action) => {
+      console.log('action.payload', action.payload);
+      postsAdapter.setAll(state, action.payload);
+      state.status = 'idle';
+      state.loadingPosts = true;
+    });
+    builder.addCase(fetchFollowingPostsAsync.rejected, (state, action) => {
+      console.log(action);
+      state.status = 'idle';
+    });
+    builder.addCase(followPostAsync.pending, (state, action) => {
+      state.status = 'followingPostsAsync';
+    });
+    builder.addCase(followPostAsync.fulfilled, (state, action) => {
+      console.log('action.payload', action.payload);
+      state.status = 'idle';
+    });
+    builder.addCase(followPostAsync.rejected, (state, action) => {
+      state.status = 'idle';
+    });
   },
 });
 
@@ -225,8 +293,10 @@ export const postSelectors = postsAdapter.getSelectors(
 export const {
   setPostParams,
   setPageNumber,
-  setMetaData,
+  setPagination,
   setPost,
+  setLastViewedPost,
+  setLastViewPosts,
   resetPostParams,
   removePost,
 } = postSlice.actions;

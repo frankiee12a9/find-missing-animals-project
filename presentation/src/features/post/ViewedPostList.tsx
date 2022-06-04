@@ -1,3 +1,12 @@
+import { Timeline } from '@mui/icons-material';
+import {
+  TimelineItem,
+  TimelineOppositeContent,
+  TimelineSeparator,
+  TimelineDot,
+  TimelineConnector,
+  TimelineContent,
+} from '@mui/lab';
 import {
   ListItem,
   ListItemAvatar,
@@ -17,44 +26,58 @@ interface Props {
 export default function ViewedPostList({ viewedPosts }: Props) {
   return (
     <>
-      {viewedPosts.map((aViewedPost: LastViewedPost, idx) => {
-        if (idx >= 5) return;
-        return (
-          <>
-            <ListItem
-              component={Link}
-              to={`/posts/${aViewedPost.id}`}
-              alignItems="flex-start"
-            >
-              <ListItemAvatar>
-                <Avatar
-                  alt="Remy Sharp"
-                  src={`${aViewedPost.photos?.[0].url}`}
-                />
-              </ListItemAvatar>
-              <ListItemText
-                primary={aViewedPost.title}
-                secondary={
-                  <>
-                    <Typography
-                      sx={{ display: 'inline' }}
-                      component="span"
-                      variant="body2"
-                      color="text.primary"
-                    >
-                      {/* Ali Connors */}
-                    </Typography>
-                    {aViewedPost.content.length > 50
-                      ? `${aViewedPost.content.substring(0, 50)}...`
-                      : aViewedPost.content}
-                  </>
-                }
-              />
-            </ListItem>
-            <Divider variant="inset" component="li" />
-          </>
-        );
-      })}
+      {/* <Timeline position="alternate">
+        <TimelineItem>
+          <TimelineOppositeContent color="text.secondary">
+            09:30 am
+          </TimelineOppositeContent>
+          <TimelineSeparator>
+            <TimelineDot />
+            <TimelineConnector />
+          </TimelineSeparator>
+          <TimelineContent>Eat</TimelineContent>
+        </TimelineItem>
+      </Timeline> */}
+      <TimelineItem>
+        {viewedPosts.map((aViewedPost: LastViewedPost, idx) => {
+          if (idx >= 5) return;
+          return (
+            <TimelineItem>
+              <div key={aViewedPost.id}>
+                <ListItem
+                  component={Link}
+                  to={`/posts/${aViewedPost.id}`}
+                  alignItems="flex-start"
+                >
+                  <ListItemAvatar>
+                    <Avatar
+                      alt="Remy Sharp"
+                      src={`${aViewedPost.photos?.[0].url}`}
+                    />
+                  </ListItemAvatar>
+                  <ListItemText
+                    primary={aViewedPost.title}
+                    secondary={
+                      <>
+                        <Typography
+                          sx={{ display: 'inline' }}
+                          component="span"
+                          variant="body2"
+                          color="text.primary"
+                        ></Typography>
+                        {aViewedPost.content.length > 50
+                          ? `${aViewedPost.content.substring(0, 50)}...`
+                          : aViewedPost.content}
+                      </>
+                    }
+                  />
+                </ListItem>
+                <Divider variant="inset" component="li" />
+              </div>
+            </TimelineItem>
+          );
+        })}
+      </TimelineItem>
     </>
   );
 }

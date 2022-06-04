@@ -75,9 +75,15 @@ const requests = {
   postForm: (url: string, data: FormData) =>
     axios
       .post(url, data, {
-        headers: { 'Content-type': 'multipart/form-data' },
+        headers: {
+          'Content-type': `multipart/form-data`,
+        },
       })
-      .then(responseBody),
+      .then((responseBody) => {
+        console.log('responseBody', responseBody);
+        // return responseBody;
+      })
+      .catch((err: any) => console.error(err)),
   putForm: (url: string, data: FormData) =>
     axios
       .put(url, data, {
@@ -87,10 +93,14 @@ const requests = {
 };
 
 function createFormData(item: any) {
+  console.log('item', item);
   let formData = new FormData();
-  for (const key in item) {
+
+  Object.keys(item).forEach((key) => {
+    console.log(key, item[key]);
     formData.append(key, item[key]);
-  }
+  });
+  console.log('formData', JSON.stringify(formData));
   return formData;
 }
 
@@ -103,6 +113,7 @@ const AuthStore = {
 
 const PostStore = {
   createPost: (post: any) => requests.postForm('posts', createFormData(post)),
+  // createPost: (post: any) => requests.postForm('posts', post),
   // updatePost: (post: any) => requests.putForm("posts", createFormData(post)),
   updatePost: (post: any) => requests.put(`posts/${post.id}`, post),
   followingPost: (postToFollow: Post) =>

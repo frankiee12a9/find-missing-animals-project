@@ -1,20 +1,26 @@
-import React, { Component, useState } from 'react';
+import React, { Component, useEffect, useState } from 'react';
 import CreatableSelect from 'react-select/creatable';
 import { ActionMeta, OnChangeValue } from 'react-select';
 import { ColourOption, colourOptions } from '../utils/fake-data';
 import { useAppDispatch } from '../store/storeConfig';
 import { Tag } from '../models/tag';
 import { setPostParams } from '../../features/post/postSlice';
+import { useAppSelector } from './../store/storeConfig';
+import { fetchAllTags } from '../../features/tags/tagSlice';
+import useTags from '../hooks/useTags';
+import {
+  Control,
+  FieldValues,
+  useController,
+  UseControllerProps,
+} from 'react-hook-form';
+import { FormControl, FormHelperText } from '@mui/material';
 
-interface Props {
-  tags: Tag[];
-}
-
-export interface tagFilter {
-  readonly id: string;
-  readonly tagName: string;
-  readonly isFixed?: boolean;
-  readonly isDisabled?: boolean;
+export interface TagOption {
+  value: string;
+  label: string;
+  isFixed?: boolean;
+  isDisabled?: boolean;
 }
 
 export const _colourOptions: readonly ColourOption[] = [
@@ -30,35 +36,45 @@ export const _colourOptions: readonly ColourOption[] = [
   { value: 'silver', label: 'Silver', color: '#666666' },
 ];
 
-export default function AppSelectInput({ tags }: Props) {
-  // const [tags, setTags] = useState<Tag[]>([]);
+interface Props extends UseControllerProps {
+  // handleGetPostLocation: (postLocationData: string) => void;
+  control?: Control<FieldValues, any>;
+}
 
+export default function AppSelectInput(props: Props) {
   const dispatch = useAppDispatch();
-  // const handleChange = (
-  //   newValue: OnChangeValue<ColourOption, true>,
-  //   actionMeta: ActionMeta<ColourOption>
-  // ) => {
-  //   console.log(newValue);
-  //   // console.log(`action: ${actionMeta.action}`);
-  //   dispatch(setPostParams({ tags: newValue }));
-  //   console.groupEnd();
-  // };
+  const { fieldState, field } = useController({ ...props, defaultValue: '' });
+  const { tags } = useAppSelector((state) => state.tags);
+  const { options } = useTags();
+
+  useEffect(() => {
+    // console.log(tags);
+    // console.log(customTagOptions);
+    // console.log(options);
+  }, [dispatch, tags]);
 
   const handleChange = (
-    newValue: OnChangeValue<Tag, true>,
-    ActionMeta: ActionMeta<Tag>
+    newValue: OnChangeValue<TagOption, true>,
+    actionMeta: ActionMeta<TagOption>
   ) => {
     console.log(newValue);
-    const tagNames = newValue.filter((value) => value.tagName);
-    dispatch(setPostParams({ tags: tagNames }));
+    console.log(`action: ${actionMeta.action}`);
+    field.onChange(newValue);
   };
 
   return (
-    <CreatableSelect
-      isMulti
-      onChange={handleChange}
-      // options={tags.map((tag) => tag.tagName)}
-      options={tags}
-    />
+    <FormControl
+      // style={{ padding: '10px' }}
+      fullWidth
+      error={!!fieldState.error}
+    >
+      <CreatableSelect
+        name={props.name}
+        isMulti
+        onChange={handleChange}
+        options={options}
+      ></CreatableSelect>
+      <FormHelperText>{fieldState.error?.message}</FormHelperText>
+    </FormControl>
   );
 }

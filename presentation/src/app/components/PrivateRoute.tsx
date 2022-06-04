@@ -1,7 +1,23 @@
-import React from 'react'
+import { useAppSelector } from 'app/store/storeConfig';
+import { ComponentType } from 'react';
+import { Redirect, Route, RouteComponentProps, RouteProps } from 'react-router';
+import { toast } from 'react-toastify';
 
-export default function PrivateRoute() {
+interface Props extends RouteProps {
+  component:
+    | React.ComponentType<RouteComponentProps<any>>
+    | React.ComponentType<any>;
+}
+
+export default function AuthRoute({ component: Component, ...rest }: Props) {
+  const { user } = useAppSelector((state) => state.auth);
+
   return (
-    <div>PrivateRoute</div>
-  )
+    <Route
+      {...rest}
+      render={(props) =>
+        user?.token ? <Component {...props} /> : <Redirect to="/login" />
+      }
+    />
+  );
 }

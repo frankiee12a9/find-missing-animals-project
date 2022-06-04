@@ -1,25 +1,28 @@
 import agent from '../../app/api/agent';
 import { RootState } from '../../app/store/storeConfig';
 import { createAsyncThunk, createSlice, isAnyOf } from '@reduxjs/toolkit';
-import { TagDto, Tag } from '../../app/models/tag';
+import { TagDto } from '../../app/models/tag';
 
 interface TagState {
-  tagDto: TagDto | null;
-  tagDtos: TagDto[] | [];
+  tag: TagDto | null;
+  tags: TagDto[] | [];
+  loadingTagDetails: boolean;
+  loadingTags: boolean;
   status: string;
 }
 
 const initialState = {
-  tagDto: null,
-  tagDtos: [],
+  tag: null,
+  tags: [],
   status: 'idle',
+  loadingTags: false,
 } as TagState;
 
-export const fetchTagById = createAsyncThunk(
-  'tag/fetchTagByIdStatus',
-  async (tagId: string, thunkAPI) => {
+export const fetchTagByName = createAsyncThunk(
+  'tag/fetchTagByNameStatus',
+  async (tagName: string, thunkAPI) => {
     try {
-      const result = await agent.Tag.getTag(tagId);
+      const result = await agent.TagStore.getTag(tagName);
       return result;
     } catch (err: any) {
       return thunkAPI.rejectWithValue({ error: err.data });
@@ -31,7 +34,7 @@ export const fetchAllTags = createAsyncThunk(
   'tag/fetchAllTagsStatus',
   async (_, thunkAPI) => {
     try {
-      const result = await agent.Tag.getAllTags();
+      const result = await agent.TagStore.getAllTags();
       return result;
     } catch (err: any) {
       return thunkAPI.rejectWithValue({ error: err.data });
@@ -42,22 +45,32 @@ export const fetchAllTags = createAsyncThunk(
 export const tagSlice = createSlice({
   name: 'tags',
   initialState,
-  reducers: {
-    // significant reducers
-  },
+  reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(fetchTagById.pending, (state, action) => {
+    builder.addCase(fetchTagByName.pending, (state, action) => {
       state.status = 'pendingFetchTag' + action.meta;
     });
-    builder.addCase(fetchTagById.fulfilled, (state, action) => {
-      state.tagDto = action.payload;
+    builder.addCase(fetchTagByName.fulfilled, (state, action) => {
+      state.tag = { ...action.payload };
+      console.log(state.tag);
+      state.loadingTagDetails = true;
+      state.status = 'idle';
     });
-    builder.addCase(fetchTagById.rejected, (state, action) => {
+    builder.addCase(fetchTagByName.rejected, (state, action) => {
       console.log(action.payload);
       state.status = 'idle';
     });
-
-    // fetchAllTags builders
+    builder.addCase(fetchAllTags.pending, (state, action) => {
+      state.status = 'pendingFetchAllTagsStatus' + action.meta;
+    });
+    builder.addCase(fetchAllTags.fulfilled, (state, action) => {
+      state.tags = { ...action.payload };
+      state.loadingTags = true;
+      state.status = 'idle';
+    });
+    builder.addCase(fetchAllTags.rejected, (state, action) => {
+      state.status = 'idle';
+    });
   },
 });
 

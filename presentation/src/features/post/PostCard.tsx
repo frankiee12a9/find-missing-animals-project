@@ -12,9 +12,12 @@ import {
   IconButton,
   Typography,
 } from '@mui/material';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import SimpleImageSlider from 'react-simple-image-slider';
 import { Post } from '../../app/models/post';
 import { useAppSelector } from '../../app/store/storeConfig';
 import { NavLink, Link } from 'react-router-dom';
+import { dateTimeFormat } from '../../app/utils/utils';
 
 interface Props {
   img: string;
@@ -23,9 +26,25 @@ interface Props {
 }
 
 export default function PostCard({ img, title, post }: Props) {
-  let today = new Date();
-  let date =
-    today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+  const handleSliceContent = (post: Post) => {
+    let postContent = '';
+    if (post.content.length > 100) {
+      postContent = post.content.substring(0, 90);
+    }
+    return postContent !== '' ? postContent : post.content;
+  };
+
+  const handleSliceTitle = (post: Post) => {
+    let postTitle = '';
+    if (post.title.length > 30) {
+      postTitle = post.title.substring(0, 30);
+    }
+    return postTitle !== '' ? postTitle : post.title;
+  };
+
+  const images = post?.photos.map((photo) => {
+    return { url: photo.url };
+  });
 
   return (
     <Card sx={{ margin: 2 }}>
@@ -42,21 +61,25 @@ export default function PostCard({ img, title, post }: Props) {
             </IconButton>
           }
           title={post.posterName ? post.posterName : 'Unknown'}
-          // subheader={post.createdAt}
-          subheader={date}
+          subheader={`${dateTimeFormat(post.createdAt)}`}
         />
-        <CardMedia
-          component="img"
-          height="20%"
-          image={post?.photos.length > 0 ? post.photos[0].url : img}
-          alt="Paella dish"
-        />
-        <CardContent>
+        <CardMedia component="div">
+          <SimpleImageSlider
+            width={400}
+            height={500}
+            images={images!}
+            showBullets={true}
+            showNavs={false}
+          />
+        </CardMedia>
+        <CardContent style={{ height: '160px' }}>
           <CardContent component={NavLink} to={`/posts/${post.id}`}>
             <Typography gutterBottom variant="h5">
-              {post.title}
+              {handleSliceTitle(post)}
             </Typography>
-            <Typography variant="body2">{post.content}</Typography>
+            <Typography variant="body2">
+              {handleSliceContent(post)}...
+            </Typography>
           </CardContent>
         </CardContent>
         <CardActions disableSpacing>

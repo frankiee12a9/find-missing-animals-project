@@ -17,10 +17,9 @@ export const loginUser = createAsyncThunk<User, FieldValues>(
   'auth/loginUser',
   async (data, thunkAPI) => {
     try {
-      const userDto = await agent.Auth.login(data);
-      if (userDto.token) {
-        localStorage.setItem('userToken', JSON.stringify(userDto.token));
-      }
+      const userDto = await agent.AuthStore.login(data);
+      userDto.token &&
+        window.localStorage.setItem('currentUser', JSON.stringify(userDto));
       return userDto;
     } catch (err: any) {
       return thunkAPI.rejectWithValue({ error: err.data });
@@ -32,19 +31,20 @@ export const fetchCurrentUser = createAsyncThunk<User>(
   'auth/fetchCurrentUser',
   async (_, thunkAPI) => {
     thunkAPI.dispatch(
-      setUser(JSON.stringify(localStorage.getItem('userToken')))
+      setUser(JSON.parse(localStorage.getItem('currentUser')!))
     );
     try {
-      const userDto = await agent.Auth.currentUser();
-      localStorage.setItem('userToken', JSON.stringify(userDto));
-      return userDto;
+      const userDto = await agent.AuthStore.fetchCurrentUser();
+      const { ...user } = userDto;
+      window.localStorage.setItem('currentUser', JSON.stringify(user));
+      return user;
     } catch (err: any) {
       return thunkAPI.rejectWithValue({ error: err.data });
     }
   },
   {
     condition: () => {
-      if (!localStorage.getItem('userToken')) return false;
+      if (!localStorage.getItem('currentUser')) return false;
     },
   }
 );
@@ -53,20 +53,21 @@ export const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    logout: (state) => {
+    logout: (state: any) => {
       state.user = null;
-      localStorage.removeItem('userToken');
+      window.localStorage.removeItem('currentUser');
+      const lastViewedPosts = window.localStorage.getItem('lastViewedPosts');
+      lastViewedPosts && window.localStorage.removeItem('lastViewedPosts');
       history.push('/');
     },
-    setUser: (state, action) => {
-      // consider implementing this
+    setUser: (state: any, action: any) => {
       state.user = { ...action.payload };
     },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchCurrentUser.rejected, (state) => {
       state.user = null;
-      localStorage.removeItem('userToken');
+      window.localStorage.removeItem('currentUser');
       toast.error('Your session has expired! Please login again to use app');
       history.push('/');
     });

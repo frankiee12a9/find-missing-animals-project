@@ -1,3 +1,4 @@
+import usePosts from 'app/hooks/usePosts';
 import React, { useEffect } from 'react';
 import { propsType } from './MapLandingPage';
 
@@ -12,86 +13,129 @@ interface placeType {
 const { kakao } = window as any;
 
 export default function Map(props: propsType) {
-  // ë§ˆì»¤ë¥¼ ë‹´ëŠ” ë°°ì—´
+  // ¸¶Ä¿¸¦ ´ã´Â ¹è¿­
   let markers: any[] = [];
+  const { posts } = usePosts();
+
+  console.log(posts);
+
+  type Location = {
+    placePosition: string;
+    address_name: string;
+    road_address_name: string;
+  };
 
   useEffect(() => {
     const mapContainer = document.getElementById('map');
-    console.log('map', kakao);
     const mapOption = {
-      center: new kakao.maps.LatLng(37.566826, 126.9786567), // ì§€ë„ì˜ ì¤‘ì‹¬ì¢Œí‘œ
-      level: 3, // ì§€ë„ì˜ í™•ëŒ€ ë ˆë²¨
+      center: new kakao.maps.LatLng(37.566826, 126.9786567), // current coordinate
+      level: 3, // ÁöµµÀÇ È®´ë ·¹º§
     };
 
-    // ì§€ë„ë¥¼ ìƒì„±í•©ë‹ˆë‹¤
+    // map init
     const map = new kakao.maps.Map(mapContainer, mapOption);
 
-    // ì¥ì†Œ ê²€ìƒ‰ ê°ì²´ë¥¼ ìƒì„±í•©ë‹ˆë‹¤
+    // location search init
     const ps = new kakao.maps.services.Places();
 
-    // ê²€ìƒ‰ ê²°ê³¼ ëª©ë¡ì´ë‚˜ ë§ˆì»¤ë¥¼ í´ë¦­í–ˆì„ ë•Œ ì¥ì†Œëª…ì„ í‘œì¶œí•  ì¸í¬ìœˆë„ìš°ë¥¼ ìƒì„±í•©ë‹ˆë‹¤
+    // °Ë»ö °á°ú ¸ñ·ÏÀÌ³ª ¸¶Ä¿¸¦ Å¬¸¯ÇßÀ» ¶§ Àå¼Ò¸íÀ» Ç¥ÃâÇÒ ÀÎÆ÷À©µµ¿ì¸¦ »ı¼ºÇÕ´Ï´Ù
     const infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });
 
-    // í‚¤ì›Œë“œë¡œ ì¥ì†Œë¥¼ ê²€ìƒ‰í•©ë‹ˆë‹¤
+    // Å°¿öµå·Î Àå¼Ò¸¦ °Ë»öÇÕ´Ï´Ù
     searchPlaces();
 
-    // í‚¤ì›Œë“œ ê²€ìƒ‰ì„ ìš”ì²­í•˜ëŠ” í•¨ìˆ˜ì…ë‹ˆë‹¤
+    // Å°¿öµå °Ë»öÀ» ¿äÃ»ÇÏ´Â ÇÔ¼öÀÔ´Ï´Ù
     function searchPlaces() {
       let keyword = props.searchKeyword;
-
       if (!keyword.replace(/^\s+|\s+$/g, '')) {
-        console.log('í‚¤ì›Œë“œë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”!');
+        // console.log('?‚¤?›Œ?“œë¥? ?…? ¥?•´ì£¼ì„¸?š”!');
         return false;
       }
 
-      // ì¥ì†Œê²€ìƒ‰ ê°ì²´ë¥¼ í†µí•´ í‚¤ì›Œë“œë¡œ ì¥ì†Œê²€ìƒ‰ì„ ìš”ì²­í•©ë‹ˆë‹¤
+      // Àå¼Ò°Ë»ö °´Ã¼¸¦ ÅëÇØ Å°¿öµå·Î Àå¼Ò°Ë»öÀ» ¿äÃ»ÇÕ´Ï´Ù
       ps.keywordSearch(keyword, placesSearchCB);
     }
 
-    // ì¥ì†Œê²€ìƒ‰ì´ ì™„ë£Œëì„ ë•Œ í˜¸ì¶œë˜ëŠ” ì½œë°±í•¨ìˆ˜ ì…ë‹ˆë‹¤
+    function isPetExists(currentLocation: Location) {
+      const targetLocations = posts?.map(
+        (aPost) => aPost.postLocation.location
+      );
+      const targetRoadLocations = posts?.map(
+        (aPost) => aPost.postLocation.roadLocation
+      );
+      const targetExtraLocations = posts?.map(
+        (aPost) => aPost.postLocation.extraLocation
+      );
+
+      console.log('currentLocation', currentLocation);
+      const isLocationMatch = targetLocations.includes(
+        currentLocation.address_name
+      );
+      const isRoadLocationMatch = targetRoadLocations.includes(
+        currentLocation.road_address_name
+      );
+      // const isExtraLocationMatch =
+      //   targetExtraLocations.includes(currentLocation.);
+
+      if (isLocationMatch || isRoadLocationMatch) return true;
+
+      return false;
+    }
+
+    // Àå¼Ò°Ë»öÀÌ ¿Ï·áµÆÀ» ¶§ È£ÃâµÇ´Â Äİ¹éÇÔ¼ö ÀÔ´Ï´Ù
     function placesSearchCB(data: any, status: any, pagination: any) {
       if (status === kakao.maps.services.Status.OK) {
-        // ì •ìƒì ìœ¼ë¡œ ê²€ìƒ‰ì´ ì™„ë£Œëìœ¼ë©´
-        // ê²€ìƒ‰ ëª©ë¡ê³¼ ë§ˆì»¤ë¥¼ í‘œì¶œí•©ë‹ˆë‹¤
+        // Á¤»óÀûÀ¸·Î °Ë»öÀÌ ¿Ï·áµÆÀ¸¸é
+        // °Ë»ö ¸ñ·Ï°ú ¸¶Ä¿¸¦ Ç¥ÃâÇÕ´Ï´Ù
         displayPlaces(data);
 
-        // í˜ì´ì§€ ë²ˆí˜¸ë¥¼ í‘œì¶œí•©ë‹ˆë‹¤
+        // paging number
         displayPagination(pagination);
       } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
-        alert('ê²€ìƒ‰ ê²°ê³¼ê°€ ì¡´ì¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.');
+        alert('°Ë»ö °á°ú°¡ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù.');
         return;
       } else if (status === kakao.maps.services.Status.ERROR) {
-        alert('ê²€ìƒ‰ ê²°ê³¼ ì¤‘ ì˜¤ë¥˜ê°€ ë°œìƒí–ˆìŠµë‹ˆë‹¤.');
+        alert('°Ë»ö °á°ú Áß ¿À·ù°¡ ¹ß»ıÇß½À´Ï´Ù.');
         return;
       }
     }
 
-    // ê²€ìƒ‰ ê²°ê³¼ ëª©ë¡ê³¼ ë§ˆì»¤ë¥¼ í‘œì¶œí•˜ëŠ” í•¨ìˆ˜ì…ë‹ˆë‹¤
+    // °Ë»ö °á°ú ¸ñ·Ï°ú ¸¶Ä¿¸¦ Ç¥ÃâÇÏ´Â ÇÔ¼öÀÔ´Ï´Ù
     function displayPlaces(places: string | any[]) {
-      const listEl = document.getElementById('places-list'),
-        resultEl = document.getElementById('search-result'),
-        fragment = document.createDocumentFragment(),
-        bounds = new kakao.maps.LatLngBounds();
+      console.log('places', places);
 
-      // ê²€ìƒ‰ ê²°ê³¼ ëª©ë¡ì— ì¶”ê°€ëœ í•­ëª©ë“¤ì„ ì œê±°í•©ë‹ˆë‹¤
+      const listEl = document.getElementById('places-list');
+      let resultEl = document.getElementById('search-result');
+      let fragment = document.createDocumentFragment();
+      let bounds = new kakao.maps.LatLngBounds();
+
+      // °Ë»ö °á°ú ¸ñ·Ï¿¡ Ãß°¡µÈ Ç×¸ñµéÀ» Á¦°ÅÇÕ´Ï´Ù
       listEl && removeAllChildNods(listEl);
 
-      // ì§€ë„ì— í‘œì‹œë˜ê³  ìˆëŠ” ë§ˆì»¤ë¥¼ ì œê±°í•©ë‹ˆë‹¤
+      // Áöµµ¿¡ Ç¥½ÃµÇ°í ÀÖ´Â ¸¶Ä¿¸¦ Á¦°ÅÇÕ´Ï´Ù
       removeMarker();
 
       for (var i = 0; i < places.length; i++) {
-        // ë§ˆì»¤ë¥¼ ìƒì„±í•˜ê³  ì§€ë„ì— í‘œì‹œí•©ë‹ˆë‹¤
-        let placePosition = new kakao.maps.LatLng(places[i].y, places[i].x),
-          marker = addMarker(placePosition, i, undefined),
-          itemEl = getListItem(i, places[i]); // ê²€ìƒ‰ ê²°ê³¼ í•­ëª© Elementë¥¼ ìƒì„±í•©ë‹ˆë‹¤
+        // ¸¶Ä¿¸¦ »ı¼ºÇÏ°í Áöµµ¿¡ Ç¥½ÃÇÕ´Ï´Ù
+        let placePosition = new kakao.maps.LatLng(places[i].y, places[i].x);
+        let address_name = places[i].address_name;
+        let road_address_name = places[i].road_address_name;
 
-        // ê²€ìƒ‰ëœ ì¥ì†Œ ìœ„ì¹˜ë¥¼ ê¸°ì¤€ìœ¼ë¡œ ì§€ë„ ë²”ìœ„ë¥¼ ì¬ì„¤ì •í•˜ê¸°ìœ„í•´
-        // LatLngBounds ê°ì²´ì— ì¢Œí‘œë¥¼ ì¶”ê°€í•©ë‹ˆë‹¤
+        // console.log(placePosition);
+        let marker = addMarker(
+          { placePosition, address_name, road_address_name },
+          i,
+          undefined
+        );
+        let itemEl = getListItem(i, places[i]); // °Ë»ö °á°ú Ç×¸ñ Element¸¦ »ı¼ºÇÕ´Ï´Ù
+
+        // °Ë»öµÈ Àå¼Ò À§Ä¡¸¦ ±âÁØÀ¸·Î Áöµµ ¹üÀ§¸¦ Àç¼³Á¤ÇÏ±âÀ§ÇØ
+        // LatLngBounds °´Ã¼¿¡ ÁÂÇ¥¸¦ Ãß°¡ÇÕ´Ï´Ù
         bounds.extend(placePosition);
 
-        // ë§ˆì»¤ì™€ ê²€ìƒ‰ê²°ê³¼ í•­ëª©ì— mouseover í–ˆì„ë•Œ
-        // í•´ë‹¹ ì¥ì†Œì— ì¸í¬ìœˆë„ìš°ì— ì¥ì†Œëª…ì„ í‘œì‹œí•©ë‹ˆë‹¤
-        // mouseout í–ˆì„ ë•ŒëŠ” ì¸í¬ìœˆë„ìš°ë¥¼ ë‹«ìŠµë‹ˆë‹¤
+        // ¸¶Ä¿¿Í °Ë»ö°á°ú Ç×¸ñ¿¡ mouseover ÇßÀ»¶§
+        // ÇØ´ç Àå¼Ò¿¡ ÀÎÆ÷À©µµ¿ì¿¡ Àå¼Ò¸íÀ» Ç¥½ÃÇÕ´Ï´Ù
+        // mouseout ÇßÀ» ¶§´Â ÀÎÆ÷À©µµ¿ì¸¦ ´İ½À´Ï´Ù
         (function (marker, title) {
           kakao.maps.event.addListener(marker, 'mouseover', function () {
             displayInfowindow(marker, title);
@@ -113,17 +157,18 @@ export default function Map(props: propsType) {
         fragment.appendChild(itemEl);
       }
 
-      // ê²€ìƒ‰ê²°ê³¼ í•­ëª©ë“¤ì„ ê²€ìƒ‰ê²°ê³¼ ëª©ë¡ Elementì— ì¶”ê°€í•©ë‹ˆë‹¤
+      // °Ë»ö°á°ú Ç×¸ñµéÀ» °Ë»ö°á°ú ¸ñ·Ï Element¿¡ Ãß°¡ÇÕ´Ï´Ù
       listEl && listEl.appendChild(fragment);
+
       if (resultEl) {
         resultEl.scrollTop = 0;
       }
 
-      // ê²€ìƒ‰ëœ ì¥ì†Œ ìœ„ì¹˜ë¥¼ ê¸°ì¤€ìœ¼ë¡œ ì§€ë„ ë²”ìœ„ë¥¼ ì¬ì„¤ì •í•©ë‹ˆë‹¤
+      // °Ë»öµÈ Àå¼Ò À§Ä¡¸¦ ±âÁØÀ¸·Î Áöµµ ¹üÀ§¸¦ Àç¼³Á¤ÇÕ´Ï´Ù
       map.setBounds(bounds);
     }
 
-    // ê²€ìƒ‰ê²°ê³¼ í•­ëª©ì„ Elementë¡œ ë°˜í™˜í•˜ëŠ” í•¨ìˆ˜ì…ë‹ˆë‹¤
+    // °Ë»ö°á°ú Ç×¸ñÀ» Element·Î ¹İÈ¯ÇÏ´Â ÇÔ¼öÀÔ´Ï´Ù
     function getListItem(index: number, places: placeType) {
       const el = document.createElement('li');
       let itemStr = `
@@ -148,33 +193,47 @@ export default function Map(props: propsType) {
       return el;
     }
 
-    // ë§ˆì»¤ë¥¼ ìƒì„±í•˜ê³  ì§€ë„ ìœ„ì— ë§ˆì»¤ë¥¼ í‘œì‹œí•˜ëŠ” í•¨ìˆ˜ì…ë‹ˆë‹¤
-    function addMarker(position: any, idx: number, title: undefined) {
-      var imageSrc =
-          'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png', // ë§ˆì»¤ ì´ë¯¸ì§€ url, ìŠ¤í”„ë¼ì´íŠ¸ ì´ë¯¸ì§€ë¥¼ ì”ë‹ˆë‹¤
-        imageSize = new kakao.maps.Size(36, 37), // ë§ˆì»¤ ì´ë¯¸ì§€ì˜ í¬ê¸°
-        imgOptions = {
-          spriteSize: new kakao.maps.Size(36, 691), // ìŠ¤í”„ë¼ì´íŠ¸ ì´ë¯¸ì§€ì˜ í¬ê¸°
-          spriteOrigin: new kakao.maps.Point(0, idx * 46 + 10), // ìŠ¤í”„ë¼ì´íŠ¸ ì´ë¯¸ì§€ ì¤‘ ì‚¬ìš©í•  ì˜ì—­ì˜ ì¢Œìƒë‹¨ ì¢Œí‘œ
-          offset: new kakao.maps.Point(13, 37), // ë§ˆì»¤ ì¢Œí‘œì— ì¼ì¹˜ì‹œí‚¬ ì´ë¯¸ì§€ ë‚´ì—ì„œì˜ ì¢Œí‘œ
-        },
-        markerImage = new kakao.maps.MarkerImage(
-          imageSrc,
-          imageSize,
-          imgOptions
-        ),
-        marker = new kakao.maps.Marker({
-          position: position, // ë§ˆì»¤ì˜ ìœ„ì¹˜
-          image: markerImage,
-        });
+    // ¸¶Ä¿¸¦ »ı¼ºÇÏ°í Áöµµ À§¿¡ ¸¶Ä¿¸¦ Ç¥½ÃÇÏ´Â ÇÔ¼öÀÔ´Ï´Ù
+    function addMarker(location: Location, idx: number, title: undefined) {
+      let normalImageSrc =
+        'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png';
+      let petImgSrc =
+        'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png';
 
-      marker.setMap(map); // ì§€ë„ ìœ„ì— ë§ˆì»¤ë¥¼ í‘œì¶œí•©ë‹ˆë‹¤
-      markers.push(marker); // ë°°ì—´ì— ìƒì„±ëœ ë§ˆì»¤ë¥¼ ì¶”ê°€í•©ë‹ˆë‹¤
+      // Note: marker reference: https://apis.map.kakao.com/web/sample/markerWithCustomOverlay/
+
+      // let imageSize = new kakao.maps.Size(36, 37);
+      let imageSize = new kakao.maps.Size(64, 69);
+
+      let imgOptions = {
+        spriteSize: new kakao.maps.Size(36, 69),
+        // spriteOrigin: new kakao.maps.Point(0, idx * 46 + 10),
+        offset: new kakao.maps.Point(27, 69),
+      };
+
+      // console.log(isPetExists(location));
+      const imageSrc = isPetExists(location) ? petImgSrc : normalImageSrc;
+
+      let markerImage = new kakao.maps.MarkerImage(
+        // imageSrc,
+        // petImgSrc,
+        normalImageSrc,
+        imageSize,
+        imgOptions
+      );
+
+      let marker = new kakao.maps.Marker({
+        position: location.placePosition, // ë§ˆì»¤?˜ ?œ„ì¹?
+        image: markerImage,
+      });
+
+      marker.setMap(map); // Áöµµ À§¿¡ ¸¶Ä¿¸¦ Ç¥ÃâÇÕ´Ï´Ù
+      markers.push(marker); // ¹è¿­¿¡ »ı¼ºµÈ ¸¶Ä¿¸¦ Ãß°¡ÇÕ´Ï´Ù
 
       return marker;
     }
 
-    // ì§€ë„ ìœ„ì— í‘œì‹œë˜ê³  ìˆëŠ” ë§ˆì»¤ë¥¼ ëª¨ë‘ ì œê±°í•©ë‹ˆë‹¤
+    // Áöµµ À§¿¡ Ç¥½ÃµÇ°í ÀÖ´Â ¸¶Ä¿¸¦ ¸ğµÎ Á¦°ÅÇÕ´Ï´Ù
     function removeMarker() {
       for (var i = 0; i < markers.length; i++) {
         markers[i].setMap(null);
@@ -182,7 +241,7 @@ export default function Map(props: propsType) {
       markers = [];
     }
 
-    // ê²€ìƒ‰ê²°ê³¼ ëª©ë¡ í•˜ë‹¨ì— í˜ì´ì§€ë²ˆí˜¸ë¥¼ í‘œì‹œëŠ” í•¨ìˆ˜ì…ë‹ˆë‹¤
+    // °Ë»ö°á°ú ¸ñ·Ï ÇÏ´Ü¿¡ ÆäÀÌÁö¹øÈ£¸¦ Ç¥½Ã´Â ÇÔ¼öÀÔ´Ï´Ù
     function displayPagination(pagination: {
       last: number;
       current: number;
@@ -192,7 +251,7 @@ export default function Map(props: propsType) {
       let fragment = document.createDocumentFragment();
       let i;
 
-      // ê¸°ì¡´ì— ì¶”ê°€ëœ í˜ì´ì§€ë²ˆí˜¸ë¥¼ ì‚­ì œí•©ë‹ˆë‹¤
+      // ±âÁ¸¿¡ Ãß°¡µÈ ÆäÀÌÁö¹øÈ£¸¦ »èÁ¦ÇÕ´Ï´Ù
       while (paginationEl.hasChildNodes()) {
         paginationEl.lastChild &&
           paginationEl.removeChild(paginationEl.lastChild);
@@ -218,8 +277,8 @@ export default function Map(props: propsType) {
       paginationEl.appendChild(fragment);
     }
 
-    // ê²€ìƒ‰ê²°ê³¼ ëª©ë¡ ë˜ëŠ” ë§ˆì»¤ë¥¼ í´ë¦­í–ˆì„ ë•Œ í˜¸ì¶œë˜ëŠ” í•¨ìˆ˜ì…ë‹ˆë‹¤
-    // ì¸í¬ìœˆë„ìš°ì— ì¥ì†Œëª…ì„ í‘œì‹œí•©ë‹ˆë‹¤
+    // °Ë»ö°á°ú ¸ñ·Ï ¶Ç´Â ¸¶Ä¿¸¦ Å¬¸¯ÇßÀ» ¶§ È£ÃâµÇ´Â ÇÔ¼öÀÔ´Ï´Ù
+    // ÀÎÆ÷À©µµ¿ì¿¡ Àå¼Ò¸íÀ» Ç¥½ÃÇÕ´Ï´Ù
     function displayInfowindow(marker: any, title: string) {
       const content =
         '<div style="padding:5px;z-index:1;" class="marker-title">' +
@@ -230,7 +289,7 @@ export default function Map(props: propsType) {
       infowindow.open(map, marker);
     }
 
-    // ê²€ìƒ‰ê²°ê³¼ ëª©ë¡ì˜ ìì‹ Elementë¥¼ ì œê±°í•˜ëŠ” í•¨ìˆ˜ì…ë‹ˆë‹¤
+    // °Ë»ö°á°ú ¸ñ·ÏÀÇ ÀÚ½Ä Element¸¦ Á¦°ÅÇÏ´Â ÇÔ¼öÀÔ´Ï´Ù
     function removeAllChildNods(el: HTMLElement) {
       while (el.hasChildNodes()) {
         el.lastChild && el.removeChild(el.lastChild);
@@ -245,7 +304,7 @@ export default function Map(props: propsType) {
         <div id="search-result" className="search-result">
           <p className="result-text">
             <span className="result-keyword">{props.searchKeyword}</span>
-            ê²€ìƒ‰ ê²°ê³¼
+            °Ë»ö °á°ú
           </p>
           <div className="scroll-wrapper">
             <ul id="places-list" className="places-list"></ul>

@@ -6,14 +6,15 @@ import {
 } from '../../features/post/postSlice';
 
 export default function usePosts() {
+  const dispatch = useAppDispatch();
   const posts = useAppSelector(postSelectors.selectAll);
   const { loadingPosts, tags, pagination } = useAppSelector(
     (state) => state.posts
   );
-  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (!loadingPosts) dispatch(fetchAllPostsAsync());
+    // if (!loadingPosts)
+    dispatch(fetchAllPostsAsync());
   }, [loadingPosts, dispatch]);
 
   return {

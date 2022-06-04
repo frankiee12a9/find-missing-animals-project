@@ -34,12 +34,6 @@ export default function AppDropzone(props: Props) {
         )
       );
       field.onChange(acceptedFiles);
-      // for (let acceptedFile of acceptedFiles) {
-      //   acceptedFile = Object.assign(acceptedFile, {
-      //     preview: URL.createObjectURL(acceptedFile),
-      //   });
-      //   field.onChange(acceptedFile);
-      // }
     },
     [field]
   );

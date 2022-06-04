@@ -1,6 +1,7 @@
 import { PostLocation } from './postLocation';
 import { Tag1, Tag2, Tag3, Tag4, Tag5 } from './tag';
 import { Photo } from './photo';
+import { User } from './user';
 
 export interface Post {
   id: string;
@@ -8,7 +9,8 @@ export interface Post {
   content: string;
   posterName: string;
   isFound: boolean;
-  createdAt: Date;
+  postParticipants: User[];
+  createdAt: string;
   photos: Photo[];
   tag1: Tag1;
   tag2: Tag2;
@@ -24,13 +26,33 @@ export interface UpdatePostDto {
   PostLocation: PostLocation;
 }
 
+export interface PostDto {
+  title: string;
+  content: string;
+  postLocation: PostLocation;
+}
+
 export interface CreatePostDto {
-  post: Post;
-  tag1: Tag1;
-  tag2: Tag2;
-  tag3: Tag3;
-  tag4: Tag4;
-  tag5: Tag5;
+  title: string;
+  content: string;
+  location: string;
+  detailedLocation: string;
+  File: Photo | any;
+  File1?: Photo | any;
+  File2?: Photo | any;
+  Tag1: string | any;
+  Tag2: string | any;
+  Tag3: string | any;
+  Tag4?: string | any;
+  Tag5?: string | any;
+}
+
+export class CreatePostDto implements CreatePostDto {
+  constructor(postToCreate: CreatePostDto) {
+    if (postToCreate) {
+      Object.assign(this, postToCreate);
+    }
+  }
 }
 
 export interface PostQueryParams {
@@ -38,6 +60,9 @@ export interface PostQueryParams {
   orderBy: string;
   pageNumber: number;
   pageSize: number;
+  fromDate: string;
+  follower: string;
+  toDate: string;
   isPoster: boolean;
   roadLocation: string;
   detailedLocation: string;
@@ -48,4 +73,11 @@ export interface PostQueryParams {
   tag3: string;
   tag4: string;
   tag5: string;
+}
+
+export interface LastViewedPost {
+  id: string;
+  photos?: Photo[];
+  title: string;
+  content: string;
 }
