@@ -53,6 +53,9 @@ namespace API.Extensions
 
             services.AddMediatR(typeof(ListAllTags.Handler).Assembly);
 
+
+            // services.AddL
+
             // config autoMapper 
             services.AddAutoMapper(typeof(MappingProfiles).Assembly);
 

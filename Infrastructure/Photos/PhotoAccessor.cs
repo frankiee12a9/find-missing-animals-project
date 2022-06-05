@@ -29,7 +29,7 @@ namespace Infrastructure.Photos
 			_cloudinary = new Cloudinary(account);
 		}
 
-		public async Task<PhotoUploadResult> AddAPhoto([FromForm] IFormFile file)
+		public async Task<PhotoUploadResult> AddPhoto([FromForm] IFormFile file)
 		{
 			if (file?.Length > 0)
 			{
@@ -90,6 +90,7 @@ namespace Infrastructure.Photos
 					);
 				}
 			}
+
 			return result;
 		}
 

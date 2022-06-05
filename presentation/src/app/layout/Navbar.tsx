@@ -60,7 +60,7 @@ const UserBox = styled(Box)(({ theme }) => ({
 }));
 
 const navStyles = {
-  color: 'inherit',
+  color: 'white',
   textDecoration: 'none',
   typography: 'h6',
   '&:hover': {
@@ -90,6 +90,7 @@ export default function Navbar() {
           sx={{ display: { xs: 'none', sm: 'block' } }}
           to="/"
           component={NavLink}
+          style={{ color: 'white' }}
         >
           My Missing Pets, Where?
         </Typography>
@@ -123,23 +124,26 @@ export default function Navbar() {
           ) : (
             <>
               <List sx={{ display: 'flex' }}>
-                <ListItem component={Link} to="/login" sx={navStyles}>
+                <ListItem
+                  component={NavLink}
+                  to="/login"
+                  sx={navStyles}
+                  style={{ color: 'white' }}
+                >
                   {'Login'.toUpperCase()}
                 </ListItem>
-                <ListItem component={Link} to="/register" sx={navStyles}>
+                <ListItem
+                  component={NavLink}
+                  to="/register"
+                  sx={navStyles}
+                  style={{ color: 'white' }}
+                >
                   {'Register'.toUpperCase()}
                 </ListItem>
               </List>
             </>
           )}
         </Icons>
-        {/* <UserBox onClick={(e) => setOpen(true)}>
-          <Avatar
-            sx={{ width: 30, height: 30 }}
-            src="https://images.pexels.com/photos/846741/pexels-photo-846741.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-          />
-          <Typography variant="h6">John</Typography>
-        </UserBox> */}
       </StyledToolbar>
       <Menu
         id="demo-positioned-menu"

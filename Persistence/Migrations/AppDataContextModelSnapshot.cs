@@ -22,6 +22,7 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("text");
 
                     b.Property<int>("AccessFailedCount")
@@ -213,7 +214,6 @@ namespace Persistence.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("RoadLocation")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");

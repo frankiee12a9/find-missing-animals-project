@@ -13,15 +13,17 @@ import { useAppDispatch, useAppSelector } from '../../app/store/storeConfig';
 import { validationSchema } from './../../app/utils/postValidationSchema';
 import AppSelectInput from '../../app/components/AppSelectInput';
 import Postcode from '../../app/utils/Postcode';
+import { setPost } from './postSlice';
 
 interface Props {
+  post?: Post | undefined;
   cancelEdit: () => void;
 }
 
-export default function PostForm({ cancelEdit }: Props) {
-  const [postToCreate, setPostToCreate] = useState<CreatePostDto | undefined>(
-    undefined
-  );
+export default function PostForm({ post, cancelEdit }: Props) {
+  // const [postToCreate, setPostToCreate] = useState<CreatePostDto | undefined>(
+  //   undefined
+  // );
   const dispatch = useAppDispatch();
   const {
     control,
@@ -38,7 +40,7 @@ export default function PostForm({ cancelEdit }: Props) {
 
   useEffect(() => {
     console.log(watchFiles);
-    if (postToCreate && !watchFiles && !isDirty) reset(postToCreate);
+    if (post && !watchFiles && !isDirty) reset(post);
     // when component unmount
     return () => {
       if (watchFiles) {
@@ -51,41 +53,34 @@ export default function PostForm({ cancelEdit }: Props) {
   async function handleSubmitData(data: FieldValues) {
     console.log('formData', data);
     try {
-      let response: Post;
-      if (postToCreate) {
-        response = await agent.PostStore.updatePost(data);
-        return;
+      let updatePostDto: Post | undefined = undefined;
+      let createPostDto: CreatePostDto | undefined = undefined;
+
+      if (post) {
+        updatePostDto = await agent.PostStore.updatePost(data);
+      } else {
+        createPostDto = {
+          title: data?.title,
+          content: data?.content,
+          location: data?.postLocation,
+          detailedLocation: data?.postLocation,
+          Tag1: data?.tags[0]?.label,
+          Tag2: data?.tags[1]?.label,
+          Tag3: data?.tags[2]?.label,
+          File: data?.files[0],
+          File1: data?.files?.[1],
+          File2: data?.files?.[2],
+        };
+
+        await agent.PostStore.createPost(createPostDto);
       }
 
-      // const createPostDto = {
-      //   Tag1: data?.tags[0]?.label,
-      //   Tag2: data?.tags[1]?.label,
-      //   Tag3: data?.tags[2]?.label,
-      //   Files: data.files?.[0],
-      //   Post: {
-      //     title: data?.title,
-      //     content: data?.content,
-      //     postLocation: { roadLocation: '', location: data?.postLocation },
-      //   } as PostDto,
-      // } as CreatePostDto;
+      updatePostDto === undefined
+        ? dispatch(setPost(createPostDto))
+        : dispatch(setPost(updatePostDto));
 
-      const createPostDto = {
-        title: data?.title,
-        content: data?.content,
-        location: data?.postLocation,
-        detailedLocation: data?.postLocation,
-        Tag1: data?.tags[0]?.label,
-        Tag2: data?.tags[1]?.label,
-        Tag3: data?.tags[2]?.label,
-        File: data?.files[0],
-        File1: data?.files?.[1],
-        File2: data?.files?.[2],
-      } as CreatePostDto;
-
-      console.log('createPostDto', createPostDto);
-      await agent.PostStore.createPost(createPostDto);
-
-      // dispatch(setPost(response));
+      // dispatch(setPost(createPostDto));
+      cancelEdit();
     } catch (error) {
       console.error(error);
     }

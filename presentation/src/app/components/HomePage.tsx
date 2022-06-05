@@ -64,9 +64,15 @@ export default function HomePage() {
         </div>
       </Slider>
       <Box display="flex" justifyContent="center" sx={{ p: 4 }}>
-        {/* <Typography variant="h1">Welcome to the store</Typography> */}
+        {/* <Stack spacing={2}>
+          <Typography variant="h2">Welcome to the store</Typography>
+        </Stack> */}
         <Stack direction="row" spacing={2}>
-          <Button href="/posts" variant="outlined" startIcon={<HomeIcon />}>
+          <Button
+            href="/posts"
+            variant="outlined"
+            startIcon={<HomeIcon color="primary" />}
+          >
             Go To Home
           </Button>
           <Button href="/login" variant="contained" endIcon={<SendIcon />}>

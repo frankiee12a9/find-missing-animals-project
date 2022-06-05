@@ -45,7 +45,7 @@ export default function PostDetailsSidebar({
   return (
     <Box flex={2} p={2} sx={{ display: { xs: 'none', sm: 'block' } }}>
       <Box position="fixed" style={{ width: 350, marginTop: '-19px' }}>
-        <Typography variant="h6" fontWeight={100} mt={2} mb={2}>
+        {/* <Typography variant="h6" fontWeight={100} mt={2} mb={2}>
           Photos of this post
         </Typography>
         <ImageList cols={3} rowHeight={100} gap={5}>
@@ -55,14 +55,14 @@ export default function PostDetailsSidebar({
             </ImageListItem>
           ))}
           <ImageListItem></ImageListItem>
-        </ImageList>
+        </ImageList> */}
         <Typography variant="h6" fontWeight={100} mt={2}>
           Latest viewed posts
         </Typography>
         <List
           sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
         >
-          {/* <ViewedPostList viewedPosts={uniqueLastViewedPosts} /> */}
+          <ViewedPostList viewedPosts={uniqueLastViewedPosts} />
         </List>
       </Box>
     </Box>

@@ -29,6 +29,7 @@ import PostForm from './../../features/post/PostForm';
 import FollowingPosts from './../../features/post/FollowingPosts';
 import Posts from 'features/post/Posts';
 import PrivateRoute from 'app/components/PrivateRoute';
+import ViewedPostsHistory from 'features/post/ViewedPostsHistory';
 
 function App() {
   const dispatch = useAppDispatch();
@@ -91,6 +92,12 @@ function App() {
                   key={location.key}
                   path={['/following']}
                   component={FollowingPosts}
+                />
+                <PrivateRoute
+                  // exact
+                  key={location.key}
+                  path={['/viewedList']}
+                  component={ViewedPostsHistory}
                 />
                 <Route path="/login" component={Login} />
                 <Route path="/register" component={Register} />

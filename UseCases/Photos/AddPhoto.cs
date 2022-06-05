@@ -40,7 +40,7 @@ namespace UseCases.Photos
 
 				if (user == null) return null;
 
-				var photoUploadResult = await _photoAccessor.AddAPhoto(request.File);
+				var photoUploadResult = await _photoAccessor.AddPhoto(request.File);
 
 				var photo = new Photo
 				{

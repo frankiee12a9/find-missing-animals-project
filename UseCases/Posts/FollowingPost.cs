@@ -80,10 +80,9 @@ namespace UseCases.Posts
 					.ProjectTo<PostDto>(_mapper.ConfigurationProvider)
 					.FirstOrDefaultAsync(x => x.Id == request.PostId);			
 
-				if (result && currentFollowingPost != null) ;
-					return Result<PostDto>.Success(currentFollowingPost);
+				if (!result && currentFollowingPost == null) return null;
 
-				return null;
+				return Result<PostDto>.Success(currentFollowingPost);
 			}
 		}
 	}

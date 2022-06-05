@@ -2,10 +2,30 @@ import { IconButton, Menu, MenuItem } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import DeleteIcon from '@mui/icons-material/Delete';
-import React from 'react';
+import React, { useState } from 'react';
+import { Post } from 'app/models/post';
+import { useAppDispatch, useAppSelector } from 'app/store/storeConfig';
+import { deletePostAsync } from './postSlice';
+import { toast } from 'react-toastify';
+import { history } from 'index';
+import PostForm from './PostForm';
 
-export default function PostSettingOptions() {
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+interface Props {
+  currentPost: Post | undefined;
+}
+
+export default function PostSettingOptions({ currentPost }: Props) {
+  const dispatch = useAppDispatch();
+  const { user } = useAppSelector((state) => state.auth);
+
+  const [editPostMode, setEditPostMode] = useState(false);
+  const [postToEdit, setPostToEdit] = useState<Post | undefined>(undefined);
+  const handleEditPost = (post: Post) => {
+    setPostToEdit(post);
+    setEditPostMode(true);
+  };
+
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -13,6 +33,10 @@ export default function PostSettingOptions() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  //   if (editPostMode) return <PostForm cancelEdit={function (): void {
+  //       throw new Error('Function not implemented.');
+  //   } } />
 
   return (
     <div style={{}}>
@@ -41,11 +65,20 @@ export default function PostSettingOptions() {
           },
         }}
       >
-        <MenuItem onClick={handleClose} disableRipple>
+        <MenuItem onClick={() => history.push('/new')} disableRipple>
           <EditIcon />
           Edit
         </MenuItem>
-        <MenuItem onClick={handleClose}>
+        <MenuItem
+          onClick={() =>
+            dispatch(deletePostAsync(currentPost?.id!))
+              .then(() => {
+                history.push('/posts');
+                toast.success('Post was deleted successfully');
+              })
+              .catch((err: any) => console.error(err))
+          }
+        >
           <DeleteIcon />
           Delete
         </MenuItem>

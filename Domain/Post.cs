@@ -12,7 +12,7 @@ namespace Domain
 		[Required]
 		public string Content { get; set; }
 		public DateTime Date { get; set; } = DateTime.Now;
-		public bool IsFound { get; set; } // 찾았나요?
+		public bool IsFound { get; set; } = false; // 찾았나요?
 
 		public ICollection<Tag1Post> Tag1Posts { get; set; }
 		public ICollection<Tag2Post> Tag2Posts { get; set; }

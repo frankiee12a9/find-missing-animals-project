@@ -37,15 +37,16 @@ namespace API.Controllers
 		[HttpPost]
 		public async Task<IActionResult> CreatePost([FromForm] CreatePostParams createPostParams)
 		{
+			Console.Write(createPostParams);
 			return HandleResult(await Mediator.Send(new CreatePost.Command { NewPostParams = createPostParams }));
 		}
 
 		[Authorize(Policy = "IsPostOwner")]
 		[HttpPut("{id}")]
-		public async Task<IActionResult> EditPost(Guid id, [FromBody] EditPostDto post)
+		public async Task<IActionResult> EditPost(Guid id, [FromForm] EditPostDto editPostDto)
 		{
-			post.Id = id;
-			return HandleResult(await Mediator.Send(new EditPost.Command { Post = post }));
+			editPostDto.Id = id;
+			return HandleResult(await Mediator.Send(new EditPost.Command { Post = editPostDto }));
 		}
 
 		[Authorize(Policy = "IsPostOwner")]

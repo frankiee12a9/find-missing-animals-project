@@ -1,5 +1,5 @@
-import { Timeline } from '@mui/icons-material';
 import {
+  Timeline,
   TimelineItem,
   TimelineOppositeContent,
   TimelineSeparator,
@@ -15,9 +15,12 @@ import {
   Typography,
   Divider,
 } from '@mui/material';
+import { dateTimeFormat } from 'app/utils/utils';
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
+import Link from '@mui/material/Link';
 import { LastViewedPost } from '../../app/models/post';
+import moment from 'moment';
 
 interface Props {
   viewedPosts: LastViewedPost[];
@@ -26,58 +29,47 @@ interface Props {
 export default function ViewedPostList({ viewedPosts }: Props) {
   return (
     <>
-      {/* <Timeline position="alternate">
-        <TimelineItem>
-          <TimelineOppositeContent color="text.secondary">
-            09:30 am
-          </TimelineOppositeContent>
-          <TimelineSeparator>
-            <TimelineDot />
-            <TimelineConnector />
-          </TimelineSeparator>
-          <TimelineContent>Eat</TimelineContent>
-        </TimelineItem>
-      </Timeline> */}
-      <TimelineItem>
+      <Timeline style={{ backgroundColor: '#EEC' }}>
         {viewedPosts.map((aViewedPost: LastViewedPost, idx) => {
-          if (idx >= 5) return;
+          if (idx >= 6) return;
           return (
-            <TimelineItem>
-              <div key={aViewedPost.id}>
-                <ListItem
-                  component={Link}
+            <TimelineItem key={aViewedPost.id}>
+              <TimelineOppositeContent
+                color="text.secondary"
+                sx={{ m: 'auto 0', mt: 2 }}
+                align="right"
+                variant="body2"
+              >
+                {/* {dateTimeFormat(aViewedPost.timestamp)} */}
+                {moment(aViewedPost.timestamp).fromNow()}
+              </TimelineOppositeContent>
+              <TimelineSeparator>
+                <TimelineDot>
+                  <Avatar src={`${aViewedPost.photos?.[0].url}`} />
+                </TimelineDot>
+                <TimelineConnector />
+              </TimelineSeparator>
+              <TimelineContent sx={{ py: '12px', px: 2 }}>
+                <Typography
+                  style={{ color: 'black' }}
+                  component={NavLink}
                   to={`/posts/${aViewedPost.id}`}
-                  alignItems="flex-start"
+                  sx={{ color: 'black' }}
                 >
-                  <ListItemAvatar>
-                    <Avatar
-                      alt="Remy Sharp"
-                      src={`${aViewedPost.photos?.[0].url}`}
-                    />
-                  </ListItemAvatar>
-                  <ListItemText
-                    primary={aViewedPost.title}
-                    secondary={
-                      <>
-                        <Typography
-                          sx={{ display: 'inline' }}
-                          component="span"
-                          variant="body2"
-                          color="text.primary"
-                        ></Typography>
-                        {aViewedPost.content.length > 50
-                          ? `${aViewedPost.content.substring(0, 50)}...`
-                          : aViewedPost.content}
-                      </>
-                    }
-                  />
-                </ListItem>
-                <Divider variant="inset" component="li" />
-              </div>
+                  <Link href="#" underline="hover" color="black">
+                    {aViewedPost.title}...
+                  </Link>
+                </Typography>
+              </TimelineContent>
             </TimelineItem>
           );
         })}
-      </TimelineItem>
+        {/* <Divider variant="inset" component="li" /> */}
+        <br />
+        <Link href="/viewedList" underline="hover" style={{ marginLeft: 25 }}>
+          {'Check more viewed posts here'}
+        </Link>
+      </Timeline>
     </>
   );
 }

@@ -36,10 +36,10 @@ import {
 import moment from 'moment';
 import { dateTimeFormat, isFollowingThisPost } from '../../app/utils/utils';
 import { toast } from 'react-toastify';
-// import SimpleImageSlider from 'react-simple-image-slider/dist/ImageSlider';
 import SimpleImageSlider from 'react-simple-image-slider';
 import { isArray } from 'lodash';
 import PostSettingOptions from './PostSettingOptions';
+import { Post } from 'app/models/post';
 
 // Note: Post/Comment section reference: https://codesandbox.io/s/2393m2k5rj?file=/src/index.js
 
@@ -49,22 +49,33 @@ export default function PostDetails() {
   const currentPost = useAppSelector((state) =>
     postSelectors.selectById(state, id)
   );
+  // get current login user
   const { user } = useAppSelector((state) => state.auth);
-  const { lastViewPosts } = useAppSelector((state) => state.posts);
+  // const { lastViewPosts } = useAppSelector((state) => state.posts);
   const [postSetting, setPostSetting] = useState(false);
 
-  const images = currentPost?.photos.map((photo) => {
-    return { url: photo.url };
-  });
+  const getPhotosFromCurrentPost = (post: Post) => {
+    const images = post?.photos.map((photo) => {
+      return { url: photo.url };
+    });
+    return images;
+  };
 
   useEffect(() => {
     if (!currentPost) {
       dispatch(fetchPostAsync(id));
     }
 
+    // handle fetch viewed posts history
     if (currentPost) {
       const { id, title, content, photos } = currentPost;
-      const currentViewedPost = { id, title, content, photos };
+      const currentViewedPost = {
+        id,
+        title,
+        content,
+        photos,
+        timestamp: Date.now(),
+      };
 
       // get current total viewed posts
       const totalViewedPosts = JSON.parse(
@@ -83,6 +94,7 @@ export default function PostDetails() {
         window.localStorage.getItem('lastViewedPosts')! || '[]'
       );
 
+      // slice viewed posts if  it's length is greater than 3
       if (Array.isArray(lastViewedPosts) && lastViewedPosts.length > 3)
         lastViewedPosts = lastViewedPosts.shift();
 
@@ -90,11 +102,13 @@ export default function PostDetails() {
     }
   }, [id, dispatch]);
 
+  // Note: this might be useless
   const [photoDetail, setPhotoDetail] = useState(currentPost?.photos[0].url);
   const onChangePhoto = (e: SyntheticEvent, photoIndex: number) => {
     setPhotoDetail(currentPost?.photos[photoIndex].url);
   };
 
+  // post following logic
   const [isFollowing, setIsFollowing] = useState(
     isFollowingThisPost(user!, currentPost!)
   );
@@ -103,20 +117,19 @@ export default function PostDetails() {
       console.log(isFollowingThisPost(user!, currentPost!));
       if (isFollowingThisPost(user!, currentPost!)) {
         setIsFollowing(false);
-        toast.success('unfollowing this post successfully');
+        toast.success('Unfollowing this post successfully');
         return;
       }
       setIsFollowing(true);
-      toast.info('started following this post');
+      toast.done('Started following this post');
     });
   };
 
+  // just use to logging post is followed or not
   useEffect(() => {
     console.log(isFollowing);
   }, [isFollowing]);
 
-  // Note: Consider using https://www.npmjs.com/package/react-simple-image-viewer
-  // for viewing photo
   return (
     <Grid container columnSpacing={4}>
       <Grid item sm={10} xs={10}>
@@ -128,13 +141,11 @@ export default function PostDetails() {
               </Avatar>
             }
             action={
-              <PostSettingOptions />
-              // <IconButton
-              //   aria-label="settings"
-              //   onClick={() => setPostSetting(true)}
-              // >
-              //   <MoreVert />
-              // </IconButton>
+              user?.username === currentPost?.posterName ? (
+                <PostSettingOptions currentPost={currentPost} />
+              ) : (
+                <></>
+              )
             }
             title={currentPost?.title}
             subheader={`posted by ${currentPost?.posterName} | ${dateTimeFormat(
@@ -184,16 +195,15 @@ export default function PostDetails() {
               </p>
             </Typography>
           </CardContent>
-          <CardMedia
-            component="div"
-            // image={photoDetail}
-            // alt="Paella dish"
-          >
+          <CardMedia component="div">
             <SimpleImageSlider
               width={896}
               height={504}
-              // images={currentPost?.photos.map((photo) => photo.url)!}
-              images={isArray(images) ? images : []}
+              images={
+                isArray(getPhotosFromCurrentPost(currentPost!))
+                  ? getPhotosFromCurrentPost(currentPost!)
+                  : []
+              }
               showBullets={true}
               showNavs={true}
             />

@@ -13,7 +13,6 @@ namespace UseCases.Posts.Extensions
 			RuleFor(x => x.PostLocation).NotEmpty();
 			RuleFor(x => x.Tag1Posts).NotEmpty(); // Note: be careful this validator
 			RuleFor(x => x.Tag2Posts).NotEmpty(); // Note: be careful this validator
-												  // RuleFor(x => x.Tag3Posts).NotEmpty(); // Note: be careful this validator
 		}
 	}
 }

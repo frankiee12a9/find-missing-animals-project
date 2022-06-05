@@ -104,7 +104,11 @@ export const createPostAsync = createAsyncThunk(
   async (createPostDto: CreatePostDto, thunkAPI) => {
     try {
       await agent.PostStore.createPost(createPostDto);
+
+      // this is test comment using TabNine
       const newPost = new CreatePostDto(createPostDto);
+
+      return newPost;
     } catch (err: any) {
       return thunkAPI.rejectWithValue({ error: err.data });
     }
@@ -140,7 +144,7 @@ export const deletePostAsync = createAsyncThunk(
   'post/deletePostAsync',
   async (postId: string, thunkAPI) => {
     try {
-      return await agent.PostStore.deletePost(postId);
+      await agent.PostStore.deletePost(postId);
     } catch (err: any) {
       return thunkAPI.rejectWithValue({ error: err.data });
     }
