@@ -1,3 +1,5 @@
+import React, { SyntheticEvent, useEffect, useState } from 'react';
+import { useParams } from 'react-router';
 import {
   MoreVert,
   FavoriteBorder,
@@ -8,22 +10,26 @@ import {
 } from '@mui/icons-material';
 import {
   Avatar,
+  Button,
   Card,
   CardActions,
   CardContent,
   CardHeader,
   CardMedia,
   Checkbox,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
   Grid,
   IconButton,
+  Link,
   Menu,
   MenuItem,
   Tooltip,
   Typography,
 } from '@mui/material';
-import React, { SyntheticEvent, useEffect, useState } from 'react';
-import { useParams } from 'react-router';
-import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../app/store/storeConfig';
 import PostDetailsSidebar from './PostDetailsSidebar';
 import {
@@ -31,40 +37,51 @@ import {
   followPostAsync,
   postSelectors,
   setLastViewPosts,
-  setPost,
+  // setPost,
 } from './postSlice';
-import moment from 'moment';
 import { dateTimeFormat, isFollowingThisPost } from '../../app/utils/utils';
 import { toast } from 'react-toastify';
 import SimpleImageSlider from 'react-simple-image-slider';
 import { isArray } from 'lodash';
 import PostSettingOptions from './PostSettingOptions';
 import { Post } from 'app/models/post';
+import PostShareDialog from './PostShareDialog';
+import AppServiceTerms from 'app/components/AppServiceTerms';
+import PostDetailsComment from './PostDetailsComment';
 
 // Note: Post/Comment section reference: https://codesandbox.io/s/2393m2k5rj?file=/src/index.js
 
 export default function PostDetails() {
   const dispatch = useAppDispatch();
+
   const { id } = useParams<{ id: string }>();
+
   const currentPost = useAppSelector((state) =>
     postSelectors.selectById(state, id)
   );
-  // get current login user
+
   const { user } = useAppSelector((state) => state.auth);
-  // const { lastViewPosts } = useAppSelector((state) => state.posts);
-  const [postSetting, setPostSetting] = useState(false);
 
   const getPhotosFromCurrentPost = (post: Post) => {
     const images = post?.photos.map((photo) => {
       return { url: photo.url };
     });
-    return images;
+    return images || [{ url: '' }];
   };
 
+  // useEffect(() => {
+  //   console.log('id changed', id);
+  //   getPhotosFromCurrentPost(currentPost!);
+  // }, [id]);
+
   useEffect(() => {
-    if (!currentPost) {
-      dispatch(fetchPostAsync(id));
-    }
+    // if (!currentPost) {
+    //   dispatch(fetchPostAsync(id));
+    // }
+
+    dispatch(fetchPostAsync(id));
+
+    getPhotosFromCurrentPost(currentPost!);
 
     // handle fetch viewed posts history
     if (currentPost) {
@@ -100,28 +117,29 @@ export default function PostDetails() {
 
       lastViewedPosts && dispatch(setLastViewPosts(lastViewedPosts));
     }
-  }, [id, dispatch]);
-
-  // Note: this might be useless
-  const [photoDetail, setPhotoDetail] = useState(currentPost?.photos[0].url);
-  const onChangePhoto = (e: SyntheticEvent, photoIndex: number) => {
-    setPhotoDetail(currentPost?.photos[photoIndex].url);
-  };
+  }, [id, dispatch, currentPost]);
 
   // post following logic
   const [isFollowing, setIsFollowing] = useState(
     isFollowingThisPost(user!, currentPost!)
   );
   const handleFollowPost = () => {
+    if (!user?.token) {
+      // return <AppServiceTerms open={true} />;
+      setAppServiceTermsShow(true);
+      return;
+    }
+
     dispatch(followPostAsync(currentPost!)).then(() => {
       console.log(isFollowingThisPost(user!, currentPost!));
       if (isFollowingThisPost(user!, currentPost!)) {
         setIsFollowing(false);
         toast.success('Unfollowing this post successfully');
-        return;
+        // return;
+      } else {
+        setIsFollowing(true);
+        toast.info('Started following this post');
       }
-      setIsFollowing(true);
-      toast.done('Started following this post');
     });
   };
 
@@ -130,6 +148,21 @@ export default function PostDetails() {
     console.log(isFollowing);
   }, [isFollowing]);
 
+  // open post share dialog
+  const [openPostShare, setOpenPostShare] = useState(false);
+  const handleOpenPostShare = () => {
+    if (!user?.token) {
+      setAppServiceTermsShow(true);
+    }
+    setOpenPostShare(true);
+  };
+
+  // show app services terms to anonymous users
+  const [appServiceTermsShow, setAppServiceTermsShow] = useState(false);
+  const handleHideAppServiceTerms = () => {
+    setAppServiceTermsShow(false);
+  };
+
   return (
     <Grid container columnSpacing={4}>
       <Grid item sm={10} xs={10}>
@@ -137,7 +170,7 @@ export default function PostDetails() {
           <CardHeader
             avatar={
               <Avatar sx={{ bgcolor: 'red' }} aria-label="recipe">
-                {currentPost?.posterName[0].toUpperCase()}
+                {currentPost?.posterName?.[0].toUpperCase()}
               </Avatar>
             }
             action={
@@ -152,76 +185,51 @@ export default function PostDetails() {
               currentPost?.createdAt!
             )}`}
           />
-          <Menu
-            id="demo-positioned-menu"
-            aria-labelledby="demo-positioned-button"
-            style={{ top: '30px' }}
-            open={postSetting}
-            onClose={(e) => setPostSetting(false)}
-            anchorOrigin={{
-              vertical: 'center',
-              horizontal: 'center',
-            }}
-            transformOrigin={{
-              vertical: 'top',
-              horizontal: 'right',
-            }}
-          >
-            <MenuItem component={Link} to={``}>
-              Edit Post
-            </MenuItem>
-            <MenuItem>
-              <IconButton>
-                <Delete />
-              </IconButton>
-            </MenuItem>
-          </Menu>
           <CardContent>
             <Typography variant="body2" color="text.secondary">
               {currentPost?.content}
             </Typography>
             <br />
-            <Typography variant="h6" color="Highlight">
+            <Typography variant="body1" color="Highlight">
               Post location
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              {currentPost?.postLocation.location}
-              <p>
-                <a
-                  href={`https://map.kakao.com/?urlX=${currentPost?.postLocation.longtitute}&urlY=${currentPost?.postLocation.latitude}&urlLevel=3&itemId=23891175&q=${currentPost?.postLocation.location}&srcid=23891175&map_type=TYPE_MAP`}
-                >
-                  View location details on Map
-                </a>
-              </p>
+              {currentPost?.postLocation.location} (
+              <Link
+                style={{ color: 'primary' }}
+                href={`https://map.kakao.com/?q=${currentPost?.postLocation.location}`}
+                underline="hover"
+              >
+                {'View location details on Map'}
+              </Link>
+              )
             </Typography>
           </CardContent>
           <CardMedia component="div">
             <SimpleImageSlider
               width={896}
               height={504}
-              images={
-                isArray(getPhotosFromCurrentPost(currentPost!))
-                  ? getPhotosFromCurrentPost(currentPost!)
-                  : []
-              }
+              images={getPhotosFromCurrentPost(currentPost!)}
               showBullets={true}
               showNavs={true}
             />
           </CardMedia>
           <CardActions disableSpacing>
-            <Tooltip title="Like">
-              <IconButton aria-label="add to favorites">
-                <Checkbox
-                  icon={<FavoriteBorder />}
-                  checkedIcon={<Favorite sx={{ color: 'red' }} />}
-                />
-              </IconButton>
-            </Tooltip>
             <Tooltip title="Share">
-              <IconButton aria-label="share">
+              <IconButton
+                aria-label="share"
+                onClick={() => handleOpenPostShare()}
+              >
                 <Share />
               </IconButton>
             </Tooltip>
+            {user?.token && openPostShare && (
+              <PostShareDialog
+                currentUrl={`localhost:3000/posts/${currentPost?.id}`}
+                cancelShare={() => setOpenPostShare(false)}
+                open={openPostShare}
+              />
+            )}
             <Tooltip title={isFollowing ? `Unfollowing` : `Following`}>
               <IconButton
                 onClick={() => handleFollowPost()}
@@ -230,15 +238,19 @@ export default function PostDetails() {
                 <NotificationAdd />
               </IconButton>
             </Tooltip>
+            {appServiceTermsShow && (
+              <AppServiceTerms
+                open={appServiceTermsShow}
+                confirm={handleHideAppServiceTerms}
+              />
+            )}
           </CardActions>
         </Card>
       </Grid>
       <Grid item sm={2}>
-        <PostDetailsSidebar
-          postPhotos={currentPost?.photos}
-          onChangePhoto={onChangePhoto}
-        />
+        <PostDetailsSidebar />
       </Grid>
+      <PostDetailsComment postId={currentPost?.id!} />
     </Grid>
   );
 }

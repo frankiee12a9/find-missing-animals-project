@@ -50,14 +50,21 @@ axios.interceptors.response.use(
         }
         toast.error(data.title);
         break;
+      case 400:
+        toast.error(data.title);
+        break;
       case 401:
         toast.error(data.title);
         break;
       case 403:
         toast.error('You are not allowed to do that!');
         break;
+      case 404: {
+        history.push('/not-found');
+        break;
+      }
       case 500:
-        history.push('/server-error');
+        history.push({ pathname: '/server-error', state: { error: data } });
         break;
       default:
         break;
@@ -113,9 +120,8 @@ const AuthStore = {
 
 const PostStore = {
   createPost: (post: any) => requests.postForm('posts', createFormData(post)),
-  // createPost: (post: any) => requests.postForm('posts', post),
-  // updatePost: (post: any) => requests.putForm("posts", createFormData(post)),
-  updatePost: (post: any) => requests.put(`posts/${post.id}`, post),
+  updatePost: (post: any) =>
+    requests.putForm(`posts/${post.id}`, createFormData(post)),
   followingPost: (postToFollow: Post) =>
     requests.post(`posts/${postToFollow.id}/follow`, postToFollow),
   getPost: (postId: string) => requests.get(`posts/${postId}`),

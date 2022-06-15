@@ -92,7 +92,7 @@ export const fetchPostAsync = createAsyncThunk(
   async (postId: string, thunkAPI) => {
     try {
       const result = await agent.PostStore.getPost(postId);
-      return result;
+      return result as Post;
     } catch (err: any) {
       return thunkAPI.rejectWithValue({ error: err.data });
     }
@@ -119,7 +119,7 @@ export const updatePostAsync = createAsyncThunk(
   'post/updatePostAsync',
   async (updatePostDto: UpdatePostDto, thunkAPI) => {
     try {
-      return await agent.PostStore.updatePost(updatePostDto);
+      await agent.PostStore.updatePost(updatePostDto);
     } catch (err: any) {
       return thunkAPI.rejectWithValue({ error: err.data });
     }
@@ -131,7 +131,6 @@ export const followPostAsync = createAsyncThunk(
   async (postToFollow: Post, thunkAPI) => {
     try {
       const result = await agent.PostStore.followingPost(postToFollow);
-      console.log('result', result);
       thunkAPI.dispatch(setPost(result));
       return result;
     } catch (err: any) {
@@ -154,7 +153,7 @@ export const deletePostAsync = createAsyncThunk(
 const initParams = () => {
   return {
     pageNumber: 1,
-    pageSize: 10,
+    pageSize: 16,
     orderBy: 'title',
     fromDate: '',
     toDate: '',
@@ -205,6 +204,7 @@ export const postSlice = createSlice({
       state.pagination = action.payload;
     },
     setPost: (state: any, action: any) => {
+      console.log('action.payload', action.payload);
       postsAdapter.upsertOne(state, action.payload);
       state.loadingPosts = false;
     },
@@ -213,9 +213,9 @@ export const postSlice = createSlice({
       console.log('lastViewedPost', state.lastViewPost);
     },
     setLastViewPosts: (state: any, action: any) => {
-      console.log(action.payload);
+      // console.log(action.payload);
       state.lastViewedPosts = { ...action.payload };
-      console.log(state.lastViewedPosts);
+      // console.log(state.lastViewedPosts);
     },
     resetPostParams: (state: any, action: any) => {
       state.postQueryParams = initParams();

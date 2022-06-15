@@ -7,8 +7,8 @@ import { Post } from 'app/models/post';
 import { useAppDispatch, useAppSelector } from 'app/store/storeConfig';
 import { deletePostAsync } from './postSlice';
 import { toast } from 'react-toastify';
-import { history } from 'index';
 import PostForm from './PostForm';
+import { useHistory } from 'react-router';
 
 interface Props {
   currentPost: Post | undefined;
@@ -16,6 +16,7 @@ interface Props {
 
 export default function PostSettingOptions({ currentPost }: Props) {
   const dispatch = useAppDispatch();
+  const history = useHistory();
   const { user } = useAppSelector((state) => state.auth);
 
   const [editPostMode, setEditPostMode] = useState(false);
@@ -34,9 +35,13 @@ export default function PostSettingOptions({ currentPost }: Props) {
     setAnchorEl(null);
   };
 
-  //   if (editPostMode) return <PostForm cancelEdit={function (): void {
-  //       throw new Error('Function not implemented.');
-  //   } } />
+  const cancelEdit = () => {
+    if (postToEdit) setPostToEdit(undefined);
+    setEditPostMode(false);
+  };
+
+  //   if (editPostMode)
+  //     return <PostForm cancelEdit={cancelEdit} post={currentPost} />;
 
   return (
     <div style={{}}>
@@ -65,7 +70,11 @@ export default function PostSettingOptions({ currentPost }: Props) {
           },
         }}
       >
-        <MenuItem onClick={() => history.push('/new')} disableRipple>
+        <MenuItem
+          onClick={() => history.push(`/posts/${currentPost?.id}/edit`)}
+          // onClick={() => setEditPostMode(true)
+          disableRipple
+        >
           <EditIcon />
           Edit
         </MenuItem>

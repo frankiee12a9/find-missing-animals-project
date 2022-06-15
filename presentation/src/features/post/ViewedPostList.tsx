@@ -15,7 +15,7 @@ import {
   Typography,
   Divider,
 } from '@mui/material';
-import { dateTimeFormat } from 'app/utils/utils';
+// import { dateTimeFormat } from 'app/utils/utils';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import Link from '@mui/material/Link';
@@ -45,9 +45,15 @@ export default function ViewedPostList({ viewedPosts }: Props) {
               </TimelineOppositeContent>
               <TimelineSeparator>
                 <TimelineDot>
-                  <Avatar src={`${aViewedPost.photos?.[0].url}`} />
+                  <Avatar src={`${aViewedPost.photos?.[0]?.url}`} />
                 </TimelineDot>
-                <TimelineConnector />
+                <TimelineConnector
+                  style={{
+                    height: '15px',
+                    width: '2px',
+                    backgroundColor: 'gray',
+                  }}
+                />
               </TimelineSeparator>
               <TimelineContent sx={{ py: '12px', px: 2 }}>
                 <Typography

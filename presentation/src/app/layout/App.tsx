@@ -30,6 +30,7 @@ import FollowingPosts from './../../features/post/FollowingPosts';
 import Posts from 'features/post/Posts';
 import PrivateRoute from 'app/components/PrivateRoute';
 import ViewedPostsHistory from 'features/post/ViewedPostsHistory';
+import PostFormEdit from 'features/post/PostFormEdit';
 
 function App() {
   const dispatch = useAppDispatch();
@@ -58,7 +59,7 @@ function App() {
   }, [initializeApp]);
 
   const location = useLocation();
-  if (loading) return <Loading message="Initializing App..." />;
+  if (loading) return <Loading message="Loading Data..." />;
 
   return (
     <div>
@@ -79,14 +80,21 @@ function App() {
               <Switch>
                 <Route exact path="/map" component={MapLandingPage} />
                 <Route exact path="/posts" component={Posts} />
-                <Route path="/posts/:id" component={PostDetails} />
+                <Route exact path="/posts/:id" component={PostDetails} />
                 <Route exact path="/tags/:tagName" component={TagDetails} />
                 <PrivateRoute
                   // exact
                   key={location.key}
-                  path={['/new', 'posts/:id/update']}
+                  path={['/new']}
                   component={PostForm}
                 />
+                <PrivateRoute
+                  // exact
+                  key={location.key}
+                  path={['/posts/:id/edit']}
+                  component={PostFormEdit}
+                />
+                {/* , 'posts/:id/edit' */}
                 <PrivateRoute
                   // exact
                   key={location.key}
@@ -99,10 +107,11 @@ function App() {
                   path={['/viewedList']}
                   component={ViewedPostsHistory}
                 />
+                <Route path="/profile/:username" component={Profile} />
                 <Route path="/login" component={Login} />
                 <Route path="/register" component={Register} />
-                <Route path="/profile/:username" component={Profile} />
-                <Route component={ServerError} />
+                <Route path="/server-error" component={ServerError} />
+                {/* <Route component={ServerError} /> */}
                 <Route component={NotFound} />
               </Switch>
             </Container>

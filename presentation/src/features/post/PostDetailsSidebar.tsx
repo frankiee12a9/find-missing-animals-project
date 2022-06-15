@@ -19,15 +19,12 @@ import { useAppSelector } from '../../app/store/storeConfig';
 import ViewedPostList from './ViewedPostList';
 import { uniqueViewPostsByKey } from './../../app/utils/utils';
 
-interface Props {
-  postPhotos: Photo[] | undefined;
-  onChangePhoto(e: SyntheticEvent, photoIndex: number): void;
-}
+// interface Props {
+//   postPhotos: Photo[] | undefined;
+//   onChangePhoto(e: SyntheticEvent, photoIndex: number): void  void;
+// }
 
-export default function PostDetailsSidebar({
-  postPhotos,
-  onChangePhoto,
-}: Props) {
+export default function PostDetailsSidebar() {
   const { lastViewPosts } = useAppSelector((state) => state.posts);
   const _lastViewedPosts = Array.from(
     JSON.parse(window.localStorage.getItem('lastViewedPosts') || '[]')

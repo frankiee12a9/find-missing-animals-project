@@ -1,5 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Favorite, FavoriteBorder, MoreVert, Share } from '@mui/icons-material';
+import FaceIcon from '@mui/icons-material/Face';
+import TagFacesIcon from '@mui/icons-material/TagFaces';
 import {
   Avatar,
   Card,
@@ -9,6 +11,7 @@ import {
   CardHeader,
   CardMedia,
   Checkbox,
+  Chip,
   IconButton,
   Typography,
 } from '@mui/material';
@@ -18,6 +21,9 @@ import { Post } from '../../app/models/post';
 import { useAppSelector } from '../../app/store/storeConfig';
 import { NavLink, Link } from 'react-router-dom';
 import { dateTimeFormat } from '../../app/utils/utils';
+import PostShareDialog from './PostShareDialog';
+import AppServiceTerms from 'app/components/AppServiceTerms';
+import AppChipIcon from 'app/components/AppChipIcon';
 
 interface Props {
   img: string;
@@ -25,7 +31,17 @@ interface Props {
   post: Post;
 }
 
+const styles = {
+  media: {
+    height: 0,
+    paddingTop: '56.25%', // 16:9,
+    marginTop: '30',
+  },
+};
+
 export default function PostCard({ img, title, post }: Props) {
+  const { user } = useAppSelector((state) => state.auth);
+
   const handleSliceContent = (post: Post) => {
     let postContent = '';
     if (post.content.length > 100) {
@@ -45,6 +61,20 @@ export default function PostCard({ img, title, post }: Props) {
   const images = post?.photos.map((photo) => {
     return { url: photo.url };
   });
+
+  // show app services terms to anonymous users
+  const [appServiceTermsShow, setAppServiceTermsShow] = useState(false);
+  const handleHideAppServiceTerms = () => {
+    setAppServiceTermsShow(false);
+  };
+
+  const [openPostShare, setOpenPostShare] = useState(false);
+  const handleOpenPostShare = () => {
+    if (!user?.token) {
+      setAppServiceTermsShow(true);
+    }
+    setOpenPostShare(true);
+  };
 
   return (
     <Card sx={{ margin: 2 }}>
@@ -75,7 +105,20 @@ export default function PostCard({ img, title, post }: Props) {
         <CardContent style={{ height: '160px' }}>
           <CardContent component={NavLink} to={`/posts/${post.id}`}>
             <Typography gutterBottom variant="h5">
-              {handleSliceTitle(post)}
+              {handleSliceTitle(post)} {/* Note: post status */}
+              {post.isFound ? (
+                <Chip
+                  style={{ backgroundColor: 'lime' }}
+                  icon={<TagFacesIcon />}
+                  label="Reunited"
+                ></Chip>
+              ) : (
+                <Chip
+                  sx={{ bgcolor: 'secondary' }}
+                  icon={<FaceIcon />}
+                  label="..."
+                />
+              )}
             </Typography>
             <Typography variant="body2">
               {handleSliceContent(post)}...
@@ -83,16 +126,27 @@ export default function PostCard({ img, title, post }: Props) {
           </CardContent>
         </CardContent>
         <CardActions disableSpacing>
-          <IconButton aria-label="add to favorites">
-            <Checkbox
-              icon={<FavoriteBorder />}
-              checkedIcon={<Favorite sx={{ color: 'red' }} />}
-            />
-          </IconButton>
-          <IconButton aria-label="share">
+          <IconButton aria-label="share" onClick={() => handleOpenPostShare()}>
             <Share />
           </IconButton>
+          {user?.token && openPostShare && (
+            <PostShareDialog
+              currentUrl={`localhost:3000/posts/${post?.id}`}
+              cancelShare={() => setOpenPostShare(false)}
+              open={openPostShare}
+            />
+          )}
+          {'  '}
+          {post?.tags?.map((data) => (
+            <Chip label={data.tag1Name} size="small" />
+          ))}
         </CardActions>
+        {appServiceTermsShow && (
+          <AppServiceTerms
+            open={appServiceTermsShow}
+            confirm={handleHideAppServiceTerms}
+          />
+        )}
       </CardActionArea>
     </Card>
   );

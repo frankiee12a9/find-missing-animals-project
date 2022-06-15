@@ -11,8 +11,8 @@ import { Tag } from '../models/tag';
 const sortOptions = [
   { value: 'title', label: 'Alphabetical' },
   { value: 'createdAt', label: 'Timestamp' },
-  { value: 'found', label: 'Found' },
-  { value: 'notFound', label: 'Not Found Yet' },
+  { value: 'found', label: 'Reunited' },
+  { value: 'notFound', label: 'Not reunited yet' },
 ];
 
 export default function SearchFilters() {

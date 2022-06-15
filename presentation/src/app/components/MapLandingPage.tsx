@@ -23,7 +23,7 @@ export default function MapLandingPage() {
 
   const valueChecker = () => {
     if (value === '') {
-      alert('°Ë»ö¾î¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä.');
+      alert('ê²€ìƒ‰ì–´ë¥¼ ìž…ë ¥í•´ì£¼ì„¸ìš”.');
     }
   };
 
@@ -39,14 +39,14 @@ export default function MapLandingPage() {
                 className="form__input"
                 name="place"
                 onChange={keywordChange}
-                placeholder="°Ë»ö¾î¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä. (ex: ³ë¿ø±¸ ±¤¿î·Î)"
+                placeholder="ê²€ìƒ‰ì–´ë¥¼ ìž…ë ¥í•´ì£¼ì„¸ìš”. (ex: ë…¸ì›êµ¬ ê´‘ìš´ë¡œ)"
                 required
               />
               <div className="btn-box">
                 <input
                   className="btn form__submit"
                   type="submit"
-                  value="°Ë»ö"
+                  value="ê²€ìƒ‰"
                   onClick={valueChecker}
                 />
               </div>

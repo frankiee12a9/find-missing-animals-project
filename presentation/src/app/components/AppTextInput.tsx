@@ -1,5 +1,4 @@
-import { SxProps, TextField } from '@mui/material';
-import { Theme } from '@mui/material/styles/experimental_extendTheme';
+import { TextField } from '@mui/material';
 import { UseControllerProps, useController } from 'react-hook-form';
 
 interface Props extends UseControllerProps {
@@ -8,12 +7,16 @@ interface Props extends UseControllerProps {
   rows?: number;
   type?: string;
   placeholder?: string;
+  defaultValue?: string | undefined;
   onClick?: () => void;
   resize?: string;
 }
 
 export default function AppTextInput(props: Props) {
-  const { fieldState, field } = useController({ ...props, defaultValue: '' });
+  const { fieldState, field } = useController({
+    ...props,
+    defaultValue: props.defaultValue,
+  });
   return (
     <TextField
       {...props}

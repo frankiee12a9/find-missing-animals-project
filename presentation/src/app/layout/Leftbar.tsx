@@ -36,12 +36,12 @@ interface Props {
 export default function Leftbar({ themeMode, setThemeMode }: Props) {
   const dispatch = useAppDispatch();
   const { postQueryParams } = useAppSelector((state) => state.posts);
-  const [postEdit, setPostEdit] = useState(false);
+  // const [postEdit, setPostEdit] = useState(false);
   const { user } = useAppSelector((state) => state.auth);
 
-  const cancelEdit = () => setPostEdit(false);
+  // const cancelEdit = () => setPostEdit(false);
 
-  if (postEdit) return <PostForm cancelEdit={cancelEdit} />;
+  // if (postEdit) return <PostForm cancelEdit={cancelEdit} />;
 
   return (
     <Box flex={1} p={2} sx={{ display: { xs: 'none', sm: 'block' } }}>

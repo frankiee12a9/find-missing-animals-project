@@ -6,8 +6,7 @@ import SendIcon from '@mui/icons-material/Send';
 import Slider from 'react-slick';
 
 export default function HomePage() {
-  const dispatch = useAppDispatch();
-
+  // const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     setTimeout(() => {
@@ -24,7 +23,7 @@ export default function HomePage() {
   };
 
   return (
-    <>
+    <div style={{ marginTop: '-32px' }}>
       <Slider {...settings}>
         <div>
           <img
@@ -80,6 +79,6 @@ export default function HomePage() {
           </Button>
         </Stack>
       </Box>
-    </>
+    </div>
   );
 }

@@ -1,5 +1,5 @@
 import { PostLocation } from './postLocation';
-import { Tag1, Tag2, Tag3, Tag4, Tag5 } from './tag';
+import { Tag, Tag1, Tag2, Tag3, Tag4, Tag5 } from './tag';
 import { Photo } from './photo';
 import { User } from './user';
 
@@ -12,12 +12,16 @@ export interface Post {
   postParticipants: User[];
   createdAt: string;
   photos: Photo[];
-  tag1: Tag1;
-  tag2: Tag2;
-  tag3: Tag3;
-  tag4: Tag4;
-  tag5: Tag5;
+  tags: Tag1[];
   postLocation: PostLocation;
+}
+
+export class Post implements Post {
+  constructor(init?: Post) {
+    if (init) {
+      Object.assign(this, init);
+    }
+  }
 }
 
 export interface UpdatePostDto {
@@ -33,6 +37,7 @@ export interface PostDto {
 }
 
 export interface CreatePostDto {
+  id: string;
   title: string;
   content: string;
   location: string;
@@ -80,4 +85,5 @@ export interface LastViewedPost {
   photos?: Photo[];
   title: string;
   content: string;
+  timestamp: string;
 }

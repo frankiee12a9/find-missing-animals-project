@@ -10,14 +10,18 @@ import AppTextInput from '../components/AppTextInput';
 import { FormControl, FormHelperText } from '@mui/material';
 
 interface Props extends UseControllerProps {
-  //   handleGetPostLocation: (postLocationData: string) => void;
   control: Control<FieldValues, any>;
+  defaultValue?: string | undefined;
 }
 
 const Postcode = (props: Props) => {
   const [isShow, setIsShow] = useState(false);
-  const [address, setAddress] = useState<string>('');
-  const { fieldState, field } = useController({ ...props, defaultValue: '' });
+  const [address, setAddress] = useState(null);
+
+  const { fieldState, field } = useController({
+    ...props,
+    defaultValue: props.defaultValue,
+  });
 
   const handleComplete = (data: any) => {
     let fullAddress = data.address;
@@ -32,6 +36,19 @@ const Postcode = (props: Props) => {
           extraAddress !== '' ? `, ${data.buildingName}` : data.buildingName;
       }
       fullAddress += extraAddress !== '' ? ` (${extraAddress})` : '';
+      console.log('data', data);
+
+      // const geocoder = new daum.maps.services.Geocoder();
+
+      // geocoder.addressSearch(address, (result, status) => {
+      //   if (status === daum.maps.services.Status.OK) {
+      //     const { x, y } = result[0];
+
+      //     resolve({ lat: y, lon: x });
+      //   } else {
+      //     reject();
+      //   }
+      // });
     }
 
     // console.log(fullAddress); // e.g. '서울 성동구 왕십리로2길 20 (성수동1가)'
@@ -53,6 +70,7 @@ const Postcode = (props: Props) => {
   return (
     <FormControl fullWidth error={!!fieldState.error}>
       <AppTextInput
+        defaultValue={address !== null ? address : props.defaultValue}
         onClick={() => setIsShow(true)}
         control={props.control}
         name={props.name}

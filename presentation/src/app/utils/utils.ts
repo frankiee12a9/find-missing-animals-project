@@ -17,7 +17,7 @@ export const dateTimeFormat = (date: string) =>
 export const dateYearFormat = (date: string) => moment(date).format('YYYY');
 
 export const isFollowingThisPost = (user: User, currentPost: Post) => {
-  return currentPost?.postParticipants.some(
+  return currentPost?.postParticipants?.some(
     (x) => x.username === user?.username
   );
 };
@@ -27,7 +27,6 @@ export const isFollowingThisPost = (user: User, currentPost: Post) => {
 //   const result = lastViewedPosts
 //     .map((aViewedPost) => aViewedPost.id)
 //     .filter((value, idx, self) => self.indexOf(value) === idx);
-
 //   return result;
 // };
 
@@ -40,6 +39,5 @@ export const uniqueViewPostsByKey = (
     lastViewedPosts.map((item: any) => [item[key], item])
   ).values();
 
-  console.log(result);
   return Array.from(result);
 };

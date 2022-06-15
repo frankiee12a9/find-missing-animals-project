@@ -1,31 +1,25 @@
-import { LoadingButton } from '@mui/lab';
-import { Box, Paper, Typography, Grid, Button } from '@mui/material';
-import React, { useEffect, useState } from 'react';
-import { useForm, FieldValues } from 'react-hook-form';
+import React, { useEffect } from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { v4 as uuid } from 'uuid';
-import agent from '../../app/api/agent';
-import AppDropzone from '../../app/components/AppDropzone';
-import AppTextInput from '../../app/components/AppTextInput';
-import { CreatePostDto, Post, PostDto } from '../../app/models/post';
-import { useAppDispatch, useAppSelector } from '../../app/store/storeConfig';
-// import { setPost, fetchPostAsync } from './postSlice';
-// import usePosts from './../../app/hooks/usePosts';
-import { validationSchema } from './../../app/utils/postValidationSchema';
-import AppSelectInput from '../../app/components/AppSelectInput';
-import Postcode from '../../app/utils/Postcode';
-import { fetchPostAsync, setPost } from './postSlice';
+import { LoadingButton } from '@mui/lab';
+import { Grid, Box, Paper, Typography, Button } from '@mui/material';
+import agent from 'app/api/agent';
+import AppDropzone from 'app/components/AppDropzone';
+// import AppSelectInput from 'app/components/AppSelectInput';
+import AppTextInput from 'app/components/AppTextInput';
+// import { CreatePostDto, Post } from 'app/models/post';
+import { useAppDispatch, useAppSelector } from 'app/store/storeConfig';
+import Postcode from 'app/utils/Postcode';
+import { editPostValidationSchema } from 'app/utils/postValidationSchema';
+import { useForm, FieldValues } from 'react-hook-form';
+import { fetchPostAsync, postSelectors } from './postSlice';
 import { useHistory, useParams } from 'react-router';
-import AppTextMarkdown from 'app/components/AppTextMarkdown';
 import { toast } from 'react-toastify';
 
-interface Props {
-  post?: Post | undefined;
-  cancelEdit: () => void;
-}
-
-export default function PostForm({ post, cancelEdit }: Props) {
+export default function PostFormEdit() {
   const dispatch = useAppDispatch();
+
+  const { id } = useParams<{ id: string }>();
+
   const {
     control,
     reset,
@@ -34,17 +28,25 @@ export default function PostForm({ post, cancelEdit }: Props) {
     formState: { errors, isDirty, isSubmitting },
   } = useForm({
     mode: 'all',
-    resolver: yupResolver<any>(validationSchema),
+    resolver: yupResolver<any>(editPostValidationSchema),
   });
 
-  const { user } = useAppSelector((state) => state.auth);
+  const watchFiles = watch('photos', null);
 
-  const watchFiles = watch('files', null);
+  const currentPost = useAppSelector((state) =>
+    postSelectors.selectById(state, id)
+  );
 
-  const history = useHistory();
+  const cancelEdit = () => history.push(`/posts/${currentPost!.id}`);
 
   useEffect(() => {
-    if (post && !watchFiles && !isDirty) reset(post);
+    if (!currentPost) {
+      dispatch(fetchPostAsync(id));
+    }
+  }, [dispatch, id, currentPost]);
+
+  useEffect(() => {
+    if (currentPost && !watchFiles && !isDirty) reset(currentPost);
     // when component unmount
     return () => {
       if (watchFiles) {
@@ -54,58 +56,45 @@ export default function PostForm({ post, cancelEdit }: Props) {
     };
   }, [reset, watchFiles, isDirty]);
 
+  const history = useHistory();
+
   async function handleSubmitData(data: FieldValues) {
     console.log('formData', data);
     try {
-      const createPostDto = {
-        id: uuid(),
+      const editPostDto = {
+        id: id,
         title: data?.title,
         content: data?.content,
         location: data?.location,
         detailedLocation: data?.detailedLocation,
-        Tag1: data?.tags[0]?.label,
-        Tag2: data?.tags[1]?.label,
-        Tag3: data?.tags[2]?.label,
-        File: data?.files[0],
-        File1: data?.files?.[1],
-        File2: data?.files?.[2],
-      } as CreatePostDto;
+        // Tag1: data?.tags[0]?.label,
+        // Tag2: data?.tags[1]?.label,
+        // Tag3: data?.tags[2]?.label,
+        File: data?.photos?.[0],
+        File1: data?.photos?.[1],
+        File2: data?.photos?.[2],
+      };
 
-      await agent.PostStore.createPost(createPostDto).then(() => {
-        history.push(`/posts/${createPostDto.id}`);
-        toast.success('Post created successfully');
+      await agent.PostStore.updatePost(editPostDto).then(() => {
+        history.push(`/posts/${id}`);
+        toast.done('Post updated successfully');
+        // location.reload();
       });
-
-      const postDto = {
-        id: createPostDto.id,
-        title: createPostDto.title,
-        content: createPostDto.content,
-        photos: [
-          createPostDto.File,
-          createPostDto.File1,
-          createPostDto.File2,
-        ].filter((data) => data),
-        posterName: user?.username,
-        postLocation: {
-          location: createPostDto.location,
-          detailedLocation: createPostDto.detailedLocation,
-        },
-      } as Post;
-
-      dispatch(setPost(postDto));
+      cancelEdit();
     } catch (error) {
       console.error(error);
     }
   }
 
-  const submitDataError = (errors: any, event: any) =>
-    console.error('Errors:', errors);
+  const submitDataError = (errors: any, event: any) => console.log(errors);
 
   const renderFilePreview = (files: any[]) => {
+    console.log('files', files);
     return files.map((aFile) => (
       <Grid key={aFile} item xs={2}>
         <img
-          src={aFile.preview}
+          src={aFile.preview ? aFile.preview : aFile.url}
+          // src={aFile.url}
           style={{ height: '179px', width: '130px' }}
           alt="preview"
         />
@@ -114,46 +103,57 @@ export default function PostForm({ post, cancelEdit }: Props) {
   };
 
   useEffect(() => {
-    console.log('post', post);
-  }, [post]);
+    console.log('currentPost', currentPost);
+  }, [currentPost]);
 
   return (
     <Box component={Paper} sx={{ p: 4 }}>
       <Typography variant="h4" gutterBottom sx={{ mb: 4 }}>
-        Post Details
+        Edit Post Details
       </Typography>
       <form onSubmit={handleSubmit(handleSubmitData, submitDataError)}>
         <Grid container spacing={3}>
           <Grid item xs={12} sm={12}>
-            <AppTextInput control={control} name="title" label="Post Title" />
+            <AppTextInput
+              control={control}
+              defaultValue={currentPost?.title}
+              name="title"
+              label="Post Title"
+            />
           </Grid>
           <Grid item xs={12}>
             <AppTextInput
               multiline={true}
-              rows={4}
+              defaultValue={currentPost?.content}
+              rows={5}
               control={control}
               name="content"
               label="description"
               placeholder="please enter a descriptive description..."
-              resize="none"
+              resize="yes"
+            />
+          </Grid>
+          {/* <Grid item xs={12} sm={6}>
+            <AppSelectInput control={control} name="tags" />
+          </Grid> */}
+          <Grid item xs={12} sm={6}>
+            <Postcode
+              defaultValue={currentPost?.postLocation.location}
+              control={control}
+              name="location"
             />
           </Grid>
           <Grid item xs={12} sm={6}>
-            <Postcode control={control} name="location" />
-          </Grid>
-          <Grid item xs={12} sm={6}>
             <AppTextInput
+              defaultValue={currentPost?.postLocation.detailedLocation}
               control={control}
               name="detailedLocation"
               label="Detailed location"
             />
           </Grid>
-          <Grid item xs={12} sm={6}>
-            <AppSelectInput control={control} name="tags" />
-          </Grid>
           <Grid container item xs={12} spacing={9}>
             <Grid item xs={6}>
-              <AppDropzone control={control} name="files" />
+              <AppDropzone control={control} name="photos" />
             </Grid>
             {watchFiles?.length > 0 ? (
               renderFilePreview(watchFiles)

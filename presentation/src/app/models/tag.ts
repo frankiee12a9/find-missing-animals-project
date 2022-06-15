@@ -1,38 +1,37 @@
-import {Post} from "./post"
-
+import { Post } from './post';
 
 export interface Tag1 {
-    Id: number
-    tagName: string
+  Id: number;
+  tag1Name: string;
 }
 
 export interface Tag2 {
-    Id: number 
-    tagName: string
+  Id: number;
+  tagName: string;
 }
 
 export interface Tag3 {
-    Id: number,
-    tagName: string 
+  Id: number;
+  tagName: string;
 }
 
 export interface Tag4 {
-    Id: number
-    tagName: string
+  Id: number;
+  tagName: string;
 }
 
 export interface Tag5 {
-    Id: number
-    tagName: string
+  Id: number;
+  tagName: string;
 }
 
 export interface Tag {
-    id: number
-    tagName: string
+  id: number;
+  tagName: string;
 }
 
 export interface TagDto {
-    id: number 
-    tagName: string 
-    posts: Post[]
+  id: number;
+  tagName: string;
+  posts: Post[];
 }

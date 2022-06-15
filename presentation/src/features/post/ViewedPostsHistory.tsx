@@ -14,10 +14,6 @@ import moment from 'moment';
 import { NavLink } from 'react-router-dom';
 import { uniqueViewPostsByKey } from 'app/utils/utils';
 
-// interface Props {
-//   viewedPosts: LastViewedPost[];
-// }
-
 export default function ViewedPostsHistory() {
   const lastViewedPosts = Array.from(
     JSON.parse(window.localStorage.getItem('lastViewedPosts') || '[]')
@@ -54,9 +50,15 @@ export default function ViewedPostsHistory() {
               </TimelineOppositeContent>
               <TimelineSeparator>
                 <TimelineDot>
-                  <Avatar src={`${aViewedPost.photos?.[0].url}`} />
+                  <Avatar src={`${aViewedPost.photos?.[0]?.url}`} />
                 </TimelineDot>
-                <TimelineConnector />
+                <TimelineConnector
+                  style={{
+                    height: '15px',
+                    width: '2px',
+                    backgroundColor: 'gray',
+                  }}
+                />
               </TimelineSeparator>
               <TimelineContent sx={{ py: '12px', px: 2 }}>
                 <Typography>{/* {`Posted by ${aViewedPost.}`} */}</Typography>
