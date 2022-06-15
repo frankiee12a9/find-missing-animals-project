@@ -1,12 +1,11 @@
-import React, { Component, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import CreatableSelect from 'react-select/creatable';
 import { ActionMeta, OnChangeValue } from 'react-select';
-import { ColourOption, colourOptions } from '../utils/fake-data';
 import { useAppDispatch } from '../store/storeConfig';
-import { Tag } from '../models/tag';
-import { setPostParams } from '../../features/post/postSlice';
+// import { Tag } from '../models/tag';
+// import { setPostParams } from '../../features/post/postSlice';
 import { useAppSelector } from './../store/storeConfig';
-import { fetchAllTags } from '../../features/tags/tagSlice';
+// import { fetchAllTags } from '../../features/tags/tagSlice';
 import useTags from '../hooks/useTags';
 import {
   Control,
@@ -41,7 +40,6 @@ export default function AppSelectInput(props: Props) {
     actionMeta: ActionMeta<TagOption>
   ) => {
     console.log(newValue);
-    // console.log(`action: ${actionMeta.action}`);
     field.onChange(newValue);
   };
 
