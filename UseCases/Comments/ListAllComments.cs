@@ -35,7 +35,7 @@ namespace UseCases.Comments
 			public async Task<Result<List<CommentDto>>> Handle(Query request, CancellationToken cancellationToken)
 			{
 				var commentList = await _dbContext.Comments
-					.Where(comment => comment.PostId == request.PostId)
+					.Where(comment => comment.Post.Id == request.PostId)
 					.OrderBy(comment => comment.Timestamp)
 					.ProjectTo<CommentDto>(_mapper.ConfigurationProvider)
 					.ToListAsync();
