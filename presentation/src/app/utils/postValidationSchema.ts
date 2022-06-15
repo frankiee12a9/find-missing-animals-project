@@ -1,6 +1,6 @@
 import * as yup from 'yup';
 
-export const validationSchema = yup.object({
+export const createPostValidationSchema = yup.object({
   title: yup.string().required(),
   content: yup.string().required(),
   location: yup.string().required(),
@@ -33,4 +33,8 @@ export const editPostValidationSchema = yup.object({
     is: (value: string) => !value,
     then: yup.mixed().required('Please provide at least an image'),
   }),
+});
+
+export const commentValidationSchema = yup.object({
+  body: yup.string().required(),
 });
