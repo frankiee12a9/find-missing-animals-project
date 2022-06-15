@@ -11,12 +11,11 @@ import { CreatePostDto, Post, PostDto } from '../../app/models/post';
 import { useAppDispatch, useAppSelector } from '../../app/store/storeConfig';
 // import { setPost, fetchPostAsync } from './postSlice';
 // import usePosts from './../../app/hooks/usePosts';
-import { validationSchema } from './../../app/utils/postValidationSchema';
+import { createPostValidationSchema } from './../../app/utils/postValidationSchema';
 import AppSelectInput from '../../app/components/AppSelectInput';
 import Postcode from '../../app/utils/Postcode';
 import { fetchPostAsync, setPost } from './postSlice';
 import { useHistory, useParams } from 'react-router';
-import AppTextMarkdown from 'app/components/AppTextMarkdown';
 import { toast } from 'react-toastify';
 
 interface Props {
@@ -34,7 +33,7 @@ export default function PostForm({ post, cancelEdit }: Props) {
     formState: { errors, isDirty, isSubmitting },
   } = useForm({
     mode: 'all',
-    resolver: yupResolver<any>(validationSchema),
+    resolver: yupResolver<any>(createPostValidationSchema),
   });
 
   const { user } = useAppSelector((state) => state.auth);
