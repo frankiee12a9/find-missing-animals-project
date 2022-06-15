@@ -188,23 +188,6 @@ namespace UseCases.Core
 				.ForPath(dest => dest.PostLocation.DetailedLocation, o => o.MapFrom(src => src.DetailedLocation))
 				.ReverseMap();
 
-
-			// CreateMap<Post, EditPostDto>()
-			// 	.ForMember(dest => dest.Id, o => o.MapFrom(src => src.Id))
-			// 	.ForMember(dest => dest.Title, o => o.MapFrom(src => src.Title))
-			// 	.ForMember(dest => dest.Content, o => o.MapFrom(src => src.Content))
-			// 	.ForMember(dest => dest.UpdatedAt, o => o.MapFrom(src => src.Date))
-			// 	.ForMember(dest => dest.IsFound, o => o.MapFrom(src => src.IsFound))
-			// 	.ForMember(dest => new PostLocation {Location = dest.Location, DetailedLocation = dest.DetailedLocation},
-			// 		 o => o.MapFrom(src => src.PostLocation))
-			// 	.ForPath(dest => dest.DetailedLocation, o => o.MapFrom(src => src.PostLocation.Location))
-			// 	.ForPath(dest => dest.Location, src => src.MapFrom(src => src.PostLocation.Location))
-			// 	// .ForMember(dest => dest.DetailedLocation , src => src.MapFrom(src => src.PostLocation.DetailedLocation))
-			// 	.ForMember(dest => new List<IFormFile> {dest.File, dest.File1, dest.File2}, 
-			// 		o => o.MapFrom(src => src.Photos))
-			// 	.ReverseMap();
-				
-
 			CreateMap<Comment, CommentDto>()
 				.ForMember(dest => dest.DisplayName, o => o.MapFrom(src => src.ApplicationUser.DisplayName))
 				.ForMember(dest => dest.Username, o => o.MapFrom(src => src.ApplicationUser.UserName))
