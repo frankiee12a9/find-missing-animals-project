@@ -12,7 +12,7 @@ import AppChipIcon from 'app/components/AppChipIcon';
 export default function Rightbar() {
   const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.auth);
-  // const { postQueryParams } = useAppSelector((state) => state.posts);
+
   const [tags, setTags] = useState<Tag[]>([]);
   useEffect(() => {
     dispatch(fetchAllTags())
@@ -54,31 +54,12 @@ export default function Rightbar() {
               key={data.id}
             />
           ))}
-          {/* {tags.map((data) => {
-            // if (data.tagName === 'React') {
-            //   icon = <TagFacesIcon />;
-            // }
-            // return (
-            //   <ListItem key={data.id}>
-            //     <Chip
-            //       icon={icon}
-            //       label={data.tagName}
-            //       component={Link}
-            //       to={`/tags/${data.tagName}`}
-            //       onDelete={
-            //         data.tagName === 'React' ? undefined : handleDelete(data)
-            //       }
-            //     />
-            //   </ListItem>
-            // );
-          })} */}
         </Paper>
         <br />
         <Typography variant="h6">Filters Search</Typography>
         <SearchFilters />
         <Typography variant="h6">Timestamp Search</Typography>
         <AppDatePicker />
-        {/* {user?.token && <AddPost />} */}
       </Box>
     </Box>
   );
