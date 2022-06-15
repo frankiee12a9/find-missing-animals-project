@@ -104,7 +104,7 @@ namespace UseCases.Core
 			// Note: cyclic mapping for EditPost (1)
 			CreateMap<Post, PostDto>()
 				.ForMember(dest => dest.PosterName,
-				o => o.MapFrom(src => src.PostFollowers.FirstOrDefault(x => x.isPoster).ApplicationUser.UserName))
+					o => o.MapFrom(src => src.PostFollowers.FirstOrDefault(x => x.isPoster).ApplicationUser.UserName))
 				.ForMember(dest => dest.PostLocation, o => o.MapFrom(src => src.PostLocation))
 				.ForMember(dest => dest.Tags, o => o.MapFrom(src => src.Tag1Posts.Select(tag => tag.Tag1).AsQueryable()))
 				.ForMember(dest => dest.Photos, o => o.MapFrom(src => src.Photos))
@@ -118,29 +118,98 @@ namespace UseCases.Core
 				.ForMember(dest => dest.Content, o => o.MapFrom(src => src.Content))
 				.ForMember(dest => dest.Date, o => o.MapFrom(src => src.UpdatedAt))
 				.ForMember(dest => dest.IsFound, o => o.MapFrom(src => src.IsFound))
-				// .ForMember(dest => dest.PostLocation, o => o.MapFrom(src => src.Location))
+				// .ForPath(dest => dest.Tag1Posts.Select(tag => tag.TagName), o => o.MapFrom(src => src.Tag1))
+				// .ForPath(dest => dest.Tag1Posts.Select(tag => tag.TagName), o => o.MapFrom(src => src.Tag2))
+				// .ForPath(dest => dest.Tag1Posts.Select(tag => tag.TagName), o => o.MapFrom(src => src.Tag3))
+				// .ForPath(dest => dest.Tag1Posts.Select(tag => tag.TagName), o => o.MapFrom(src => src.Tag4))
+				// .ForPath(dest => dest.Tag1Posts.Select(tag => tag.TagName), o => o.MapFrom(src => src.Tag5))
+				.ForMember(dest => dest.PostLocation, o => o.MapFrom(src => new PostLocation {
+					Location = src.Location, 
+					DetailedLocation = src.DetailedLocation,
+					RoadLocation = src.Location,
+				}))
+				// Note: mapping path(child property) from current object
 				.ForPath(dest => dest.PostLocation.Location, o => o.MapFrom(src => src.Location))
 				.ForPath(dest => dest.PostLocation.DetailedLocation, o => o.MapFrom(src => src.DetailedLocation))
-				// .ForMember(dest => dest.Photos.First(), o => o.MapFrom(src => src.File))
-				.ForMember(dest => dest.Photos, o => o.MapFrom(src => new List<IFormFile>() {src.File, src.File1, src.File2}))
 				.ReverseMap();
 
-			CreateMap<Post, EditPostDto>()
-				// .ForMember(dest => dest.Id, o => o.MapFrom(src => src.Id))
+			/// ???
+			CreateMap<EditPostDto, Tag1Dto>()
+				.ForMember(dest => dest.Tag1Name, o => o.MapFrom(src => src.Tag1))
+				.ForMember(dest => dest.Tag1Name, o => o.MapFrom(src => src.Tag2))
+				.ForMember(dest => dest.Tag1Name, o => o.MapFrom(src => src.Tag3))
+				.ForMember(dest => dest.Tag1Name, o => o.MapFrom(src => src.Tag4))
+				.ForMember(dest => dest.Tag1Name, o => o.MapFrom(src => src.Tag5));
+
+			// Note: mapping to get return value as PostDto after update post
+			CreateMap<EditPostDto, PostDto>() 
+				.ForMember(dest => dest.Id, o => o.MapFrom(src => src.Id))
 				.ForMember(dest => dest.Title, o => o.MapFrom(src => src.Title))
 				.ForMember(dest => dest.Content, o => o.MapFrom(src => src.Content))
-				.ForMember(dest => dest.UpdatedAt, o => o.MapFrom(src => src.Date))
+				.ForMember(dest => dest.CreatedAt, o => o.MapFrom(src => src.UpdatedAt))
 				.ForMember(dest => dest.IsFound, o => o.MapFrom(src => src.IsFound))
-				// .ForMember(dest => dest.PostLocation, o => o.MapFrom(src => src.PostLocation));
-				.ForMember(dest => dest.Location, src => src.MapFrom(src => src.PostLocation.Location))
-				.ForMember(dest => dest.DetailedLocation , src => src.MapFrom(src => src.PostLocation.DetailedLocation))
-				.ForMember(dest => new List<IFormFile> {dest.File, dest.File1, dest.File2}, 
-					o => o.MapFrom(src => src.Photos));
+				// .ForMember(dest => dest.Tags, o => o.MapFrom(src => new [] {
+				// 	new Tag1Dto 
+				// 	{
+				// 		Tag1Name = src.Tag1
+				// 	},
+				// 	new Tag1Dto 
+				// 	{
+				// 		Tag1Name = src.Tag2
+				// 	},
+				// 	new Tag1Dto 
+				// 	{
+				// 		Tag1Name = src.Tag3
+				// 	},
+				// 	new Tag1Dto 
+				// 	{
+				// 		Tag1Name = src.Tag4
+				// 	},
+				// 	new Tag1Dto 
+				// 	{
+				// 		Tag1Name = src.Tag5
+				// 	},
+				// }))
+				// .ForPath(dest => dest.Tags.ElementAt(0).Tag1Name, o => o.MapFrom(src => src.Tag1))
+				// .ForPath(dest => dest.Tags.ElementAt(1).Tag1Name, o => o.MapFrom(src => src.Tag1))
+				// .ForPath(dest => dest.Tags.ElementAt(2).Tag1Name, o => o.MapFrom(src => src.Tag1))
+				// .ForPath(dest => dest.Tags.ElementAt(0).Tag1Name, o => o.MapFrom(src => src.Tag1))
+				// .ForPath(dest => dest.Tags.ElementAt(0).Tag1Name, o => o.MapFrom(src => src.Tag1))
+				// .ForPath(dest => dest.Tags.Select(tag => tag.Tag1Name), o => o.MapFrom(src => src.Tag2))
+				// .ForPath(dest => dest.Tags.Select(tag => tag.Tag1Name), o => o.MapFrom(src => src.Tag3))
+				// .ForPath(dest => dest.Tags.Select(tag => tag.Tag1Name), o => o.MapFrom(src => src.Tag4))
+				// .ForPath(dest => dest.Tags.Select(tag => tag.Tag1Name), o => o.MapFrom(src => src.Tag5))
+				.ForMember(dest => dest.PostLocation, o => o.MapFrom(src => new PostLocationDto {
+					Location = src.Location,
+					DetailedLocation = src.DetailedLocation,
+					RoadLocation = src.RoadLocation
+				}))
+				.ForPath(dest => dest.PostLocation.Location, o => o.MapFrom(src => src.Location))
+				.ForPath(dest => dest.PostLocation.DetailedLocation, o => o.MapFrom(src => src.DetailedLocation))
+				.ReverseMap();
+
+
+			// CreateMap<Post, EditPostDto>()
+			// 	.ForMember(dest => dest.Id, o => o.MapFrom(src => src.Id))
+			// 	.ForMember(dest => dest.Title, o => o.MapFrom(src => src.Title))
+			// 	.ForMember(dest => dest.Content, o => o.MapFrom(src => src.Content))
+			// 	.ForMember(dest => dest.UpdatedAt, o => o.MapFrom(src => src.Date))
+			// 	.ForMember(dest => dest.IsFound, o => o.MapFrom(src => src.IsFound))
+			// 	.ForMember(dest => new PostLocation {Location = dest.Location, DetailedLocation = dest.DetailedLocation},
+			// 		 o => o.MapFrom(src => src.PostLocation))
+			// 	.ForPath(dest => dest.DetailedLocation, o => o.MapFrom(src => src.PostLocation.Location))
+			// 	.ForPath(dest => dest.Location, src => src.MapFrom(src => src.PostLocation.Location))
+			// 	// .ForMember(dest => dest.DetailedLocation , src => src.MapFrom(src => src.PostLocation.DetailedLocation))
+			// 	.ForMember(dest => new List<IFormFile> {dest.File, dest.File1, dest.File2}, 
+			// 		o => o.MapFrom(src => src.Photos))
+			// 	.ReverseMap();
 				
 
 			CreateMap<Comment, CommentDto>()
 				.ForMember(dest => dest.DisplayName, o => o.MapFrom(src => src.ApplicationUser.DisplayName))
-				.ForMember(dest => dest.Username, o => o.MapFrom(src => src.ApplicationUser.UserName));
+				.ForMember(dest => dest.Username, o => o.MapFrom(src => src.ApplicationUser.UserName))
+				.ForMember(dest => dest.Body, o => o.MapFrom(src => src.Text))
+				.ForMember(dest => dest.ImageUrl, o => o.MapFrom(src => src.ApplicationUser.ProfilePictureUrl));
 		}
 	}
 }
