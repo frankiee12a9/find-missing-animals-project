@@ -4,7 +4,7 @@ export interface PostComment {
   body: string;
   username: string;
   displayName: string;
-  image: string;
+  imageUrl: string;
 }
 
 export interface CommentDto {
