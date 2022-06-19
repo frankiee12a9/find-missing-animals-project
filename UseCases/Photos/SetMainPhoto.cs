@@ -27,7 +27,7 @@ namespace Application.Photos
 				_userAccessor = userAccessor;
 			}
 
-			public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
+			public Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
 			{
 				// var user = await _dbContext.Users
 				// 	.Include(x => x.Photos)
