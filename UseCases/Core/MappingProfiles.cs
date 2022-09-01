@@ -118,11 +118,6 @@ namespace UseCases.Core
 				.ForMember(dest => dest.Content, o => o.MapFrom(src => src.Content))
 				.ForMember(dest => dest.Date, o => o.MapFrom(src => src.UpdatedAt))
 				.ForMember(dest => dest.IsFound, o => o.MapFrom(src => src.IsFound))
-				// .ForPath(dest => dest.Tag1Posts.Select(tag => tag.TagName), o => o.MapFrom(src => src.Tag1))
-				// .ForPath(dest => dest.Tag1Posts.Select(tag => tag.TagName), o => o.MapFrom(src => src.Tag2))
-				// .ForPath(dest => dest.Tag1Posts.Select(tag => tag.TagName), o => o.MapFrom(src => src.Tag3))
-				// .ForPath(dest => dest.Tag1Posts.Select(tag => tag.TagName), o => o.MapFrom(src => src.Tag4))
-				// .ForPath(dest => dest.Tag1Posts.Select(tag => tag.TagName), o => o.MapFrom(src => src.Tag5))
 				.ForMember(dest => dest.PostLocation, o => o.MapFrom(src => new PostLocation {
 					Location = src.Location, 
 					DetailedLocation = src.DetailedLocation,
@@ -148,37 +143,6 @@ namespace UseCases.Core
 				.ForMember(dest => dest.Content, o => o.MapFrom(src => src.Content))
 				.ForMember(dest => dest.CreatedAt, o => o.MapFrom(src => src.UpdatedAt))
 				.ForMember(dest => dest.IsFound, o => o.MapFrom(src => src.IsFound))
-				// .ForMember(dest => dest.Tags, o => o.MapFrom(src => new [] {
-				// 	new Tag1Dto 
-				// 	{
-				// 		Tag1Name = src.Tag1
-				// 	},
-				// 	new Tag1Dto 
-				// 	{
-				// 		Tag1Name = src.Tag2
-				// 	},
-				// 	new Tag1Dto 
-				// 	{
-				// 		Tag1Name = src.Tag3
-				// 	},
-				// 	new Tag1Dto 
-				// 	{
-				// 		Tag1Name = src.Tag4
-				// 	},
-				// 	new Tag1Dto 
-				// 	{
-				// 		Tag1Name = src.Tag5
-				// 	},
-				// }))
-				// .ForPath(dest => dest.Tags.ElementAt(0).Tag1Name, o => o.MapFrom(src => src.Tag1))
-				// .ForPath(dest => dest.Tags.ElementAt(1).Tag1Name, o => o.MapFrom(src => src.Tag1))
-				// .ForPath(dest => dest.Tags.ElementAt(2).Tag1Name, o => o.MapFrom(src => src.Tag1))
-				// .ForPath(dest => dest.Tags.ElementAt(0).Tag1Name, o => o.MapFrom(src => src.Tag1))
-				// .ForPath(dest => dest.Tags.ElementAt(0).Tag1Name, o => o.MapFrom(src => src.Tag1))
-				// .ForPath(dest => dest.Tags.Select(tag => tag.Tag1Name), o => o.MapFrom(src => src.Tag2))
-				// .ForPath(dest => dest.Tags.Select(tag => tag.Tag1Name), o => o.MapFrom(src => src.Tag3))
-				// .ForPath(dest => dest.Tags.Select(tag => tag.Tag1Name), o => o.MapFrom(src => src.Tag4))
-				// .ForPath(dest => dest.Tags.Select(tag => tag.Tag1Name), o => o.MapFrom(src => src.Tag5))
 				.ForMember(dest => dest.PostLocation, o => o.MapFrom(src => new PostLocationDto {
 					Location = src.Location,
 					DetailedLocation = src.DetailedLocation,
