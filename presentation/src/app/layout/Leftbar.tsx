@@ -10,7 +10,6 @@ import {
   Storefront,
   CreateOutlined,
 } from '@mui/icons-material';
-
 import {
   Box,
   Divider,
@@ -21,11 +20,8 @@ import {
   ListItemText,
   Switch,
 } from '@mui/material';
-import { useState, Component } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { logout } from '../../features/auth/authSlice';
-import PostForm from '../../features/post/PostForm';
-import { setPostParams } from '../../features/post/postSlice';
 import { useAppDispatch, useAppSelector } from './../store/storeConfig';
 
 interface Props {
@@ -36,12 +32,7 @@ interface Props {
 export default function Leftbar({ themeMode, setThemeMode }: Props) {
   const dispatch = useAppDispatch();
   const { postQueryParams } = useAppSelector((state) => state.posts);
-  // const [postEdit, setPostEdit] = useState(false);
   const { user } = useAppSelector((state) => state.auth);
-
-  // const cancelEdit = () => setPostEdit(false);
-
-  // if (postEdit) return <PostForm cancelEdit={cancelEdit} />;
 
   return (
     <Box flex={1} p={2} sx={{ display: { xs: 'none', sm: 'block' } }}>
@@ -87,11 +78,7 @@ export default function Leftbar({ themeMode, setThemeMode }: Props) {
                 </ListItemButton>
               </ListItem>
               <ListItem disablePadding>
-                <ListItemButton
-                  component={NavLink}
-                  to="/new"
-                  // onClick={() => setPostEdit(true)}
-                >
+                <ListItemButton component={NavLink} to="/new">
                   <ListItemIcon>
                     <CreateOutlined />
                   </ListItemIcon>

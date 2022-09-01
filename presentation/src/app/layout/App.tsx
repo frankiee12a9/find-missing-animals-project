@@ -5,13 +5,19 @@ import {
   Palette,
   ThemeProvider,
 } from '@mui/material';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Navbar from './Navbar';
 import './styles/App.scss';
 import { Route, Switch, useLocation } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../store/storeConfig';
-import { ToastContainer } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import {
+  HubConnection,
+  HubConnectionBuilder,
+  LogLevel,
+} from '@microsoft/signalr';
+
 import HomePage from '../components/HomePage';
 import MapLandingPage from '../components/MapLandingPage';
 import Loading from './Loading';
@@ -19,7 +25,6 @@ import PostDetails from '../../features/post/PostDetails';
 import TagDetails from '../../features/tags/TagDetails';
 import NotFound from '../errors/NotFound';
 import ServerError from '../errors/ServerError';
-import PostUpsert from '../../features/post/PostUpsert';
 import Leftbar from './Leftbar';
 import Login from '../../features/auth/Login';
 import Register from '../../features/auth/Register';
@@ -31,12 +36,79 @@ import Posts from 'features/post/Posts';
 import PrivateRoute from 'app/components/PrivateRoute';
 import ViewedPostsHistory from 'features/post/ViewedPostsHistory';
 import PostFormEdit from 'features/post/PostFormEdit';
+import { PostComment } from 'app/models/comment';
 
 function App() {
   const dispatch = useAppDispatch();
-  const [loading, setLoading] = useState(true);
+  const { user } = useAppSelector((state) => state.auth);
+
+  const [notifications, setNotifications] = useState<PostComment[]>([]);
+  const hubConnection = useRef<HubConnection | null>(null);
+
+  useEffect(() => {
+    if (user?.token) {
+      // connection initialization
+      hubConnection.current = new HubConnectionBuilder()
+        .withUrl(process.env.REACT_APP_CHAT_URL + '?userToken=' + user.token, {
+          accessTokenFactory: () => user.token,
+        })
+        .withAutomaticReconnect()
+        .configureLogging(LogLevel.Information)
+        .build();
+
+      // start listening to connection
+      hubConnection.current
+        ?.start()
+        .then(() => console.log('hub connection started...'))
+        .catch((err: any) =>
+          console.error('Error establishing hubConnection', err)
+        );
+
+      // load all comments(in current post) from server (1)
+      hubConnection.current?.on(
+        'LoadNotifications',
+        (notifications: PostComment[]) => {
+          notifications.forEach((aComment: PostComment) => {
+            aComment.timestamp = new Date(aComment.timestamp);
+          });
+
+          console.log('Loading notifications');
+          setNotifications(notifications.reverse());
+        }
+      );
+
+      // receive loaded comments
+      hubConnection.current?.on(
+        'ReceiveNotification',
+        (aNotification: PostComment) => {
+          toast.info('new notification received');
+          // comment.timestamp = new Date(comment.timestamp);
+          setNotifications((currNotifications) => [
+            aNotification,
+            ...currNotifications,
+          ]);
+        }
+      );
+    }
+
+    if (!user?.token) {
+      // unmount the hubConnection
+      return () => {
+        hubConnection.current
+          ?.stop()
+          .then(() => console.log('stop hubConnection'))
+          .catch((err: any) =>
+            console.error('Error stopping connection: ', err)
+          );
+
+        // temporarily clear all currently connected comments
+        setNotifications([]);
+      };
+    }
+  }, [user?.token]);
 
   // app's darkMode config
+  const [loading, setLoading] = useState(true);
   const [mode, setMode] = useState('light');
   const paletteType = mode === 'light' ? 'light' : 'dark';
   const darkTheme = createTheme({

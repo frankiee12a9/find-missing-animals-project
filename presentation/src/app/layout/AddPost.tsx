@@ -33,7 +33,7 @@ import AppSelectInput from '../components/AppSelectInput';
 import AppDropzone from '../components/AppDropzone';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FieldValues, useForm } from 'react-hook-form';
-import { validationSchema } from '../utils/postValidationSchema';
+import { createPostValidationSchema } from '../utils/postValidationSchema';
 import { setPost } from '../../features/post/postSlice';
 import agent from '../api/agent';
 import { Post } from '../models/post';
@@ -74,7 +74,7 @@ export default function AddPost() {
     formState: { isDirty, isSubmitting },
   } = useForm({
     mode: 'all',
-    resolver: yupResolver<any>(validationSchema),
+    resolver: yupResolver<any>(createPostValidationSchema),
   });
 
   const [open, setOpen] = useState(false);
