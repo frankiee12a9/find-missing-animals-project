@@ -4,19 +4,18 @@ import React, { useEffect, useState } from 'react';
 import { useForm, FieldValues } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { v4 as uuid } from 'uuid';
+import { useHistory, useParams } from 'react-router';
+import { toast } from 'react-toastify';
+
 import agent from '../../app/api/agent';
 import AppDropzone from '../../app/components/AppDropzone';
 import AppTextInput from '../../app/components/AppTextInput';
 import { CreatePostDto, Post, PostDto } from '../../app/models/post';
 import { useAppDispatch, useAppSelector } from '../../app/store/storeConfig';
-// import { setPost, fetchPostAsync } from './postSlice';
-// import usePosts from './../../app/hooks/usePosts';
 import { createPostValidationSchema } from './../../app/utils/postValidationSchema';
 import AppSelectInput from '../../app/components/AppSelectInput';
 import Postcode from '../../app/utils/Postcode';
 import { fetchPostAsync, setPost } from './postSlice';
-import { useHistory, useParams } from 'react-router';
-import { toast } from 'react-toastify';
 
 interface Props {
   post?: Post | undefined;
@@ -37,9 +36,7 @@ export default function PostForm({ post, cancelEdit }: Props) {
   });
 
   const { user } = useAppSelector((state) => state.auth);
-
   const watchFiles = watch('files', null);
-
   const history = useHistory();
 
   useEffect(() => {
@@ -54,7 +51,6 @@ export default function PostForm({ post, cancelEdit }: Props) {
   }, [reset, watchFiles, isDirty]);
 
   async function handleSubmitData(data: FieldValues) {
-    console.log('formData', data);
     try {
       const createPostDto = {
         id: uuid(),

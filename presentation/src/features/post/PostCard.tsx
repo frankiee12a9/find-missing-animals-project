@@ -138,7 +138,7 @@ export default function PostCard({ img, title, post }: Props) {
           )}
           {'  '}
           {post?.tags?.map((data) => (
-            <Chip label={data.tag1Name} size="small" />
+            <Chip key={data.Id} label={data.tag1Name} size="small" />
           ))}
         </CardActions>
         {appServiceTermsShow && (

@@ -104,11 +104,8 @@ export const createPostAsync = createAsyncThunk(
   async (createPostDto: CreatePostDto, thunkAPI) => {
     try {
       await agent.PostStore.createPost(createPostDto);
-
-      // this is test comment using TabNine
-      const newPost = new CreatePostDto(createPostDto);
-
-      return newPost;
+      // const newPost = new CreatePostDto(createPostDto);
+      // return newPost;
     } catch (err: any) {
       return thunkAPI.rejectWithValue({ error: err.data });
     }
@@ -213,9 +210,7 @@ export const postSlice = createSlice({
       console.log('lastViewedPost', state.lastViewPost);
     },
     setLastViewPosts: (state: any, action: any) => {
-      // console.log(action.payload);
       state.lastViewedPosts = { ...action.payload };
-      // console.log(state.lastViewedPosts);
     },
     resetPostParams: (state: any, action: any) => {
       state.postQueryParams = initParams();
@@ -239,8 +234,7 @@ export const postSlice = createSlice({
     // builder.addCase(deletePostAsync.pending, (state, action) => {
     //     state.status = "pendingRemovePost" + action.meta.arg
     // })
-    // builder.addCase(deletePostAsync.fulfilled, (state, action) => {
-    // })
+    // builder.addCase(deletePostAsync.fulfilled, (state, action) => { // })
     builder.addCase(fetchPostAsync.pending, (state, action) => {
       state.status = 'pendingFetchPostAsync';
     });

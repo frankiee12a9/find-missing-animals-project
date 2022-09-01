@@ -37,30 +37,24 @@ import {
   followPostAsync,
   postSelectors,
   setLastViewPosts,
-  // setPost,
 } from './postSlice';
 import { dateTimeFormat, isFollowingThisPost } from '../../app/utils/utils';
 import { toast } from 'react-toastify';
 import SimpleImageSlider from 'react-simple-image-slider';
-import { isArray } from 'lodash';
 import PostSettingOptions from './PostSettingOptions';
 import { Post } from 'app/models/post';
 import PostShareDialog from './PostShareDialog';
 import AppServiceTerms from 'app/components/AppServiceTerms';
 import PostDetailsComment from './PostDetailsComment';
 
-// Note: Post/Comment section reference: https://codesandbox.io/s/2393m2k5rj?file=/src/index.js
-
 export default function PostDetails() {
   const dispatch = useAppDispatch();
-
   const { id } = useParams<{ id: string }>();
+  const { user } = useAppSelector((state) => state.auth);
 
   const currentPost = useAppSelector((state) =>
     postSelectors.selectById(state, id)
   );
-
-  const { user } = useAppSelector((state) => state.auth);
 
   const getPhotosFromCurrentPost = (post: Post) => {
     const images = post?.photos.map((photo) => {
@@ -68,11 +62,6 @@ export default function PostDetails() {
     });
     return images || [{ url: '' }];
   };
-
-  // useEffect(() => {
-  //   console.log('id changed', id);
-  //   getPhotosFromCurrentPost(currentPost!);
-  // }, [id]);
 
   useEffect(() => {
     // if (!currentPost) {
@@ -106,7 +95,6 @@ export default function PostDetails() {
           JSON.stringify([currentViewedPost, ...Array.from(totalViewedPosts)])
         );
 
-      //
       let lastViewedPosts = JSON.parse(
         window.localStorage.getItem('lastViewedPosts')! || '[]'
       );
@@ -117,25 +105,21 @@ export default function PostDetails() {
 
       lastViewedPosts && dispatch(setLastViewPosts(lastViewedPosts));
     }
-  }, [id, dispatch, currentPost]);
+  }, [id, dispatch, currentPost, currentPost?.photos]);
 
-  // post following logic
   const [isFollowing, setIsFollowing] = useState(
     isFollowingThisPost(user!, currentPost!)
   );
   const handleFollowPost = () => {
     if (!user?.token) {
-      // return <AppServiceTerms open={true} />;
       setAppServiceTermsShow(true);
       return;
     }
 
     dispatch(followPostAsync(currentPost!)).then(() => {
-      console.log(isFollowingThisPost(user!, currentPost!));
       if (isFollowingThisPost(user!, currentPost!)) {
         setIsFollowing(false);
-        toast.success('Unfollowing this post successfully');
-        // return;
+        toast.success('Un-followed this post successfully');
       } else {
         setIsFollowing(true);
         toast.info('Started following this post');
@@ -145,7 +129,7 @@ export default function PostDetails() {
 
   // just use to logging post is followed or not
   useEffect(() => {
-    console.log(isFollowing);
+    // console.log(isFollowing);
   }, [isFollowing]);
 
   // open post share dialog
@@ -163,6 +147,17 @@ export default function PostDetails() {
     setAppServiceTermsShow(false);
   };
 
+  const [isCloseComment, setIsCloseComment] = useState(false);
+  const handleCloseComment = () => {
+    if (isCloseComment) {
+      setIsCloseComment(false);
+      toast.success('Opened comment section successfully');
+    } else {
+      setIsCloseComment(true);
+      toast.success('Closed comment section successfully');
+    }
+  };
+
   return (
     <Grid container columnSpacing={4}>
       <Grid item sm={10} xs={10}>
@@ -175,7 +170,10 @@ export default function PostDetails() {
             }
             action={
               user?.username === currentPost?.posterName ? (
-                <PostSettingOptions currentPost={currentPost} />
+                <PostSettingOptions
+                  currentPost={currentPost}
+                  handleCloseComment={handleCloseComment}
+                />
               ) : (
                 <></>
               )
@@ -250,7 +248,7 @@ export default function PostDetails() {
       <Grid item sm={2}>
         <PostDetailsSidebar />
       </Grid>
-      <PostDetailsComment postId={currentPost?.id!} />
+      <PostDetailsComment post={currentPost!} isCloseComment={isCloseComment} />
     </Grid>
   );
 }

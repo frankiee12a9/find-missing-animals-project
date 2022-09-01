@@ -16,7 +16,7 @@ import {
   Divider,
 } from '@mui/material';
 // import { dateTimeFormat } from 'app/utils/utils';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import Link from '@mui/material/Link';
 import { LastViewedPost } from '../../app/models/post';
@@ -27,6 +27,10 @@ interface Props {
 }
 
 export default function ViewedPostList({ viewedPosts }: Props) {
+  useEffect(() => {
+    // console.log(viewedPosts);
+  }, []);
+
   return (
     <>
       <Timeline style={{ backgroundColor: '#EEC' }}>

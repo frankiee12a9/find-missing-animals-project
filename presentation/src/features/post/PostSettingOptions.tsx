@@ -2,7 +2,7 @@ import { IconButton, Menu, MenuItem } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import DeleteIcon from '@mui/icons-material/Delete';
-import React, { useState } from 'react';
+import React, { Dispatch, SetStateAction, useState } from 'react';
 import { Post } from 'app/models/post';
 import { useAppDispatch, useAppSelector } from 'app/store/storeConfig';
 import { deletePostAsync } from './postSlice';
@@ -12,9 +12,13 @@ import { useHistory } from 'react-router';
 
 interface Props {
   currentPost: Post | undefined;
+  handleCloseComment: () => void;
 }
 
-export default function PostSettingOptions({ currentPost }: Props) {
+export default function PostSettingOptions({
+  currentPost,
+  handleCloseComment,
+}: Props) {
   const dispatch = useAppDispatch();
   const history = useHistory();
   const { user } = useAppSelector((state) => state.auth);
@@ -66,13 +70,12 @@ export default function PostSettingOptions({ currentPost }: Props) {
         PaperProps={{
           style: {
             maxHeight: 20 * 4.5,
-            width: '110px',
+            width: '173px',
           },
         }}
       >
         <MenuItem
           onClick={() => history.push(`/posts/${currentPost?.id}/edit`)}
-          // onClick={() => setEditPostMode(true)
           disableRipple
         >
           <EditIcon />
@@ -90,6 +93,10 @@ export default function PostSettingOptions({ currentPost }: Props) {
         >
           <DeleteIcon />
           Delete
+        </MenuItem>
+        <MenuItem onClick={() => handleCloseComment()}>
+          <DeleteIcon />
+          Close comment
         </MenuItem>
       </Menu>
     </div>

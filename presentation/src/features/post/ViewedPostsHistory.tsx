@@ -9,10 +9,11 @@ import {
   TimelineContent,
 } from '@mui/lab';
 import { Avatar, Grid, Link, Typography } from '@mui/material';
-import { LastViewedPost } from 'app/models/post';
 import moment from 'moment';
 import { NavLink } from 'react-router-dom';
-import { uniqueViewPostsByKey } from 'app/utils/utils';
+
+import { LastViewedPost } from 'app/models/post';
+import { uniqueViewPostsByKey } from 'app/utils/constant';
 
 export default function ViewedPostsHistory() {
   const lastViewedPosts = Array.from(

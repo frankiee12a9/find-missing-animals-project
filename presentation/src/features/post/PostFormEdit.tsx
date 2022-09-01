@@ -4,9 +4,7 @@ import { LoadingButton } from '@mui/lab';
 import { Grid, Box, Paper, Typography, Button } from '@mui/material';
 import agent from 'app/api/agent';
 import AppDropzone from 'app/components/AppDropzone';
-// import AppSelectInput from 'app/components/AppSelectInput';
 import AppTextInput from 'app/components/AppTextInput';
-// import { CreatePostDto, Post } from 'app/models/post';
 import { useAppDispatch, useAppSelector } from 'app/store/storeConfig';
 import Postcode from 'app/utils/Postcode';
 import { editPostValidationSchema } from 'app/utils/postValidationSchema';
@@ -59,7 +57,6 @@ export default function PostFormEdit() {
   const history = useHistory();
 
   async function handleSubmitData(data: FieldValues) {
-    console.log('formData', data);
     try {
       const editPostDto = {
         id: id,
@@ -67,9 +64,6 @@ export default function PostFormEdit() {
         content: data?.content,
         location: data?.location,
         detailedLocation: data?.detailedLocation,
-        // Tag1: data?.tags[0]?.label,
-        // Tag2: data?.tags[1]?.label,
-        // Tag3: data?.tags[2]?.label,
         File: data?.photos?.[0],
         File1: data?.photos?.[1],
         File2: data?.photos?.[2],
@@ -78,7 +72,6 @@ export default function PostFormEdit() {
       await agent.PostStore.updatePost(editPostDto).then(() => {
         history.push(`/posts/${id}`);
         toast.done('Post updated successfully');
-        // location.reload();
       });
       cancelEdit();
     } catch (error) {
@@ -89,7 +82,6 @@ export default function PostFormEdit() {
   const submitDataError = (errors: any, event: any) => console.log(errors);
 
   const renderFilePreview = (files: any[]) => {
-    console.log('files', files);
     return files.map((aFile) => (
       <Grid key={aFile} item xs={2}>
         <img
@@ -133,9 +125,6 @@ export default function PostFormEdit() {
               resize="yes"
             />
           </Grid>
-          {/* <Grid item xs={12} sm={6}>
-            <AppSelectInput control={control} name="tags" />
-          </Grid> */}
           <Grid item xs={12} sm={6}>
             <Postcode
               defaultValue={currentPost?.postLocation.location}

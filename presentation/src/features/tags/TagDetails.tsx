@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router';
+import { Grid } from '@mui/material';
+
 import { useAppDispatch, useAppSelector } from './../../app/store/storeConfig';
 import { fetchTagByName } from './tagSlice';
-import { Grid } from '@mui/material';
 import Rightbar from '../../app/layout/Rightbar';
-import PostCardList from '../post/PostCardList';
 import PostCard from '../post/PostCard';
 
 export default function TagDetails() {
@@ -20,7 +20,6 @@ export default function TagDetails() {
 
   return (
     <Grid container columnSpacing={3}>
-      {/* <Grid item sm={2} xs={4}></Grid> */}
       <Grid item sm={9} xs="auto">
         <Grid container columnSpacing={2}>
           {tag?.posts?.map((post) => (
