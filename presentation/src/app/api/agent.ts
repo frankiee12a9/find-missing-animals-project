@@ -87,7 +87,6 @@ const requests = {
         },
       })
       .then((responseBody) => {
-        console.log('responseBody', responseBody);
         // return responseBody;
       })
       .catch((err: any) => console.error(err)),
@@ -100,14 +99,12 @@ const requests = {
 };
 
 function createFormData(item: any) {
-  console.log('item', item);
   let formData = new FormData();
 
   Object.keys(item).forEach((key) => {
     console.log(key, item[key]);
     formData.append(key, item[key]);
   });
-  console.log('formData', JSON.stringify(formData));
   return formData;
 }
 

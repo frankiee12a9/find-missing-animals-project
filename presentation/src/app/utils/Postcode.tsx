@@ -6,8 +6,9 @@ import {
   useController,
   UseControllerProps,
 } from 'react-hook-form';
-import AppTextInput from '../components/AppTextInput';
 import { FormControl, FormHelperText } from '@mui/material';
+
+import AppTextInput from '../components/AppTextInput';
 
 interface Props extends UseControllerProps {
   control: Control<FieldValues, any>;
@@ -36,19 +37,6 @@ const Postcode = (props: Props) => {
           extraAddress !== '' ? `, ${data.buildingName}` : data.buildingName;
       }
       fullAddress += extraAddress !== '' ? ` (${extraAddress})` : '';
-      console.log('data', data);
-
-      // const geocoder = new daum.maps.services.Geocoder();
-
-      // geocoder.addressSearch(address, (result, status) => {
-      //   if (status === daum.maps.services.Status.OK) {
-      //     const { x, y } = result[0];
-
-      //     resolve({ lat: y, lon: x });
-      //   } else {
-      //     reject();
-      //   }
-      // });
     }
 
     // console.log(fullAddress); // e.g. '서울 성동구 왕십리로2길 20 (성수동1가)'

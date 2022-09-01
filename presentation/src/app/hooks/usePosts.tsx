@@ -13,7 +13,6 @@ export default function usePosts() {
   );
 
   useEffect(() => {
-    // if (!loadingPosts)
     dispatch(fetchAllPostsAsync());
   }, [loadingPosts, dispatch]);
 
