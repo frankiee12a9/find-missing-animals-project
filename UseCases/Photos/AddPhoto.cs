@@ -48,7 +48,6 @@ namespace UseCases.Photos
 					Id = photoUploadResult.PublicId
 				};
 
-				// if (user.ProfilePictureUrl == null)
 				user.ProfilePictureUrl = photo.Url;
 
 				var result = await _dbContext.SaveChangesAsync() > 0;
