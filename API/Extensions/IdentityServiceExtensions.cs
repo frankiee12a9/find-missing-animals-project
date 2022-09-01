@@ -8,7 +8,6 @@ using Infrastructure.Security;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Routing.Matching;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -35,7 +34,6 @@ namespace API.Extensions
 			var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["TokenKey"]));
 
 			// add Jwt bearer for authentication,
-			// in order to get access to signInManager
 			services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 				.AddJwtBearer(opt =>
 				{
@@ -53,8 +51,14 @@ namespace API.Extensions
 						OnMessageReceived = context =>
 						{
 							var accessToken = context.Request.Query["access_token"];
+
 							var path = context.HttpContext.Request.Path;
-							if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/chat"))
+
+							bool validComment = (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/comment"));
+
+							bool validNotification = (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/notification"));
+
+							if (validComment || validNotification)
 							{
 								context.Token = accessToken;
 							}
@@ -63,6 +67,12 @@ namespace API.Extensions
 						}
 					};
 				});
+
+			// services.AddSignalR().AddJsonProtocol(options =>
+			// {
+			// 	options.PayloadSerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+			// 	options.PayloadSerializerSettings.Converters.Add(new StringEnumConverter());
+			// });
 
 			// post owner can edit post 
 			services.AddAuthorization(opt =>

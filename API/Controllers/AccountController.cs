@@ -51,10 +51,6 @@ namespace API.Controllers
 		{
 			if (await _userManager.Users.AnyAsync(x => x.Email == registerDto.Email))
 			{
-				// not code this
-				// return BadRequest("Email is already taken.");
-
-				// code this!
 				ModelState.AddModelError("email", "Email already taken.");
 				return ValidationProblem(ModelState);
 			}

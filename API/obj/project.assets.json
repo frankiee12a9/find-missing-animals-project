@@ -3224,11 +3224,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\cudayanh\\documents\\final-project\\missing-pets-app\\api\\API.csproj",
+      "projectUniqueName": "C:\\Users\\cudayanh\\Documents\\final-project\\missing-pets-app\\api\\API.csproj",
       "projectName": "API",
-      "projectPath": "C:\\Users\\cudayanh\\documents\\final-project\\missing-pets-app\\api\\API.csproj",
+      "projectPath": "C:\\Users\\cudayanh\\Documents\\final-project\\missing-pets-app\\api\\API.csproj",
       "packagesPath": "C:\\Users\\cudayanh\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\cudayanh\\documents\\final-project\\missing-pets-app\\api\\obj\\",
+      "outputPath": "C:\\Users\\cudayanh\\Documents\\final-project\\missing-pets-app\\api\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\cudayanh\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -3245,14 +3245,14 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "projectReferences": {
-            "C:\\Users\\cudayanh\\documents\\final-project\\missing-pets-app\\Infrastructure\\Infrastructure.csproj": {
-              "projectPath": "C:\\Users\\cudayanh\\documents\\final-project\\missing-pets-app\\Infrastructure\\Infrastructure.csproj"
+            "C:\\Users\\cudayanh\\Documents\\final-project\\missing-pets-app\\Infrastructure\\Infrastructure.csproj": {
+              "projectPath": "C:\\Users\\cudayanh\\Documents\\final-project\\missing-pets-app\\Infrastructure\\Infrastructure.csproj"
             },
-            "C:\\Users\\cudayanh\\documents\\final-project\\missing-pets-app\\Persistence\\Persistence.csproj": {
-              "projectPath": "C:\\Users\\cudayanh\\documents\\final-project\\missing-pets-app\\Persistence\\Persistence.csproj"
+            "C:\\Users\\cudayanh\\Documents\\final-project\\missing-pets-app\\Persistence\\Persistence.csproj": {
+              "projectPath": "C:\\Users\\cudayanh\\Documents\\final-project\\missing-pets-app\\Persistence\\Persistence.csproj"
             },
-            "C:\\Users\\cudayanh\\documents\\final-project\\missing-pets-app\\UseCases\\Modules.csproj": {
-              "projectPath": "C:\\Users\\cudayanh\\documents\\final-project\\missing-pets-app\\UseCases\\Modules.csproj"
+            "C:\\Users\\cudayanh\\Documents\\final-project\\missing-pets-app\\UseCases\\Modules.csproj": {
+              "projectPath": "C:\\Users\\cudayanh\\Documents\\final-project\\missing-pets-app\\UseCases\\Modules.csproj"
             }
           }
         }
