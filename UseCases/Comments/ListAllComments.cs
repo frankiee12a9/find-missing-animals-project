@@ -34,15 +34,15 @@ namespace UseCases.Comments
 
 			public async Task<Result<List<CommentDto>>> Handle(Query request, CancellationToken cancellationToken)
 			{
-				var commentList = await _dbContext.Comments
+				var comments = await _dbContext.Comments
 					.Where(comment => comment.Post.Id == request.PostId)
 					.OrderBy(comment => comment.Timestamp)
 					.ProjectTo<CommentDto>(_mapper.ConfigurationProvider)
 					.ToListAsync();
 
-				if (commentList == null) return null;
+				if (comments == null) return null;
 
-				return Result<List<CommentDto>>.Success(commentList);
+				return Result<List<CommentDto>>.Success(comments);
 			}
 		}
 	}
