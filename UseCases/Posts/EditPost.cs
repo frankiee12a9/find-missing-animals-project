@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Domain;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -21,8 +22,6 @@ namespace UseCases.Posts
 		public class Command : IRequest<Result<Unit>>
 		{
 			public EditPostDto Post { get; set; }
-			// public EditPostParams EditPostParams { get; set; }
-			
 		}
 
 		public class Handler : IRequestHandler<Command, Result<Unit>>
@@ -46,27 +45,44 @@ namespace UseCases.Posts
 				
 				if (postToEdit == null) return null;
 
-				// _mapper.Map(request.Post, postToEdit);
 				_mapper.Map(request.Post, postToEdit);
 
-				// // var currentPostPhotos = await _context
-				// var newPhotosToUpdate = new List<IFormFile>() {request.EditPostParams?.File, request.EditPostParams?.File1, request.EditPostParams?.File2};
-				// foreach (var photo in newPhotosToUpdate) 
-				// {
-				// 	if (photo != null) 
-				// 	{
-				// 		var photoUpdateResult = await _photoAccessor.AddPhoto(photo);
+				var currentPostPhotos = postToEdit.Photos;
 
-				// 		if (photoUpdateResult == null)
-				// 			return null;
+				var newPhotosToUpdate = new List<IFormFile>() {request.Post?.File, request.Post?.File1, request.Post?.File2};
+
+				for (int i = 0 ; i < newPhotosToUpdate.Count; i++) 
+				{
+					if (newPhotosToUpdate.ElementAt(i) == null) continue;
+
+					Console.WriteLine(newPhotosToUpdate.ElementAt(i));
+
+					var photoUpdateResult = await _photoAccessor.AddPhoto(newPhotosToUpdate.ElementAt(i));
+
+					if (photoUpdateResult == null)
+						return null;
+					
+					if (i < currentPostPhotos.Count && !string.IsNullOrEmpty(currentPostPhotos.ElementAt(i).Id)) 
+					{
+						await _photoAccessor.DeletePhoto(currentPostPhotos.ElementAt(i).Id);
 						
-				// 		var currentPostPhoto = postToEdit.Photos.Any(p => p.Id );
+						var photoToReplace = currentPostPhotos.ElementAt(i); 
 
-				// 	}
-				// }
+						currentPostPhotos.Remove(photoToReplace);
+					}
+					
+					var photoToUpdate = new Photo 
+					{
+						Id = photoUpdateResult.PublicId,
+						Url = photoUpdateResult.Url
+					};
 
-				var isEditedOk = await _context.SaveChangesAsync() > 0;
-				if (!isEditedOk) return Result<Unit>.Failure("Failed to edit post.");
+					currentPostPhotos.Add(photoToUpdate);
+				}
+
+				var result = await _context.SaveChangesAsync() > 0;
+
+				if (!result) return Result<Unit>.Failure("Failed to edit post.");
 
 				return Result<Unit>.Success(Unit.Value);
 			}

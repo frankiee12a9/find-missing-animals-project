@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-// using Newtonsoft.Json;
+using Newtonsoft.Json;
 using Persistence;
 using UseCases.Core;
 using UseCases.Interfaces;
@@ -31,13 +31,10 @@ namespace UseCases.Posts
 		{
 			public CommandValidator()
 			{
-				// RuleFor(x => x.NewPostParams.Post).SetValidator(new PostParamsValidator());
 				RuleFor(x => x.NewPostParams.Title).NotEmpty();
 				RuleFor(x => x.NewPostParams.Content).NotEmpty();
 				RuleFor(x => x.NewPostParams.Location).NotEmpty();
 				RuleFor(x => x.NewPostParams.File).NotEmpty();
-				// RuleFor(x => x.NewPostParams.File1).NotEmpty();
-				// RuleFor(x => x.NewPostParams.File).NotEmpty();
 				RuleFor(x => x.NewPostParams.Tag1).NotEmpty();
 				RuleFor(x => x.NewPostParams.Tag2).NotEmpty();
 				RuleFor(x => x.NewPostParams.Tag3).NotEmpty();
@@ -68,6 +65,7 @@ namespace UseCases.Posts
 
 				var post =  new Post 
 				{
+					Id = request.NewPostParams.Id,
 					Title = request.NewPostParams.Title,
 					Content = request.NewPostParams.Content,
 					PostLocation = new PostLocation 
@@ -81,13 +79,11 @@ namespace UseCases.Posts
 				var postOwner = new PostFollowing
 				{
 					ApplicationUser = currentUser,
-					// Post = request.NewPostParams.Post,
 					Post = post,
 					isPoster = true
 				};
 				await _context.PostFollowers.AddAsync(postOwner);
 
-				// Note: tags
 				Tag1 tag1 = null;
 				if (!string.IsNullOrEmpty(request.NewPostParams?.Tag1))
 				{
@@ -106,7 +102,6 @@ namespace UseCases.Posts
 					}
 					var tag1Post = new Tag1Post
 					{
-						// Post = request.NewPostParams.Post,
 						Post = post,
 						Tag1 = tag1
 					};
@@ -131,7 +126,6 @@ namespace UseCases.Posts
 					}
 					var Tag1Post = new Tag1Post
 					{
-						// Post = request.NewPostParams.Post,
 						Post = post,
 						Tag1 = tag2
 					};
@@ -156,7 +150,6 @@ namespace UseCases.Posts
 					}
 					var Tag3Post = new Tag1Post
 					{
-						// Post = request.NewPostParams.Post,
 						Post = post,
 						Tag1 = tag3
 					};
@@ -210,27 +203,11 @@ namespace UseCases.Posts
 					await _context.Tag1Posts.AddAsync(Tag5Post);
 				}
 
-				// Note: photos upload
-				// var photos = request.NewPostParams?.Files;
-				// if (photos != null) 
-				// {
-				// 	foreach (var file in photos)
-				// 	{
-				// 		if (file != null)
-				// 		{
-				// 			var photoToUpload = await _photoAccessor.AddAPhoto(file);
-				// 			var newPhoto = new Photo
-				// 			{
-				// 				Id = photoToUpload.PublicId,
-				// 				Url = photoToUpload.Url
-				// 			};
-				// 			// request.NewPostParams.Post.Photos.Add(newPhoto);
-				// 			post.Photos.Add(newPhoto);
-				// 		}
-				// 	}
-				// }
+				var photos = new List<IFormFile>();
+				if (request.NewPostParams?.File != null) photos.Add(request.NewPostParams?.File);
+				if (request.NewPostParams?.File2 != null) photos.Add(request.NewPostParams?.File1);
+				if (request.NewPostParams?.File != null) photos.Add(request.NewPostParams?.File2);
 
-				var photos = new List<IFormFile>() {request.NewPostParams?.File, request.NewPostParams?.File1, request.NewPostParams?.File2};
 				foreach (var file in photos)
 				{
 					if (file != null)
@@ -241,19 +218,17 @@ namespace UseCases.Posts
 							Id = photoToUpload.PublicId,
 							Url = photoToUpload.Url
 						};
-						// request.NewPostParams.Post.Photos.Add(newPhoto);
 						post.Photos.Add(newPhoto);
 					}
 				}
 
-				// request.NewPostParams.Post.PostFollowers.Add(postOwner);
 				post.PostFollowers.Add(postOwner);
 
-				// _context.Posts.Add(request.newPostParams.Post);
 				_context.Posts.Add(post);
 
-				var isCreatedOk = await _context.SaveChangesAsync() > 0;
-				if (!isCreatedOk) return Result<Unit>.Failure("Failed creating new post.");
+				var result = await _context.SaveChangesAsync() > 0;
+
+				if (!result) return Result<Unit>.Failure("Failed creating new post.");
 
 				return Result<Unit>.Success(Unit.Value);
 			}

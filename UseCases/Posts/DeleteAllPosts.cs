@@ -11,7 +11,6 @@ namespace UseCases.Posts
     {
         public class Command : IRequest<Result<Unit>>
 		{
-			// public Guid Id { get; set; }
 		}
 
 		public class Handler : IRequestHandler<Command, Result<Unit>>
@@ -33,6 +32,7 @@ namespace UseCases.Posts
 				_context.Posts.RemoveRange(allPosts);
 
 				var result = await _context.SaveChangesAsync() > 0;
+
 				if (!result) return Result<Unit>.Failure("Failed to delete activity.");
 
 				return Result<Unit>.Success(Unit.Value);

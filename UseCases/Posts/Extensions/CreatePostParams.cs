@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using BrunoZell.ModelBinding;
@@ -12,6 +13,7 @@ namespace UseCases.Posts.Extensions
 		// Note: Binding Json object with ModelBinder as JsonModelBinder for request body as form-data
 		// [ModelBinder(BinderType = typeof(JsonModelBinder))]
 		// public Post Post { get; set; }
+		public Guid Id { get; set; }
 		public string Title { get; set; }
 		public string Content { get; set; }
 		public string Location { get; set; }

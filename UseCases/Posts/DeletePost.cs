@@ -26,12 +26,13 @@ namespace UseCases.Posts
 			public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
 			{
 				var postToDelete = await _context.Posts
-				.Include(photos => photos.Photos)
-				.FirstOrDefaultAsync(post => post.Id == request.Id);
+					.Include(photos => photos.Photos)
+					.FirstOrDefaultAsync(post => post.Id == request.Id);
 
 				_context.Remove(postToDelete);
 
 				var result = await _context.SaveChangesAsync() > 0;
+
 				if (!result) return Result<Unit>.Failure("Failed to delete activity.");
 
 				return Result<Unit>.Success(Unit.Value);

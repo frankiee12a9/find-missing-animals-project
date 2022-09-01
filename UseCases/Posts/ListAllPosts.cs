@@ -43,8 +43,8 @@ namespace UseCases.Posts
 			public async Task<Result<PagedList<PostDto>>> Handle(Query request, CancellationToken cancellationToken)
 			{
 				var result = _context.Posts
-					.ProjectTo<PostDto>(_mapper.ConfigurationProvider
-						// new { currentUsername = _userAccessor.GetUserName() }
+					.ProjectTo<PostDto>(_mapper.ConfigurationProvider,
+						new { currentUsername = _userAccessor.GetUserName() }
 						)
 					.AsQueryable();
 
@@ -89,27 +89,6 @@ namespace UseCases.Posts
 				if (detailedLocation != null)
 					result = result
 						.Where(x => x.PostLocation.DetailedLocation.Contains(detailedLocation));
-
-				// tags query params 
-				// string tag1 = request.PostQueryParams?.tag1;
-				// if (tag1 != null)
-				// 	result = result.Where(x => x.Tags.Any(tag => tag.Tag1Name.Contains(tag1)));
-
-				// string tag2 = request.PostQueryParams?.tag2;
-				// if (tag2 != null)
-				// 	result = result.Where(x => x.Tags.Any(tag => tag.Tag1Name.Contains(tag2)));
-
-				// string tag3 = request.PostQueryParams?.tag3;
-				// if (tag3 != null)
-				// 	result = result.Where(x => x.Tags.Any(tag => tag.Tag1Name.Contains(tag3)));
-
-				// string tag4 = request.PostQueryParams?.tag4;
-				// if (tag4 != null) 
-				// 	result = result.Where(x => x.Tags.Any(tag => tag.Tag1Name.Contains(tag4)));
-
-				// string tag5 = request.PostQueryParams?.tag5;
-				// if (tag5 != null) 
-				// 	result = result.Where(x => x.Tags.Any(tag => tag.Tag1Name.Contains(tag5)));
 
 				return Result<PagedList<PostDto>>.Success(
 					await PagedList<PostDto>.CreateAsync(result, request.PostQueryParams.PageNumber,

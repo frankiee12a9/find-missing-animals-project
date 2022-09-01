@@ -11,21 +11,21 @@ namespace UseCases.Posts.Dtos
 	{
 		public Guid Id { get; set; }
 
-		// [Required]
+		[Required]
 		public string Title { get; set; }
 
-		// [Required]
+		[Required]
 		public string Content { get; set; }
 
 		// [ModelBinder(BinderType = typeof(JsonModelBinder))]
 		public DateTime UpdatedAt { get; set; } = DateTime.Now;
 
 		public bool IsFound { get; set; } // 찾았나요?
-
+		[Required]
 		public string Location { get; set; }
-
 		public string DetailedLocation { get; set; }
-
+		public string RoadLocation { get; set; }
+		
 		public IFormFile File { get; set; }
 		public IFormFile File1 { get; set; }
 		public IFormFile File2 { get; set; }
@@ -35,8 +35,5 @@ namespace UseCases.Posts.Dtos
 		public string Tag3 { get; set; }
 		public string Tag4 { get; set; }
 		public string Tag5 { get; set; }
-
-		// public PostLocation PostLocation { get; set; }
-		
 	}
 }

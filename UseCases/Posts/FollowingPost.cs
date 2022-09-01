@@ -39,6 +39,7 @@ namespace UseCases.Posts
 					.Include(e => e.PostFollowers)
 						.ThenInclude(e => e.ApplicationUser)
 					.FirstOrDefaultAsync(e => e.Id == request.PostId);
+
 				if (post == null) return null;
 
 				var currentLoginUser = await _context.Users

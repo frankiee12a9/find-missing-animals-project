@@ -13,7 +13,6 @@ namespace UseCases.Posts.Extensions
 		public string Location { get; set; } = null;
 		public string OrderBy { get; set; }
 		public string SearchText { get; set; }
-		// post following userName
 		public string follower { get; set; }
 		public string tag1 { get; set; }
 		public string tag2 { get; set; }
