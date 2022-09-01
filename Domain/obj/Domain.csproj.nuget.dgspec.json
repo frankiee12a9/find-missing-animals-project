@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\cudayanh\\documents\\final-project\\missing-pets-app\\Domain\\Domain.csproj": {}
+    "C:\\Users\\cudayanh\\Documents\\final-project\\missing-pets-app\\Domain\\Domain.csproj": {}
   },
   "projects": {
-    "C:\\Users\\cudayanh\\documents\\final-project\\missing-pets-app\\Domain\\Domain.csproj": {
+    "C:\\Users\\cudayanh\\Documents\\final-project\\missing-pets-app\\Domain\\Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\cudayanh\\documents\\final-project\\missing-pets-app\\Domain\\Domain.csproj",
+        "projectUniqueName": "C:\\Users\\cudayanh\\Documents\\final-project\\missing-pets-app\\Domain\\Domain.csproj",
         "projectName": "Domain",
-        "projectPath": "C:\\Users\\cudayanh\\documents\\final-project\\missing-pets-app\\Domain\\Domain.csproj",
+        "projectPath": "C:\\Users\\cudayanh\\Documents\\final-project\\missing-pets-app\\Domain\\Domain.csproj",
         "packagesPath": "C:\\Users\\cudayanh\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\cudayanh\\documents\\final-project\\missing-pets-app\\Domain\\obj\\",
+        "outputPath": "C:\\Users\\cudayanh\\Documents\\final-project\\missing-pets-app\\Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\cudayanh\\AppData\\Roaming\\NuGet\\NuGet.Config",
