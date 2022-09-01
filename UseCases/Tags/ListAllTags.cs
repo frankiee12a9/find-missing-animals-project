@@ -18,7 +18,6 @@ namespace UseCases.Tags
 	{
 		public class Query : IRequest<Result<List<TagDto>>>
 		{
-			// public int TagId { get; set; }
 		}
 
 		public class Handler : IRequestHandler<Query, Result<List<TagDto>>>
@@ -42,30 +41,6 @@ namespace UseCases.Tags
 					.OrderBy(x => x.TagName)
 					.ProjectTo<TagDto>(_mapper.ConfigurationProvider)
 					.ToListAsync();
-
-				// Note: remove soon as this became useless
-				// var tag2List = await _context.Tag2s
-				// 	.OrderBy(x => x.TagName)
-				// 	.ProjectTo<TagDto>(_mapper.ConfigurationProvider)
-				// 	.ToListAsync();
-
-				// var tag3List = await _context.Tag3s
-				// 	.OrderBy(x => x.TagName)
-				// 	.ProjectTo<TagDto>(_mapper.ConfigurationProvider)
-				// 	.ToListAsync();
-
-				// var tag4List = await _context.Tag4s
-				// 	.OrderBy(x => x.TagName)
-				// 	.ProjectTo<TagDto>(_mapper.ConfigurationProvider)
-				// 	.ToListAsync();
-
-				// var tag5List = await _context.Tag5s
-				// 	.OrderBy(x => x.TagName)
-				// 	.ProjectTo<TagDto>(_mapper.ConfigurationProvider)
-				// 	.ToListAsync();
-
-				// concat multiple list of tags to one
-				// var result = tag1List.Concat(tag2List).Concat(tag3List).Concat(tag4List).Concat(tag5List).ToList();
 
 				if (result != null)
 					return Result<List<TagDto>>.Success(result);
