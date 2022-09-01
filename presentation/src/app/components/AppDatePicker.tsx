@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
-
 import 'react-datepicker/dist/react-datepicker.css';
 import { date } from 'yup';
+
 import { setPostParams } from '../../features/post/postSlice';
 import { useAppDispatch } from '../store/storeConfig';
 

@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from '../store/storeConfig';
 import { Box, Button, Grid, Stack, Typography } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 import SendIcon from '@mui/icons-material/Send';
 import Slider from 'react-slick';
 
 export default function HomePage() {
-  // const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     setTimeout(() => {
@@ -63,9 +61,6 @@ export default function HomePage() {
         </div>
       </Slider>
       <Box display="flex" justifyContent="center" sx={{ p: 4 }}>
-        {/* <Stack spacing={2}>
-          <Typography variant="h2">Welcome to the store</Typography>
-        </Stack> */}
         <Stack direction="row" spacing={2}>
           <Button
             href="/posts"

@@ -2,10 +2,7 @@ import React, { useEffect, useState } from 'react';
 import CreatableSelect from 'react-select/creatable';
 import { ActionMeta, OnChangeValue } from 'react-select';
 import { useAppDispatch } from '../store/storeConfig';
-// import { Tag } from '../models/tag';
-// import { setPostParams } from '../../features/post/postSlice';
 import { useAppSelector } from './../store/storeConfig';
-// import { fetchAllTags } from '../../features/tags/tagSlice';
 import useTags from '../hooks/useTags';
 import {
   Control,
@@ -23,7 +20,6 @@ export interface TagOption {
 }
 
 interface Props extends UseControllerProps {
-  // handleGetPostLocation: (postLocationData: string) => void;
   control?: Control<FieldValues, any>;
 }
 

@@ -197,6 +197,7 @@ export default function Map(props: propsType) {
     function addMarker(location: Location, idx: number, title: undefined) {
       let normalImageSrc =
         'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png';
+
       let petImgSrc =
         'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png';
 
