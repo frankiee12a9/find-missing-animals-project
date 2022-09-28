@@ -52,18 +52,15 @@ namespace UseCases.PostParticipating
 				// var postFollowing = await _context.PostFollowers.FindAsync(postFollowerId, postToFollow.Id);
 
 				var postFollowing = await _context.PostFollowers
-					// .AsNoTracking()
+					.AsNoTracking()
 					.Where(entity => entity.ApplicationUserId == follower.Id && entity.PostId == postToFollow.Id)
 					.FirstOrDefaultAsync();
 
-				// if (postFollowing.isPoster)
-				// {
-				// 	postToFollow.IsFound = !postToFollow.IsFound;
-				// }
 				if (postFollowing != null)
 				{
 					_context.PostFollowers.Remove(postFollowing);
 				}
+
 				if (postFollowing == null)
 				{
 					postFollowing = new PostFollowing
@@ -74,9 +71,9 @@ namespace UseCases.PostParticipating
 					_context.PostFollowers.Add(postFollowing);
 				}
 
-				var isFollowingPostOk = await _context.SaveChangesAsync() > 0;
+				var result = await _context.SaveChangesAsync() > 0;
 
-				if (!isFollowingPostOk) return Result<Unit>.Failure("Failed while following post");
+				if (!result) return Result<Unit>.Failure("Failed while following post");
 
 				return Result<Unit>.Success(Unit.Value);
 			}

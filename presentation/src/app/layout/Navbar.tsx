@@ -1,132 +1,178 @@
-import React from "react"
+import React, { useState } from 'react';
 import {
-	alpha,
-	AppBar,
-	Avatar,
-	Badge,
-	InputBase,
-	makeStyles,
-	Toolbar,
-	Switch,
-	Typography,
-} from "@material-ui/core"
-import { Cancel, Mail, Notifications, Search } from "@material-ui/icons"
-import { useState } from "react"
+  AppBar,
+  Avatar,
+  Badge,
+  Box,
+  debounce,
+  InputBase,
+  List,
+  ListItem,
+  makeStyles,
+  Menu,
+  MenuItem,
+  styled,
+  Toolbar,
+  Typography,
+} from '@mui/material';
+import { Cancel, Mail, Notifications, Pets } from '@mui/icons-material';
+import { Link, NavLink } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../store/storeConfig';
+import { setPostParams } from '../../features/post/postSlice';
+import { logout } from '../../features/auth/authSlice';
+import path from 'path';
+import { title } from 'process';
+import { history } from '../..';
+import HomePage from 'app/components/HomePage';
 
 interface DisplayProps {
-	open: boolean
+  open: boolean;
 }
 
-const useStyles = makeStyles(theme => ({
-	toolbar: {
-		display: "flex",
-		justifyContent: "space-between",
-	},
-	logoLg: {
-		display: "none",
-		[theme.breakpoints.up("sm")]: {
-			display: "block",
-		},
-	},
-	logoSm: {
-		display: "block",
-		[theme.breakpoints.up("sm")]: {
-			display: "none",
-		},
-	},
-	search: {
-		display: "flex",
-		alignItems: "center",
-		backgroundColor: alpha(theme.palette.common.white, 0.15),
-		"&:hover": {
-			backgroundColor: alpha(theme.palette.common.white, 0.25),
-		},
-		borderRadius: theme.shape.borderRadius,
-		width: "50%",
-		[theme.breakpoints.down("sm")]: {
-			display: (props: DisplayProps) => (props.open ? "flex" : "none"),
-			width: "70%",
-		},
-	},
-	input: {
-		color: "white",
-		marginLeft: theme.spacing(1),
-	},
-	cancel: {
-		[theme.breakpoints.up("sm")]: {
-			display: "none",
-		},
-	},
-	searchButton: {
-		marginRight: theme.spacing(2),
-		[theme.breakpoints.up("sm")]: {
-			display: "none",
-		},
-	},
-	icons: {
-		alignItems: "center",
-		display: (props: DisplayProps) => (props.open ? "none" : "flex"),
-	},
-	badge: {
-		marginRight: theme.spacing(2),
-	},
-}))
+const StyledToolbar = styled(Toolbar)({
+  display: 'flex',
+  justifyContent: 'space-between',
+});
 
-interface Props {
-	darkMode: boolean,
-	handleThemeChange: () => void
+const Search = styled('div')(({ theme }) => ({
+  backgroundColor: 'white',
+  padding: '0 10px',
+  borderRadius: theme.shape.borderRadius,
+  width: '40%',
+}));
+
+const Icons = styled(Box)(({ theme }) => ({
+  display: 'none',
+  alignItems: 'center',
+  gap: '20px',
+  [theme.breakpoints.up('sm')]: {
+    display: 'flex',
+  },
+}));
+
+const UserBox = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '10px',
+  [theme.breakpoints.up('sm')]: {
+    display: 'none',
+  },
+}));
+
+const navStyles = {
+  color: 'white',
+  textDecoration: 'none',
+  typography: 'h6',
+  '&:hover': {
+    color: 'white.500',
+  },
+  '&.active': {
+    color: 'text.secondary',
+  },
+};
+
+export default function Navbar() {
+  const dispatch = useAppDispatch();
+  const { user } = useAppSelector((state) => state.auth);
+  const [open, setOpen] = useState(false);
+  const { postQueryParams } = useAppSelector((state) => state.posts);
+  const [searchText, setSearchText] = useState(postQueryParams?.searchText);
+
+  const debouncedSearch = debounce((event: any) => {
+    dispatch(setPostParams({ searchText: event.target.value }));
+  });
+
+  return (
+    <AppBar position="sticky">
+      <StyledToolbar>
+        <Typography
+          variant="h6"
+          sx={{ display: { xs: 'none', sm: 'block' } }}
+          to="/"
+          component={NavLink}
+          style={{ color: 'white' }}
+        >
+          My Missing Pets, Where?
+        </Typography>
+        <Pets sx={{ display: { xs: 'block', sm: 'none' } }} />
+        <Search>
+          <InputBase
+            fullWidth
+            value={searchText || ''}
+            placeholder="search..."
+            onChange={(event: any) => {
+              setSearchText(event.target.value);
+              debouncedSearch(event);
+            }}
+          />
+        </Search>
+        <Icons>
+          {user ? (
+            <>
+              <Badge badgeContent={4} color="error">
+                <Mail />
+              </Badge>
+              <Badge badgeContent={2} color="error">
+                <Notifications />
+              </Badge>
+              <Avatar
+                sx={{ width: 30, height: 30 }}
+                src={user?.image}
+                onClick={(e) => setOpen(true)}
+              />
+            </>
+          ) : (
+            <>
+              <List sx={{ display: 'flex' }}>
+                <ListItem
+                  component={NavLink}
+                  to="/login"
+                  sx={navStyles}
+                  style={{ color: 'white' }}
+                >
+                  {'Login'.toUpperCase()}
+                </ListItem>
+                <ListItem
+                  component={NavLink}
+                  to="/register"
+                  sx={navStyles}
+                  style={{ color: 'white' }}
+                >
+                  {'Register'.toUpperCase()}
+                </ListItem>
+              </List>
+            </>
+          )}
+        </Icons>
+      </StyledToolbar>
+      <Menu
+        id="demo-positioned-menu"
+        aria-labelledby="demo-positioned-button"
+        style={{ top: '30px' }}
+        open={open}
+        onClose={(e) => setOpen(false)}
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+      >
+        <MenuItem component={Link} to={`/profile/${user?.username}`}>
+          Profile
+        </MenuItem>
+        <MenuItem>My account</MenuItem>
+        <MenuItem
+          onClick={() => {
+            dispatch(logout());
+            window.location.reload();
+          }}
+        >
+          Logout
+        </MenuItem>
+      </Menu>
+    </AppBar>
+  );
 }
-
-const Navbar = ({darkMode, handleThemeChange}: Props) => {
-	const [open, setOpen] = useState(false)
-	const classes = useStyles({ open })
-	return (
-		<AppBar position="fixed">
-			<Toolbar className={classes.toolbar}>
-				<Typography variant="h6" className={classes.logoLg}>
-					반려동물.찾기.컴
-				</Typography>
-				<Switch checked={darkMode} onChange={handleThemeChange} />
-				<Typography variant="h6" className={classes.logoSm}>
-					LAMA
-				</Typography>
-				<div className={classes.search}>
-					<Search />
-					<InputBase
-						placeholder="검색 키워드 입력..."
-						className={classes.input}
-					/>
-					<Cancel
-						className={classes.cancel}
-						onClick={() => setOpen(false)}
-					/>
-				</div>
-				<div className={classes.icons}>
-					<Search
-						className={classes.searchButton}
-						onClick={() => setOpen(true)}
-					/>
-					<Badge
-						badgeContent={4}
-						color="secondary"
-						className={classes.badge}>
-						<Mail />
-					</Badge>
-					<Badge
-						badgeContent={2}
-						color="secondary"
-						className={classes.badge}>
-						<Notifications />
-					</Badge>
-					<Avatar
-						alt="Remy Sharp"
-						// src="https://images.pexels.com/photos/8647814/pexels-photo-8647814.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
-						src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSyhipSRxq94EUJMm7d2J0n6vjdrUyE9d04N89u_szECLc4933GdvPrHJc9VDeROEAyniY&usqp=CAU"
-					/>
-				</div>
-			</Toolbar>
-		</AppBar>
-	)
-}
-
-export default Navbar

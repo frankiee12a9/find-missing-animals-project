@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Persistence;
 
 namespace Persistence.Migrations
@@ -14,68 +15,71 @@ namespace Persistence.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "5.0.10");
+                .HasAnnotation("Relational:MaxIdentifierLength", 63)
+                .HasAnnotation("ProductVersion", "5.0.10")
+                .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
             modelBuilder.Entity("Domain.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("TEXT");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("text");
 
                     b.Property<int>("AccessFailedCount")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.Property<string>("Bio")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<string>("DisplayName")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("character varying(256)");
 
                     b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("boolean");
 
                     b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("boolean");
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("character varying(256)");
 
                     b.Property<string>("NormalizedUserName")
                         .HasMaxLength(256)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("character varying(256)");
 
                     b.Property<string>("PasswordHash")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<string>("PhoneNumber")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("boolean");
 
                     b.Property<string>("ProfilePictureUrl")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<string>("SecurityStamp")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("boolean");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("character varying(256)");
 
                     b.HasKey("Id");
 
@@ -93,19 +97,20 @@ namespace Persistence.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<string>("ApplicationUserId")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<Guid>("PostId")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Text")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("Timestamp")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("timestamp without time zone");
 
                     b.HasKey("Id");
 
@@ -119,13 +124,13 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.Photo", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<Guid?>("PostId")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Url")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -138,24 +143,24 @@ namespace Persistence.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Content")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("Date")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<bool>("IsFound")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("boolean");
 
                     b.Property<int?>("PostLocationId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -167,13 +172,13 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.PostFollowing", b =>
                 {
                     b.Property<Guid>("PostId")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uuid");
 
                     b.Property<string>("ApplicationUserId")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<bool>("isPoster")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("boolean");
 
                     b.HasKey("PostId", "ApplicationUserId");
 
@@ -186,30 +191,30 @@ namespace Persistence.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<string>("DetailedLocation")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<string>("ExtraLocation")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<double?>("Latitude")
-                        .HasColumnType("REAL");
+                        .HasColumnType("double precision");
 
                     b.Property<string>("Location")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<double?>("Longitude")
-                        .HasColumnType("REAL");
+                        .HasColumnType("double precision");
 
                     b.Property<string>("PostCode")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<string>("RoadLocation")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -218,12 +223,13 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Tag1", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("uuid");
 
                     b.Property<string>("TagName")
-                        .HasColumnType("TEXT");
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -233,26 +239,27 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.Tag1Post", b =>
                 {
                     b.Property<Guid>("PostId")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uuid");
 
-                    b.Property<int>("Tag1Id")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("TagName")
+                        .HasColumnType("text");
 
-                    b.HasKey("PostId", "Tag1Id");
+                    b.HasKey("PostId", "TagName");
 
-                    b.HasIndex("Tag1Id");
+                    b.HasIndex("TagName");
 
                     b.ToTable("Tag1Posts");
                 });
 
             modelBuilder.Entity("Domain.Tag2", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("uuid");
 
                     b.Property<string>("TagName")
-                        .HasColumnType("TEXT");
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -262,26 +269,27 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.Tag2Post", b =>
                 {
                     b.Property<Guid>("PostId")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uuid");
 
-                    b.Property<int>("Tag2Id")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("TagName")
+                        .HasColumnType("text");
 
-                    b.HasKey("PostId", "Tag2Id");
+                    b.HasKey("PostId", "TagName");
 
-                    b.HasIndex("Tag2Id");
+                    b.HasIndex("TagName");
 
                     b.ToTable("Tag2Posts");
                 });
 
             modelBuilder.Entity("Domain.Tag3", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("uuid");
 
                     b.Property<string>("TagName")
-                        .HasColumnType("TEXT");
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -291,26 +299,27 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.Tag3Post", b =>
                 {
                     b.Property<Guid>("PostId")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uuid");
 
-                    b.Property<int>("Tag3Id")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("TagName")
+                        .HasColumnType("text");
 
-                    b.HasKey("PostId", "Tag3Id");
+                    b.HasKey("PostId", "TagName");
 
-                    b.HasIndex("Tag3Id");
+                    b.HasIndex("TagName");
 
                     b.ToTable("Tag3Posts");
                 });
 
             modelBuilder.Entity("Domain.Tag4", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("uuid");
 
                     b.Property<string>("TagName")
-                        .HasColumnType("TEXT");
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -320,26 +329,27 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.Tag4Post", b =>
                 {
                     b.Property<Guid>("PostId")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uuid");
 
-                    b.Property<int>("Tag4Id")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("TagName")
+                        .HasColumnType("text");
 
-                    b.HasKey("PostId", "Tag4Id");
+                    b.HasKey("PostId", "TagName");
 
-                    b.HasIndex("Tag4Id");
+                    b.HasIndex("TagName");
 
                     b.ToTable("Tag4Posts");
                 });
 
             modelBuilder.Entity("Domain.Tag5", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("uuid");
 
                     b.Property<string>("TagName")
-                        .HasColumnType("TEXT");
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -349,34 +359,66 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.Tag5Post", b =>
                 {
                     b.Property<Guid>("PostId")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uuid");
 
-                    b.Property<int>("Tag5Id")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("TagName")
+                        .HasColumnType("text");
 
-                    b.HasKey("PostId", "Tag5Id");
+                    b.HasKey("PostId", "TagName");
 
-                    b.HasIndex("Tag5Id");
+                    b.HasIndex("TagName");
 
                     b.ToTable("Tag5Posts");
+                });
+
+            modelBuilder.Entity("Domain.Value", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Values");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Value 101"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Value 102"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Value 103"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<string>("Name")
                         .HasMaxLength(256)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("character varying(256)");
 
                     b.Property<string>("NormalizedName")
                         .HasMaxLength(256)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("character varying(256)");
 
                     b.HasKey("Id");
 
@@ -391,17 +433,18 @@ namespace Persistence.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<string>("ClaimType")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<string>("ClaimValue")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<string>("RoleId")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -414,17 +457,18 @@ namespace Persistence.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<string>("ClaimType")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<string>("ClaimValue")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -436,17 +480,17 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<string>("ProviderDisplayName")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.HasKey("LoginProvider", "ProviderKey");
 
@@ -458,10 +502,10 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<string>("RoleId")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.HasKey("UserId", "RoleId");
 
@@ -473,16 +517,16 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<string>("Name")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.Property<string>("Value")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("text");
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
@@ -550,8 +594,9 @@ namespace Persistence.Migrations
                         .IsRequired();
 
                     b.HasOne("Domain.Tag1", "Tag1")
-                        .WithMany("Tag1Posts")
-                        .HasForeignKey("Tag1Id")
+                        .WithMany("Posts")
+                        .HasForeignKey("TagName")
+                        .HasPrincipalKey("TagName")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -569,8 +614,9 @@ namespace Persistence.Migrations
                         .IsRequired();
 
                     b.HasOne("Domain.Tag2", "Tag2")
-                        .WithMany("Tag2Posts")
-                        .HasForeignKey("Tag2Id")
+                        .WithMany("Posts")
+                        .HasForeignKey("TagName")
+                        .HasPrincipalKey("TagName")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -588,8 +634,9 @@ namespace Persistence.Migrations
                         .IsRequired();
 
                     b.HasOne("Domain.Tag3", "Tag3")
-                        .WithMany("Tag3Posts")
-                        .HasForeignKey("Tag3Id")
+                        .WithMany("Posts")
+                        .HasForeignKey("TagName")
+                        .HasPrincipalKey("TagName")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -607,8 +654,9 @@ namespace Persistence.Migrations
                         .IsRequired();
 
                     b.HasOne("Domain.Tag4", "Tag4")
-                        .WithMany("Tag4Posts")
-                        .HasForeignKey("Tag4Id")
+                        .WithMany("Posts")
+                        .HasForeignKey("TagName")
+                        .HasPrincipalKey("TagName")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -627,7 +675,8 @@ namespace Persistence.Migrations
 
                     b.HasOne("Domain.Tag5", "Tag5")
                         .WithMany("Tag5Posts")
-                        .HasForeignKey("Tag5Id")
+                        .HasForeignKey("TagName")
+                        .HasPrincipalKey("TagName")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -713,22 +762,22 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Tag1", b =>
                 {
-                    b.Navigation("Tag1Posts");
+                    b.Navigation("Posts");
                 });
 
             modelBuilder.Entity("Domain.Tag2", b =>
                 {
-                    b.Navigation("Tag2Posts");
+                    b.Navigation("Posts");
                 });
 
             modelBuilder.Entity("Domain.Tag3", b =>
                 {
-                    b.Navigation("Tag3Posts");
+                    b.Navigation("Posts");
                 });
 
             modelBuilder.Entity("Domain.Tag4", b =>
                 {
-                    b.Navigation("Tag4Posts");
+                    b.Navigation("Posts");
                 });
 
             modelBuilder.Entity("Domain.Tag5", b =>

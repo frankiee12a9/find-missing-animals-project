@@ -10,7 +10,6 @@ namespace UseCases.Posts
 {
 	public class DeletePost
 	{
-		// Command # Query: Command does not return anything!!
 		public class Command : IRequest<Result<Unit>>
 		{
 			public Guid Id { get; set; }
@@ -27,9 +26,8 @@ namespace UseCases.Posts
 			public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
 			{
 				var postToDelete = await _context.Posts
-				.Include(photos => photos.Photos)
-				.FirstOrDefaultAsync(post => post.Id == request.Id);
-				// .FindAsync(request.Id);
+					.Include(photos => photos.Photos)
+					.FirstOrDefaultAsync(post => post.Id == request.Id);
 
 				_context.Remove(postToDelete);
 

@@ -14,12 +14,11 @@ using UseCases.Interfaces;
 
 namespace UseCases.Tags
 {
-    public class ListAllTags
-    {
-        public class Query : IRequest<Result<List<TagDto>>>
-        {
-            // public int TagId { get; set; }
-        }
+	public class ListAllTags
+	{
+		public class Query : IRequest<Result<List<TagDto>>>
+		{
+		}
 
         public class Handler : IRequestHandler<Query, Result<List<TagDto>>>
         {
@@ -35,7 +34,6 @@ namespace UseCases.Tags
                 _mapper = mapper;
                 _userAccessor = userAccessor;
             }
-
             public async Task<Result<List<TagDto>>> Handle(Query request, CancellationToken cancellationToken)
             {
                 // var result = await _context.Tags

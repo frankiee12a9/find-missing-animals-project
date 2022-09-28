@@ -51,10 +51,6 @@ namespace API.Controllers
 		{
 			if (await _userManager.Users.AnyAsync(x => x.Email == registerDto.Email))
 			{
-				// not code this
-				// return BadRequest("Email is already taken.");
-
-				// code this!
 				ModelState.AddModelError("email", "Email already taken.");
 				return ValidationProblem(ModelState);
 			}
@@ -86,9 +82,7 @@ namespace API.Controllers
 		[HttpGet]
 		public async Task<ActionResult<UserDto>> GetUser()
 		{
-			// get current user using ClaimsType.Email,
 			var user = await _userManager.Users
-				// .Include(x => x.Photo)
 				.FirstOrDefaultAsync(x => x.Email == User.FindFirstValue(ClaimTypes.Email));
 
 			return CreateUser(user);

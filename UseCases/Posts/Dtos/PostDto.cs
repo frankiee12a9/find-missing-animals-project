@@ -20,16 +20,10 @@ namespace UseCases.Posts
 		public string Content { get; set; }
 		public string PosterName { get; set; }
 		public bool IsFound { get; set; }
-		// public bool IsFollowing { get; set; }
 		public ICollection<PostParticipantDto> PostParticipants { get; set; }
 		[Required]
+		public ICollection<Tag1Dto> Tags { get; set; }
 		public Tag1Dto Tag1 { get; set; }
-		[Required]
-		public Tag2Dto Tag2 { get; set; }
-		[Required]
-		public Tag3Dto Tag3 { get; set; }
-		public Tag4Dto Tag4 { get; set; }
-		public Tag5Dto Tag5 { get; set; }
 		public PostLocationDto PostLocation { get; set; }
 		public ICollection<Photo> Photos { get; set; }
 		public DateTime CreatedAt { get; set; }

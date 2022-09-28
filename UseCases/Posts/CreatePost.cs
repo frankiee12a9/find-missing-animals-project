@@ -1,13 +1,18 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Domain;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using Persistence;
 using UseCases.Core;
 using UseCases.Interfaces;
@@ -26,7 +31,13 @@ namespace UseCases.Posts
 		{
 			public CommandValidator()
 			{
-				RuleFor(x => x.NewPostParams.Post).SetValidator(new PostParamsValidator());
+				RuleFor(x => x.NewPostParams.Title).NotEmpty();
+				RuleFor(x => x.NewPostParams.Content).NotEmpty();
+				RuleFor(x => x.NewPostParams.Location).NotEmpty();
+				RuleFor(x => x.NewPostParams.File).NotEmpty();
+				RuleFor(x => x.NewPostParams.Tag1).NotEmpty();
+				RuleFor(x => x.NewPostParams.Tag2).NotEmpty();
+				RuleFor(x => x.NewPostParams.Tag3).NotEmpty();
 			}
 		}
 
@@ -34,177 +45,190 @@ namespace UseCases.Posts
 		{
 			private readonly AppDataContext _context;
 			private readonly IUserAccessor _userAccessor;
+			private readonly IMapper _mapper;
+			private readonly ILogger<CreatePost> _logger;
 			private readonly IPhotoAccessor _photoAccessor;
 
-			public Handler(AppDataContext context, IUserAccessor userAccessor, IPhotoAccessor photoAccessor)
+			public Handler(AppDataContext context, ILogger<CreatePost> logger, IMapper mapper ,IUserAccessor userAccessor, IPhotoAccessor photoAccessor)
 			{
 				_userAccessor = userAccessor;
+				_logger = logger;
 				_context = context;
+				_mapper = mapper;
 				_photoAccessor = photoAccessor;
 			}
 
-			// Note: still working on this
 			public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
 			{
 				var currentUser = await _context.Users
-					// .AsNoTracking()
 					.FirstOrDefaultAsync(x => x.UserName == _userAccessor.GetUserName());
 
-				var ownerPost = new PostFollowing
+				var post =  new Post 
+				{
+					Id = request.NewPostParams.Id,
+					Title = request.NewPostParams.Title,
+					Content = request.NewPostParams.Content,
+					PostLocation = new PostLocation 
+					{
+						Location = request.NewPostParams.Location,
+						DetailedLocation = request.NewPostParams.DetailedLocation,
+						RoadLocation = "",
+					}
+				};
+
+				var postOwner = new PostFollowing
 				{
 					ApplicationUser = currentUser,
-					Post = request.NewPostParams.Post,
+					Post = post,
 					isPoster = true
 				};
-				await _context.PostFollowers.AddAsync(ownerPost);
+				await _context.PostFollowers.AddAsync(postOwner);
 
-				// Note: tags
 				Tag1 tag1 = null;
-				Tag2 tag2 = null;
-				Tag3 tag3 = null;
-				Tag4 tag4 = null;
-				Tag5 tag5 = null;
-
-				// tag2 = _context.SecondTags.FirstOrDefault(x =>
-				// string.IsNullOrEmpty(postParam.Post.SecondTag.tagName) || 
-				// (x.tagName == postParam.Post.SecondTag.tagName && postParam.Post.FirstTag.tagName != x.tagName));
-
-				if (!string.IsNullOrEmpty(request.NewPostParams?.Tag1?.TagName))
+				if (!string.IsNullOrEmpty(request.NewPostParams?.Tag1))
 				{
 					tag1 = await _context.Tag1s
+						// .AsNoTracking()
 						.FirstOrDefaultAsync(tag =>
-						(string.IsNullOrEmpty(request.NewPostParams.Tag1.TagName)) || tag.TagName == request.NewPostParams.Tag1.TagName);
+						(string.IsNullOrEmpty(request.NewPostParams.Tag1)) || tag.TagName == request.NewPostParams.Tag1);
 
 					if (tag1 == null)
 					{
 						tag1 = new Tag1
 						{
-							TagName = request.NewPostParams.Tag1.TagName
+							TagName = request.NewPostParams.Tag1
 						};
 						await _context.Tag1s.AddAsync(tag1);
 					}
 					var tag1Post = new Tag1Post
 					{
-						Post = request.NewPostParams.Post,
+						Post = post,
 						Tag1 = tag1
 					};
 					await _context.Tag1Posts.AddAsync(tag1Post);
 				}
 
-				if (!string.IsNullOrEmpty(request.NewPostParams?.Tag2?.TagName))
+				Tag1 tag2 = null;
+				if (!string.IsNullOrEmpty(request.NewPostParams?.Tag2))
 				{
-					tag2 = await _context.Tag2s
+					tag2 = await _context.Tag1s
+						// .AsNoTracking()
 						.FirstOrDefaultAsync(tag =>
-						(string.IsNullOrEmpty(request.NewPostParams.Tag2.TagName)) || tag.TagName == request.NewPostParams.Tag2.TagName);
+						(string.IsNullOrEmpty(request.NewPostParams.Tag2)) || tag.TagName == request.NewPostParams.Tag2);
 
 					if (tag2 == null)
 					{
-						tag2 = new Tag2
+						tag2 = new Tag1
 						{
-							TagName = request.NewPostParams.Tag2.TagName
+							TagName = request.NewPostParams.Tag2
 						};
-						await _context.Tag2s.AddAsync(tag2);
+						await _context.Tag1s.AddAsync(tag2);
 					}
-					var Tag2Post = new Tag2Post
+					var Tag1Post = new Tag1Post
 					{
-						Post = request.NewPostParams.Post,
-						Tag2 = tag2
+						Post = post,
+						Tag1 = tag2
 					};
-					await _context.Tag2Posts.AddAsync(Tag2Post);
+					await _context.Tag1Posts.AddAsync(Tag1Post);
 				}
 
-				if (!string.IsNullOrEmpty(request.NewPostParams?.Tag3?.TagName))
+				Tag1 tag3 = null;
+				if (!string.IsNullOrEmpty(request.NewPostParams?.Tag3))
 				{
-					tag3 = await _context.Tag3s
+					tag3 = await _context.Tag1s
+						// .AsNoTracking()
 						.FirstOrDefaultAsync(tag =>
-						(string.IsNullOrEmpty(request.NewPostParams.Tag3.TagName)) || tag.TagName == request.NewPostParams.Tag3.TagName);
+						(string.IsNullOrEmpty(request.NewPostParams.Tag3)) || tag.TagName == request.NewPostParams.Tag3);
 
 					if (tag3 == null)
 					{
-						tag3 = new Tag3
+						tag3 = new Tag1
 						{
-							TagName = request.NewPostParams.Tag3.TagName
+							TagName = request.NewPostParams.Tag3
 						};
-						await _context.Tag3s.AddAsync(tag3);
+						await _context.Tag1s.AddAsync(tag3);
 					}
-					var Tag3Post = new Tag3Post
+					var Tag3Post = new Tag1Post
 					{
-						Post = request.NewPostParams.Post,
-						Tag3 = tag3
+						Post = post,
+						Tag1 = tag3
 					};
-					await _context.Tag3Posts.AddAsync(Tag3Post);
+					await _context.Tag1Posts.AddAsync(Tag3Post);
 				}
 
-				if (!string.IsNullOrEmpty(request.NewPostParams?.Tag4?.TagName))
+				Tag1 tag4 = null;
+				if (!string.IsNullOrEmpty(request.NewPostParams?.Tag4))
 				{
-					tag4 = await _context.Tag4s
-									.FirstOrDefaultAsync(tag =>
-									(string.IsNullOrEmpty(request.NewPostParams.Tag4.TagName)) || tag.TagName == request.NewPostParams.Tag4.TagName);
+					tag4 = await _context.Tag1s
+						.FirstOrDefaultAsync(tag =>
+						(string.IsNullOrEmpty(request.NewPostParams.Tag4)) || tag.TagName == request.NewPostParams.Tag4);
 
 					if (tag4 == null)
 					{
-						tag4 = new Tag4
+						tag4 = new Tag1
 						{
-							TagName = request.NewPostParams.Tag4.TagName
+							TagName = request.NewPostParams.Tag4
 						};
-						await _context.Tag4s.AddAsync(tag4);
+						await _context.Tag1s.AddAsync(tag4);
 					}
-					var Tag4Post = new Tag4Post
+					var Tag4Post = new Tag1Post
 					{
-						Post = request.NewPostParams.Post,
-						Tag4 = tag4
+						Post = post,
+						Tag1 = tag4
 					};
-					await _context.Tag4Posts.AddAsync(Tag4Post);
+					await _context.Tag1Posts.AddAsync(Tag4Post);
 				}
 
-				if (!string.IsNullOrEmpty(request.NewPostParams?.Tag5?.TagName))
+				Tag1 tag5 = null;
+				if (!string.IsNullOrEmpty(request.NewPostParams?.Tag5))
 				{
-					tag5 = await _context.Tag5s
+					tag5 = await _context.Tag1s
 						.FirstOrDefaultAsync(tag =>
-						(string.IsNullOrEmpty(request.NewPostParams.Tag5.TagName) || tag.TagName == request.NewPostParams.Tag5.TagName));
+						(string.IsNullOrEmpty(request.NewPostParams.Tag5)) || tag.TagName == request.NewPostParams.Tag5);
 
 					if (tag5 == null)
 					{
-						tag5 = new Tag5
+						tag5 = new Tag1
 						{
-							TagName = request.NewPostParams.Tag4.TagName
+							TagName = request.NewPostParams.Tag5
 						};
-						await _context.Tag5s.AddAsync(tag5);
+						await _context.Tag1s.AddAsync(tag5);
 					}
-					var Tag5Post = new Tag5Post
+					var Tag5Post = new Tag1Post
 					{
-						Post = request.NewPostParams.Post,
-						Tag5 = tag5
+						// Post = request.NewPostParams.Post,
+						Post = post,
+						Tag1 = tag5
 					};
-					await _context.Tag5Posts.AddAsync(Tag5Post);
+					await _context.Tag1Posts.AddAsync(Tag5Post);
 				}
 
-				// Note: photos upload
-				var photos = request.NewPostParams.Files;
+				var photos = new List<IFormFile>();
+				if (request.NewPostParams?.File != null) photos.Add(request.NewPostParams?.File);
+				if (request.NewPostParams?.File2 != null) photos.Add(request.NewPostParams?.File1);
+				if (request.NewPostParams?.File != null) photos.Add(request.NewPostParams?.File2);
+
 				foreach (var file in photos)
 				{
 					if (file != null)
 					{
-						var photoToUpload = await _photoAccessor.AddAPhoto(file);
-
-						// if (photoToUpload.)
+						var photoToUpload = await _photoAccessor.AddPhoto(file);
 						var newPhoto = new Photo
 						{
 							Id = photoToUpload.PublicId,
 							Url = photoToUpload.Url
 						};
-						request.NewPostParams.Post.Photos.Add(newPhoto);
+						post.Photos.Add(newPhoto);
 					}
 				}
 
-				request.NewPostParams.Post.PostFollowers.Add(ownerPost);
-				_context.Posts.Add(request.NewPostParams.Post);
+				post.PostFollowers.Add(postOwner);
 
-				var isCreatedOk = await _context.SaveChangesAsync() > 0;
-				if (!isCreatedOk)
-				{
-					return Result<Unit>.Failure("Failed to create new post.");
-				}
+				_context.Posts.Add(post);
+
+				var result = await _context.SaveChangesAsync() > 0;
+
+				if (!result) return Result<Unit>.Failure("Failed creating new post.");
 
 				return Result<Unit>.Success(Unit.Value);
 			}

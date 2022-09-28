@@ -1,87 +1,106 @@
-import { Container, makeStyles, Typography } from "@material-ui/core"
 import {
-	Bookmark,
-	List,
-	ExitToApp,
-	Map,
-	Home,
-	Person,
-	PhotoCamera,
-	PlayCircleOutline,
-	Settings,
-	Storefront,
-	TabletMac,
-} from "@material-ui/icons"
+  AccountBox,
+  Article,
+  Map,
+  Group,
+  Home,
+  ModeNight,
+  Person,
+  Settings,
+  Storefront,
+  CreateOutlined,
+} from '@mui/icons-material';
+import {
+  Box,
+  Divider,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Switch,
+} from '@mui/material';
+import { Link, NavLink } from 'react-router-dom';
+import { logout } from '../../features/auth/authSlice';
+import { useAppDispatch, useAppSelector } from './../store/storeConfig';
 
-const useStyles = makeStyles(theme => ({
-	container: {
-		height: "100vh",
-		color: "white",
-		paddingTop: theme.spacing(10),
-		backgroundColor: theme.palette.primary.main,
-		position: "sticky",
-		top: 0,
-		[theme.breakpoints.up("sm")]: {
-			backgroundColor: "white",
-			color: "#555",
-			border: "1px solid #ece7e7",
-		},
-	},
-	item: {
-		display: "flex",
-		alignItems: "center",
-		marginBottom: theme.spacing(4),
-		[theme.breakpoints.up("sm")]: {
-			marginBottom: theme.spacing(3),
-			cursor: "pointer",
-		},
-	},
-	icon: {
-		marginRight: theme.spacing(1),
-		[theme.breakpoints.up("sm")]: {
-			fontSize: "18px",
-		},
-	},
-	text: {
-		fontWeight: 500,
-		[theme.breakpoints.down("sm")]: {
-			display: "none",
-		},
-	},
-}))
-
-const Leftbar = () => {
-	const classes = useStyles()
-	return (
-		<Container className={classes.container}>
-			<div className={classes.item}>
-				<Home className={classes.icon} />
-				<Typography className={classes.text}>홈</Typography>
-			</div>
-			<div className={classes.item}>
-				<Person className={classes.icon} />
-				<Typography className={classes.text}>폴로잉포스트</Typography>
-			</div>
-			<div className={classes.item}>
-				{/* <List className={classes.icon} /> */}
-				{/* <AddLocationAlt className={classes.icon} /> */}
-				<Map className={classes.icon} />
-				<Typography className={classes.text}>맵으로 검색</Typography>
-			</div>
-			{/* <div className={classes.item}>
-				<PhotoCamera className={classes.icon} />
-				<Typography className={classes.text}>Camera</Typography>
-			</div>
-			<div className={classes.item}>
-				<Settings className={classes.icon} />
-				<Typography className={classes.text}>Settings</Typography>
-			</div> */}
-			<div className={classes.item}>
-				<ExitToApp className={classes.icon} />
-				<Typography className={classes.text}>로그아웃</Typography>
-			</div>
-		</Container>
-	)
+interface Props {
+  themeMode: string;
+  setThemeMode: (mode: string) => void;
 }
 
-export default Leftbar
+export default function Leftbar({ themeMode, setThemeMode }: Props) {
+  const dispatch = useAppDispatch();
+  const { postQueryParams } = useAppSelector((state) => state.posts);
+  const { user } = useAppSelector((state) => state.auth);
+
+  return (
+    <Box flex={1} p={2} sx={{ display: { xs: 'none', sm: 'block' } }}>
+      <Box position="fixed">
+        <List>
+          <ListItem disablePadding>
+            <ListItemButton component={NavLink} to="/posts">
+              <ListItemIcon>
+                <Home />
+              </ListItemIcon>
+              <ListItemText primary="Homepage" />
+            </ListItemButton>
+          </ListItem>
+          {user && (
+            <ListItem disablePadding>
+              <ListItemButton component={NavLink} to="/following">
+                <ListItemIcon>
+                  <Group />
+                </ListItemIcon>
+                <ListItemText primary="Following Posts" />
+              </ListItemButton>
+            </ListItem>
+          )}
+          <ListItem disablePadding>
+            <ListItemButton component={NavLink} to="/map">
+              <ListItemIcon>
+                <Storefront />
+              </ListItemIcon>
+              <ListItemText primary="Search on map" />
+            </ListItemButton>
+          </ListItem>
+          {user && (
+            <>
+              <ListItem disablePadding>
+                <ListItemButton
+                  component="a"
+                  onClick={() => dispatch(logout())}
+                >
+                  <ListItemIcon>
+                    <AccountBox />
+                  </ListItemIcon>
+                  <ListItemText primary="Logout" />
+                </ListItemButton>
+              </ListItem>
+              <ListItem disablePadding>
+                <ListItemButton component={NavLink} to="/new">
+                  <ListItemIcon>
+                    <CreateOutlined />
+                  </ListItemIcon>
+                  <ListItemText primary="Create new post" />
+                </ListItemButton>
+              </ListItem>
+            </>
+          )}
+          <ListItem disablePadding>
+            <ListItemButton component="a" href="#simple-list">
+              <ListItemIcon>
+                <ModeNight />
+              </ListItemIcon>
+              <Switch
+                onChange={(e) =>
+                  setThemeMode(themeMode === 'light' ? 'dark' : 'light')
+                }
+              />
+            </ListItemButton>
+          </ListItem>
+        </List>
+      </Box>
+    </Box>
+  );
+}

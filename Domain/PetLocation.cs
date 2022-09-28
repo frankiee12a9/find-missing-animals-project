@@ -7,7 +7,6 @@ namespace Domain
 	public class PetLocation
 	{
 		public string PostCode { get; set; }
-		[Required]
 		public string RoadLocation { get; set; } // 도로명주소
 		[Required]
 		public string Location { get; set; } // 지번주소
@@ -15,10 +14,5 @@ namespace Domain
 		public string ExtraLocation { get; set; } // 참고항목
 		public double? Longitude { get; set; }
 		public double? Latitude { get; set; }
-		// public ICollection<Post> Posts { get; set; }
-		// public PetLocation()
-		// {
-		// 	Posts = new List<Post>();
-		// }
 	}
 }

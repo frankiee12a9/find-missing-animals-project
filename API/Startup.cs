@@ -1,12 +1,12 @@
 using System;
 using API.Extensions;
 using API.Middleware;
+using API.SignalR;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -38,11 +38,10 @@ namespace API
                 config.RegisterValidatorsFromAssemblyContaining<CreatePost>();
             });
 
-            // services.AddControllers().AddNewtonsoftJson();
-
             // startup class houseKeeping! 
             // all services config bellow has been moved to AddAppServices file
             services.AddAppServices(Configuration);
+
             // add custom identity services config
             services.AddIdentityService(Configuration);
         }
@@ -76,6 +75,8 @@ namespace API
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<CommentHub>("/comment"); 
+                endpoints.MapHub<NotificationHub>("/notification"); 
                 endpoints.MapFallbackToController("Index", "Fallback");
             });
         }

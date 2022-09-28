@@ -43,20 +43,10 @@ namespace UseCases.Tags
 				var currentUser = await _context.Users
 					.FirstOrDefaultAsync(x => x.UserName == _userAccessor.GetUserName());
 
-				// Note: limit number of tags <= 5 
-				// Note: deleted property
-				// var newTag = new Tag
-				// {
-				// 	TagName = request.TagName
-				// };
+				var result = await _context.SaveChangesAsync() > 0;
 
-				// _context.Tags.Add(newTag);
-
-				var isCreatedOk = await _context.SaveChangesAsync() > 0;
-				if (!isCreatedOk)
-				{
+				if (!result)
 					return Result<Unit>.Failure("Failed to create new post.");
-				}
 
 				return Result<Unit>.Success(Unit.Value);
 			}

@@ -11,6 +11,7 @@ using UseCases.Core;
 using UseCases.Interfaces;
 using UseCases.Posts;
 using Persistence;
+using UseCases.Tags;
 
 namespace API.Extensions
 {
@@ -26,7 +27,7 @@ namespace API.Extensions
 
             services.AddDbContext<AppDataContext>(opt =>
             {
-                opt.UseSqlite(configuration.GetConnectionString("DefaultConnection"));
+                opt.UseNpgsql(configuration.GetConnectionString("DefaultConnection"));
             });
 
             // config CORS for API call from client
@@ -37,7 +38,8 @@ namespace API.Extensions
                     policy.AllowAnyMethod()
                         .AllowAnyHeader()
                         .AllowCredentials() // resolve connecting error (CORS policy) of signalR on client 
-                        .WithOrigins("http://localhost:3000"); // client host 
+                        // .WithOrigins("http://localhost:3000"); // client host 
+                        .WithOrigins("http://localhost:3001"); // client host 
                 });
             });
 
@@ -49,6 +51,14 @@ namespace API.Extensions
 
             // config mediator 
             services.AddMediatR(typeof(ListAllPosts.Handler).Assembly);
+
+            services.AddMediatR(typeof(ListAllTags.Handler).Assembly);
+
+            services.AddMediatR(typeof(EditPost.Handler).Assembly);
+
+            services.AddMediatR(typeof(CreatePost.Handler).Assembly);
+
+            // services.AddL
 
             // config autoMapper 
             services.AddAutoMapper(typeof(MappingProfiles).Assembly);
@@ -62,7 +72,7 @@ namespace API.Extensions
             // log EFCore db config, queries, etc.. 
             services.AddDbContext<AppDataContext>(opt =>
             {
-                opt.UseSqlite(configuration.GetConnectionString("DefaultConnection"));
+                opt.UseNpgsql(configuration.GetConnectionString("DefaultConnection"));
                 opt.UseLoggerFactory(LoggerFactory.Create(builder => { builder.AddConsole(); }));
             });
 

@@ -6,11 +6,11 @@ using Domain;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
-using UseCases.Core;
 using Persistence;
+using UseCases.Core;
 using UseCases.Interfaces;
 
-namespace Modules.Photos
+namespace UseCases.Photos
 {
 	public class AddPhoto
 	{
@@ -40,7 +40,7 @@ namespace Modules.Photos
 
 				if (user == null) return null;
 
-				var photoUploadResult = await _photoAccessor.AddAPhoto(request.File);
+				var photoUploadResult = await _photoAccessor.AddPhoto(request.File);
 
 				var photo = new Photo
 				{
@@ -49,7 +49,6 @@ namespace Modules.Photos
 				};
 
 				user.ProfilePictureUrl = photo.Url;
-				// if (!user.Photo.IsProfilePicture) photo.IsProfilePicture = true;
 
 				var result = await _dbContext.SaveChangesAsync() > 0;
 

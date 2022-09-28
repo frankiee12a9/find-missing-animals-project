@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 
 namespace Domain
 {
@@ -7,7 +6,7 @@ namespace Domain
 	{
 		public Guid PostId { get; set; }
 		public Post Post { get; set; }
-		public int Tag3Id { get; set; }
+		public string TagName { get; set; }
 		public Tag3 Tag3 { get; set; }
 	}
 }
