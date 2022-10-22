@@ -4,7 +4,7 @@ using Domain;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using UseCases.Tags;
+using UseCases.Tags.Queries;
 
 namespace API.Controllers
 {

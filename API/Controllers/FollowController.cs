@@ -1,8 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Server.IIS.Core;
-using UseCases.PostParticipating;
+using UseCases.PostParticipating.Commands;
 
 namespace API.Controllers
 {

@@ -4,8 +4,8 @@ using Domain;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using UseCases.PostParticipating;
-using UseCases.Posts;
+using UseCases.Posts.Commands;
+using UseCases.Posts.Queries;
 using UseCases.Posts.Dtos;
 using UseCases.Posts.Extensions;
 
