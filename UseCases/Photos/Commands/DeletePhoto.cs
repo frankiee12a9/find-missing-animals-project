@@ -7,7 +7,7 @@ using Persistence;
 using UseCases.Core;
 using UseCases.Interfaces;
 
-namespace Application.Photos.Commands
+namespace UseCases.Photos.Commands
 {
 	public class DeletePhoto
 	{
