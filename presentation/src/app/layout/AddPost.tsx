@@ -37,11 +37,11 @@ import { createPostValidationSchema } from '../utils/postValidationSchema';
 import { setPost } from '../../features/post/postSlice';
 import agent from '../api/agent';
 import { Post } from '../models/post';
-import { CreatePostDto } from './../models/post';
+import { CreatePostDto } from '../models/post';
 import { LoadingButton } from '@mui/lab';
 import AppTextInput from '../components/AppTextInput';
 import { Link } from 'react-router-dom';
-import { PostLocation } from './../models/postLocation';
+import { PostLocation } from '../models/postLocation';
 
 const StyledModal = styled(Modal)({
   display: 'flex',

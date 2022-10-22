@@ -18,7 +18,6 @@ import {
   Typography,
 } from '@mui/material';
 import { Slide } from 'react-slideshow-image';
-import 'react-slideshow-image/dist/styles.css';
 
 import { useAppDispatch, useAppSelector } from '../../app/store/storeConfig';
 import PostDetailsSidebar from './PostDetailsSidebar';
@@ -30,7 +29,8 @@ import {
 } from './postSlice';
 import { dateTimeFormat, isFollowingThisPost } from '../../app/utils/utils';
 import { toast } from 'react-toastify';
-import SimpleImageSlider from 'react-simple-image-slider';
+// import SimpleImageSlider from 'react-simple-image-slider';
+
 import PostSettingOptions from './PostSettingOptions';
 import { Post } from 'app/models/post';
 import PostShareDialog from './PostShareDialog';
@@ -213,14 +213,6 @@ export default function PostDetails() {
                 </div>
               ))}
             </Slide>
-            {/* <SimpleImageSlider
-              width={896}
-              height={504}
-              images={getPhotosFromCurrentPost(currentPost!)}
-              showBullets={true}
-              // showNavs={true}
-              showNavs={true}
-            /> */}
           </CardMedia>
           <CardActions disableSpacing>
             <Tooltip title="Share">
