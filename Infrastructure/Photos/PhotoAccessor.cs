@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Reflection.Metadata.Ecma335;
 using System.Threading.Tasks;
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
@@ -41,9 +40,6 @@ namespace Infrastructure.Photos
 					// Transformation = new Transformation().Height(500).Width(500).Crop("fill") // style image 
 				};
 
-				// Console.WriteLine(uploadParams);
-
-				// upload image to Cloudinary 
 				var uploadResult = await _cloudinary.UploadAsync(uploadParams);
 
 				if (uploadResult.Error != null)
@@ -68,13 +64,13 @@ namespace Infrastructure.Photos
 				if (File?.Length > 0)
 				{
 					await using var stream = File.OpenReadStream();
+
 					var uploadParams = new ImageUploadParams()
 					{
 						File = new FileDescription(File.FileName, stream),
 						Transformation = new Transformation().Height(500).Width(500).Crop("fill") // style image 
 					};
 
-					// upload image to Cloudinary 
 					var uploadResult = await _cloudinary.UploadAsync(uploadParams);
 
 					if (uploadResult.Error != null)
@@ -98,7 +94,6 @@ namespace Infrastructure.Photos
 		public async Task<string> DeletePhoto(string publicId)
 		{
 			var deleteParams = new DeletionParams(publicId);
-
 			var result = await _cloudinary.DestroyAsync(deleteParams);
 
 			return result.Result == "ok" ? result.Result : null;

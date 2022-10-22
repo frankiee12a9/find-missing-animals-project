@@ -31,7 +31,10 @@ namespace Infrastructure.Security
 		{
 			var userId = context.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-			if (userId == null) return Task.CompletedTask;
+			if (userId == null)
+			{
+			 	return Task.CompletedTask;
+			}
 
 			var currentContextId = _contextAccessor.HttpContext?.Request.RouteValues
 				.SingleOrDefault(x => x.Key == "id").Value?.ToString();
@@ -42,9 +45,15 @@ namespace Infrastructure.Security
 				.AsNoTracking()
 				.FirstOrDefault(x => x.ApplicationUserId == userId && x.PostId == postId);
 
-			if (postOwner == null) return Task.CompletedTask;
+			if (postOwner == null) 
+			{
+				return Task.CompletedTask;
+			}
 
-			if (postOwner.isPoster) context.Succeed(requirement);
+			if (postOwner.isPoster)
+			{
+			 	context.Succeed(requirement);
+			}
 
 			return Task.CompletedTask;
 		}

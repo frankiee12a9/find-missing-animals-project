@@ -1,10 +1,8 @@
 using System.Text;
 using System.Threading.Tasks;
 using API.Services;
-// using API.Services;
 using Domain;
 using Infrastructure.Security;
-// using Infrastructure.Security;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -68,12 +66,6 @@ namespace API.Extensions
 					};
 				});
 
-			// services.AddSignalR().AddJsonProtocol(options =>
-			// {
-			// 	options.PayloadSerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-			// 	options.PayloadSerializerSettings.Converters.Add(new StringEnumConverter());
-			// });
-
 			// post owner can edit post 
 			services.AddAuthorization(opt =>
 			{
@@ -82,7 +74,6 @@ namespace API.Extensions
 					policy.Requirements.Add(new IsHostRequirement());
 				});
 			});
-
 
 			// Todo: read more about AddTransient(), AddScoped(), AddSingleton() 
 			// reference here: https://stackoverflow.com/questions/38138100/addtransient-addscoped-and-addsingleton-services-differences

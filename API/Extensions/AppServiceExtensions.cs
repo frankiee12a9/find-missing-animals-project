@@ -9,9 +9,10 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using UseCases.Core;
 using UseCases.Interfaces;
-using UseCases.Posts;
 using Persistence;
-using UseCases.Tags;
+using UseCases.Posts.Queries;
+using UseCases.Tags.Queries;
+using UseCases.Posts.Commands;
 
 namespace API.Extensions
 {
@@ -57,8 +58,6 @@ namespace API.Extensions
             services.AddMediatR(typeof(EditPost.Handler).Assembly);
 
             services.AddMediatR(typeof(CreatePost.Handler).Assembly);
-
-            // services.AddL
 
             // config autoMapper 
             services.AddAutoMapper(typeof(MappingProfiles).Assembly);
