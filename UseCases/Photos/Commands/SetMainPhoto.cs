@@ -7,7 +7,7 @@ using Persistence;
 using UseCases.Core;
 using UseCases.Interfaces;
 
-namespace Application.Photos
+namespace Application.Photos.Commands
 {
 	public class SetMainPhoto
 	{

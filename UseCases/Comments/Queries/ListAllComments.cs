@@ -12,7 +12,7 @@ using Persistence;
 using UseCases.Comments.Dtos;
 using UseCases.Core;
 
-namespace UseCases.Comments
+namespace UseCases.Comments.Queries
 {
 	public class ListAllComments
 	{
@@ -40,7 +40,10 @@ namespace UseCases.Comments
 					.ProjectTo<CommentDto>(_mapper.ConfigurationProvider)
 					.ToListAsync();
 
-				if (comments == null) return null;
+				if (comments == null) 
+				{
+					return null;
+				}
 
 				return Result<List<CommentDto>>.Success(comments);
 			}

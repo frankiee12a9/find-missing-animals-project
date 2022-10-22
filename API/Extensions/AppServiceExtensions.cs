@@ -38,8 +38,8 @@ namespace API.Extensions
                     policy.AllowAnyMethod()
                         .AllowAnyHeader()
                         .AllowCredentials() // resolve connecting error (CORS policy) of signalR on client 
-                        // .WithOrigins("http://localhost:3000"); // client host 
-                        .WithOrigins("http://localhost:3001"); // client host 
+                        .WithOrigins("http://localhost:3000"); // client host 
+                        // .WithOrigins("http://localhost:3001"); // client host 
                 });
             });
 

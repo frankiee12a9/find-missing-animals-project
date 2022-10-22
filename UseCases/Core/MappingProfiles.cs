@@ -40,7 +40,6 @@ namespace UseCases.Core
             // PURPOSE: mapping this way to avoid using .Include() and .ThenInclude() query,
             // that makes query's performance very slow!
             // And by mapping this way, we can perform multiple queries of different DOMAINS in just one method!
-            // Ex). Tag1, Tag2, Tag3, Tag4, Tag5 Domains in just one method
 
             // Note: mapping TagNth -> PostDto (1)
             CreateMap<Tag1, PostDto>()
@@ -62,21 +61,21 @@ namespace UseCases.Core
 				.ForMember(dest => dest.TagName, o => o.MapFrom(src => src.TagName))
 				.ForMember(dest => dest.Posts, o => o.MapFrom(src => src.Posts));
 
-			CreateMap<Tag2, TagDto>()
-				.ForMember(dest => dest.TagName, o => o.MapFrom(src => src.TagName))
-				.ForMember(dest => dest.Posts, o => o.MapFrom(src => src.Posts));
+			// CreateMap<Tag2, TagDto>()
+			// 	.ForMember(dest => dest.TagName, o => o.MapFrom(src => src.TagName))
+			// 	.ForMember(dest => dest.Posts, o => o.MapFrom(src => src.Posts));
 
-			CreateMap<Tag3, TagDto>()
-				.ForMember(dest => dest.TagName, o => o.MapFrom(src => src.TagName))
-				.ForMember(dest => dest.Posts, o => o.MapFrom(src => src.Posts));
+			// CreateMap<Tag3, TagDto>()
+			// 	.ForMember(dest => dest.TagName, o => o.MapFrom(src => src.TagName))
+			// 	.ForMember(dest => dest.Posts, o => o.MapFrom(src => src.Posts));
 
-			CreateMap<Tag4, TagDto>()
-				.ForMember(dest => dest.TagName, o => o.MapFrom(src => src.TagName))
-				.ForMember(dest => dest.Posts, o => o.MapFrom(src => src.Posts));
+			// CreateMap<Tag4, TagDto>()
+			// 	.ForMember(dest => dest.TagName, o => o.MapFrom(src => src.TagName))
+			// 	.ForMember(dest => dest.Posts, o => o.MapFrom(src => src.Posts));
 
-			CreateMap<Tag5, TagDto>()
-				.ForMember(dest => dest.TagName, o => o.MapFrom(src => src.TagName))
-				.ForMember(dest => dest.Posts, o => o.MapFrom(src => src.Tag5Posts));
+			// CreateMap<Tag5, TagDto>()
+			// 	.ForMember(dest => dest.TagName, o => o.MapFrom(src => src.TagName))
+			// 	.ForMember(dest => dest.Posts, o => o.MapFrom(src => src.Tag5Posts));
 
 			// Note: mapping PostFollowing - PostParticipant
 			CreateMap<PostFollowing, PostParticipantDto>()
