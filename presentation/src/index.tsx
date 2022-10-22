@@ -9,15 +9,12 @@ import { Router } from 'react-router-dom';
 import { store } from './app/store/storeConfig';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import 'react-slideshow-image/dist/styles.css';
 
 // Note: currently using react-router-dom v6
 // comparison: https://dev.to/arunavamodak/react-router-v5-vs-v6-dp0
 // Note: share post to other SNS platform using https://www.npmjs.com/package/react-share
 export const history: History = createBrowserHistory();
-
-// if (module.hot) {
-//   module.hot.accept();
-// }
 
 ReactDOM.render(
   <React.StrictMode>
