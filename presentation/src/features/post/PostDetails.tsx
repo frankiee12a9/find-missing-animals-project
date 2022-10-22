@@ -1,13 +1,6 @@
-import React, { SyntheticEvent, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-import {
-  MoreVert,
-  FavoriteBorder,
-  Favorite,
-  NotificationAdd,
-  Share,
-  Delete,
-} from '@mui/icons-material';
+import { NotificationAdd, Share, Delete } from '@mui/icons-material';
 import {
   Avatar,
   Button,
@@ -16,12 +9,6 @@ import {
   CardContent,
   CardHeader,
   CardMedia,
-  Checkbox,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
   Grid,
   IconButton,
   Link,
@@ -30,6 +17,9 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
+import { Slide } from 'react-slideshow-image';
+import 'react-slideshow-image/dist/styles.css';
+
 import { useAppDispatch, useAppSelector } from '../../app/store/storeConfig';
 import PostDetailsSidebar from './PostDetailsSidebar';
 import {
@@ -58,9 +48,14 @@ export default function PostDetails() {
 
   const getPhotosFromCurrentPost = (post: Post) => {
     const images = post?.photos.map((photo) => {
-      return { url: photo.url };
+      return photo.url;
     });
-    return images || [{ url: '' }];
+    console.log('getPhotosFromCurrentPost', images);
+    return (
+      images || [
+        'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwebcolours.ca%2F2020%2F08%2F14%2Fcomment-redimensionner-une-image-automatiquement-dans-une-div-sans-espace-vide%2F&psig=AOvVaw3LHvLThwXtageIlJwB6ICb&ust=1666489363626000&source=images&cd=vfe&ved=0CA0QjRxqFwoTCPi_8Oba8voCFQAAAAAdAAAAABAE',
+      ]
+    );
   };
 
   useEffect(() => {
@@ -68,9 +63,15 @@ export default function PostDetails() {
     //   dispatch(fetchPostAsync(id));
     // }
 
-    dispatch(fetchPostAsync(id));
-
-    getPhotosFromCurrentPost(currentPost!);
+    if (!currentPost) {
+      dispatch(fetchPostAsync(id)).then((res) => {
+        console.log('res', res);
+        getPhotosFromCurrentPost(currentPost!);
+      });
+    } else {
+      console.log('currentPost', currentPost);
+      getPhotosFromCurrentPost(currentPost!);
+    }
 
     // handle fetch viewed posts history
     if (currentPost) {
@@ -105,6 +106,8 @@ export default function PostDetails() {
 
       lastViewedPosts && dispatch(setLastViewPosts(lastViewedPosts));
     }
+
+    return () => {};
   }, [id, dispatch, currentPost, currentPost?.photos]);
 
   const [isFollowing, setIsFollowing] = useState(
@@ -119,18 +122,16 @@ export default function PostDetails() {
     dispatch(followPostAsync(currentPost!)).then(() => {
       if (isFollowingThisPost(user!, currentPost!)) {
         setIsFollowing(false);
-        toast.success('Un-followed this post successfully');
+        toast.success('Unfollowed this post successfully');
       } else {
         setIsFollowing(true);
-        toast.info('Started following this post');
+        toast.info('Start following this post');
       }
     });
   };
 
   // just use to logging post is followed or not
-  useEffect(() => {
-    // console.log(isFollowing);
-  }, [isFollowing]);
+  useEffect(() => {}, [isFollowing]);
 
   // open post share dialog
   const [openPostShare, setOpenPostShare] = useState(false);
@@ -204,13 +205,22 @@ export default function PostDetails() {
             </Typography>
           </CardContent>
           <CardMedia component="div">
-            <SimpleImageSlider
+            {/* ref={this.slideRef} {...properties} */}
+            <Slide>
+              {getPhotosFromCurrentPost(currentPost!).map((each, index) => (
+                <div key={index} className="each-slide">
+                  <img className="lazy" src={each} alt="sample" />
+                </div>
+              ))}
+            </Slide>
+            {/* <SimpleImageSlider
               width={896}
               height={504}
               images={getPhotosFromCurrentPost(currentPost!)}
               showBullets={true}
+              // showNavs={true}
               showNavs={true}
-            />
+            /> */}
           </CardMedia>
           <CardActions disableSpacing>
             <Tooltip title="Share">

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Favorite, FavoriteBorder, MoreVert, Share } from '@mui/icons-material';
+import { MoreVert, Share } from '@mui/icons-material';
 import FaceIcon from '@mui/icons-material/Face';
 import TagFacesIcon from '@mui/icons-material/TagFaces';
 import {
@@ -15,8 +15,10 @@ import {
   IconButton,
   Typography,
 } from '@mui/material';
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import SimpleImageSlider from 'react-simple-image-slider';
+// import AccessTimeIcon from '@mui/icons-material/AccessTime';
+// import SimpleImageSlider from 'react-simple-image-slider';
+import { Slide } from 'react-slideshow-image';
+
 import { Post } from '../../app/models/post';
 import { useAppSelector } from '../../app/store/storeConfig';
 import { NavLink, Link } from 'react-router-dom';
@@ -77,7 +79,7 @@ export default function PostCard({ img, title, post }: Props) {
   };
 
   return (
-    <Card sx={{ margin: 2 }}>
+    <Card sx={{ margin: 2 }} style={{ height: '200' }}>
       <CardActionArea>
         <CardHeader
           avatar={
@@ -94,13 +96,18 @@ export default function PostCard({ img, title, post }: Props) {
           subheader={`${dateTimeFormat(post.createdAt)}`}
         />
         <CardMedia component="div">
-          <SimpleImageSlider
-            width={400}
-            height={500}
-            images={images!}
-            showBullets={true}
-            showNavs={false}
-          />
+          <Slide>
+            {images.map((each, index) => (
+              <div key={index} className="each-slide">
+                <img
+                  // style={{ height: '390', width: 'auto', maxWidth: '500' }}
+                  className="lazy"
+                  src={each.url}
+                  alt="sample"
+                />
+              </div>
+            ))}
+          </Slide>
         </CardMedia>
         <CardContent style={{ height: '160px' }}>
           <CardContent component={NavLink} to={`/posts/${post.id}`}>
