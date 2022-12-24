@@ -41,10 +41,7 @@ namespace UseCases.Tags.Queries
                 	.ProjectTo<TagDto>(_mapper.ConfigurationProvider)
                 	.ToListAsync();
 
-                if (result.Count == 0) 
-                {
-                    return null;
-                }
+                if (result.Count == 0) return null;
 
                 return Result<List<TagDto>>.Success(result);
             }

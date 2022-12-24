@@ -56,8 +56,7 @@ namespace UseCases.Posts.Commands
 
 					var photoUpdateResult = await _photoAccessor.AddPhoto(newPhotosToUpdate.ElementAt(i));
 
-					if (photoUpdateResult == null)
-						return null;
+					if (photoUpdateResult == null) return null;
 					
 					if (i < currentPostPhotos.Count && !string.IsNullOrEmpty(currentPostPhotos.ElementAt(i).Id)) 
 					{
@@ -76,10 +75,7 @@ namespace UseCases.Posts.Commands
 
 				var result = await _context.SaveChangesAsync() > 0;
 
-				if (!result) 
-				{
-					return Result<Unit>.Failure("Failed to edit post.");
-				}
+				if (!result) return Result<Unit>.Failure("Failed to edit post.");
 
 				return Result<Unit>.Success(Unit.Value);
 			}

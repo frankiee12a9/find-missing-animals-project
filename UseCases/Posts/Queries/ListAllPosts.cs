@@ -73,13 +73,13 @@ namespace UseCases.Posts.Queries
 				var fromDate = request.PostQueryParams?.FromDate;
 				if (fromDate != null) 
 				{
-					result = result.Where(x => x.CreatedAt >= fromDate);
+					result = result.Where(x => x.CreatedAt.Day >= fromDate.Value.Day);
 				}
 				
 				var toDate = request.PostQueryParams?.ToDate;
 				if (toDate != null)
 				{
-					result = result.Where(x => x.CreatedAt <= toDate);
+					result = result.Where(x => x.CreatedAt.Day <= toDate.Value.Day);
 				}
 
 				// location query params
