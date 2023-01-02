@@ -1,5 +1,6 @@
 *.suo
 *.user
+*.dll
 _ReSharper.*
 bin
 obj
