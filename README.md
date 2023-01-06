@@ -1,4 +1,16 @@
 # find missing animals project (길에서 잃어버린 애완동물을 찾는 프로젝트)
+
+## Tech-stacks are used
+### Backend
+* [C#](https://#)
+* [ASP.NET Core](https://#)
+* [Socket](https://#) (SignalR)
+* [PostgreSQL](https://#)
+### Frontend 
+* [React](https://#)
+* [Redux-toolkit](https://#)
+* [MUI](https://#)
+
 ## Architecture Design is on updating progress...
 
 ## Here are some sample project's images
