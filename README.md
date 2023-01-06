@@ -33,5 +33,9 @@
 * Post details page
 ![alt text](https://user-images.githubusercontent.com/48620639/209404987-d1c01365-cdba-4dbb-ab15-475dd43c0b3c.png)
 
+* Viewed Posts history (for authenticated user)
+![alt text](https://user-images.githubusercontent.com/48620639/211100990-b9ef66c5-f3cb-499b-9907-9721717b0b3b.png)
+
 * Search location of post or pets on map
 ![alt text](https://user-images.githubusercontent.com/48620639/211099800-5b2815c3-bc74-4b97-b6eb-9efbff004fa0.png)
+
