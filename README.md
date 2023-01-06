@@ -9,6 +9,7 @@
 * [Json Web Token](https://#)
 * [PostgreSQL](https://#)
 ### Frontend 
+* [Typescript](https://#)
 * [React](https://#)
 * [Redux-toolkit](https://#)
 * [MUI](https://#)
