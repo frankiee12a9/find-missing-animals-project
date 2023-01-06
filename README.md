@@ -4,6 +4,7 @@
 ### Backend
 * [C#](https://#)
 * [ASP.NET Core](https://#)
+* [Entity Framework Core](https://#)
 * [Socket](https://#) (SignalR)
 * [PostgreSQL](https://#)
 ### Frontend 
