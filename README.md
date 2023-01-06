@@ -6,6 +6,7 @@
 * [ASP.NET Core](https://#)
 * [Entity Framework Core](https://#)
 * [Socket](https://#) (SignalR)
+* [Json Web Token](https://#)
 * [PostgreSQL](https://#)
 ### Frontend 
 * [React](https://#)
