@@ -54,7 +54,9 @@ export default function PostDetailsComment({ post, isCloseComment }: Props) {
 			// start listening to connection
 			hubConnection.current
 				?.start()
-				.then(() => console.log('hub connection started...'))
+				.then(() =>
+					console.log('Post Comment hub connection started...')
+				)
 				.catch((err: any) =>
 					console.error('Error establishing hubConnection', err)
 				);
@@ -66,7 +68,6 @@ export default function PostDetailsComment({ post, isCloseComment }: Props) {
 					comments.forEach((aComment: PostComment) => {
 						aComment.timestamp = new Date(aComment.timestamp);
 					});
-					console.log('LoadComments', comments);
 					setComments(comments.reverse());
 				}
 			);
@@ -76,28 +77,6 @@ export default function PostDetailsComment({ post, isCloseComment }: Props) {
 				'ReceiveComment',
 				(comment: PostComment) => {
 					setComments((currComments) => [comment, ...currComments]);
-				}
-			);
-
-			// receive loaded notifications
-			hubConnection.current?.on(
-				'ReceiveNotification',
-				(response: PostComment) => {
-					setNotifications((currNotifications) => [
-						response,
-						...currNotifications,
-					]);
-				}
-			);
-
-			// load all notifications(in current post) from server
-			hubConnection.current?.on(
-				'LoadNotifications',
-				(response: PostComment[]) => {
-					response.forEach((aComment: PostComment) => {
-						aComment.timestamp = new Date(aComment.timestamp);
-					});
-					setNotifications(response.reverse());
 				}
 			);
 		}

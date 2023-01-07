@@ -9,6 +9,7 @@ import {
 	Settings,
 	Storefront,
 	CreateOutlined,
+	Message,
 } from '@mui/icons-material';
 import {
 	Box,
@@ -32,7 +33,6 @@ interface Props {
 
 export default function Leftbar({ themeMode, setThemeMode }: Props) {
 	const dispatch = useAppDispatch();
-	// const { postQueryParams } = useAppSelector((state) => state.posts);
 	const { user } = useAppSelector((state) => state.auth);
 
 	return (
@@ -83,6 +83,20 @@ export default function Leftbar({ themeMode, setThemeMode }: Props) {
 					</ListItem>
 					{user && (
 						<>
+							<ListItem disablePadding>
+								<ListItemButton
+									component={NavLink}
+									to="/privateChat"
+								>
+									<ListItemIcon>
+										<Message />
+									</ListItemIcon>
+									{/* <ListItemText primary="Logout" /> */}
+									<ListItemText
+										primary={LEFT_NAV_NAME.privateChat}
+									/>
+								</ListItemButton>
+							</ListItem>
 							<ListItem disablePadding>
 								<ListItemButton
 									component="a"

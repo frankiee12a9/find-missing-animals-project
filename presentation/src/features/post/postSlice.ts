@@ -4,6 +4,7 @@ import {
     createSlice,
     isAnyOf,
 } from '@reduxjs/toolkit';
+import { postAxiosParams } from 'app/utils/axios';
 import agent from '../../app/api/agent';
 import {
     Post,
@@ -33,35 +34,12 @@ const postsAdapter = createEntityAdapter<Post>({
         thisPost.title.localeCompare(thatPost.title),
 });
 
-const getAxiosParams = (postQueryParams: PostQueryParams) => {
-    const params = new URLSearchParams();
-    params.append('pageNumber', postQueryParams.pageNumber.toString());
-    params.append('pageSize', postQueryParams.pageSize.toString());
-    params.append('orderBy', postQueryParams.orderBy);
-
-    postQueryParams.follower &&
-        params.append('follower', postQueryParams.follower);
-
-    postQueryParams.fromDate &&
-        params.append('fromDate', postQueryParams.fromDate);
-
-    postQueryParams.toDate && params.append('toDate', postQueryParams.toDate);
-
-    postQueryParams.searchText &&
-        params.append('searchText', postQueryParams.searchText);
-
-    postQueryParams.tags.length > 0 &&
-        params.append('tags', postQueryParams.tags.toString());
-
-    return params;
-};
-
 export const fetchAllPostsAsync = createAsyncThunk<
     Post[],
     void,
     { state: RootState }
 >('post/fetchAllPostsAsync', async (_, thunkAPI) => {
-    const params = getAxiosParams(thunkAPI.getState().posts.postQueryParams!);
+    const params = postAxiosParams(thunkAPI.getState().posts.postQueryParams!);
     try {
         const result = await agent.PostStore.getAllPosts(params);
         thunkAPI.dispatch(setPagination(result.pagination));
@@ -76,11 +54,11 @@ export const fetchFollowingPostsAsync = createAsyncThunk<
     void,
     { state: RootState }
 >('post/fetchAllFollowingPostsAsync', async (_, thunkAPI) => {
-    const params = getAxiosParams(thunkAPI.getState().posts.postQueryParams!);
+    const params = postAxiosParams(thunkAPI.getState().posts.postQueryParams!);
     try {
         const result = await agent.PostStore.getAllFollowingPosts(params);
         thunkAPI.dispatch(setPagination(result.pagination));
-        return result;
+        return result.items;
     } catch (err: any) {
         return thunkAPI.rejectWithValue({ error: err.data });
     }
@@ -103,8 +81,6 @@ export const createPostAsync = createAsyncThunk(
     async (createPostDto: CreatePostDto, thunkAPI) => {
         try {
             await agent.PostStore.createPost(createPostDto);
-            // const newPost = new CreatePostDto(createPostDto);
-            // return newPost;
         } catch (err: any) {
             return thunkAPI.rejectWithValue({ error: err.data });
         }
@@ -178,6 +154,7 @@ export const postSlice = createSlice({
         loadingTags: false,
         tags: [],
         status: 'idle',
+        // PostQueryParams
         postQueryParams: initParams(),
         pagination: null,
     }),
@@ -206,7 +183,6 @@ export const postSlice = createSlice({
         },
         setLastViewedPost: (state: PostState, action: any) => {
             state.lastViewPost = { ...action.payload };
-            console.log('lastViewedPost', state.lastViewPost);
         },
         setLastViewPosts: (state: any, action: any) => {
             state.lastViewedPosts = { ...action.payload };

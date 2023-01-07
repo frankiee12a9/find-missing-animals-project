@@ -35,7 +35,6 @@ export default function AppSelectInput(props: Props) {
 		newValue: OnChangeValue<TagOption, true>,
 		actionMeta: ActionMeta<TagOption>
 	) => {
-		// console.log(newValue);
 		field.onChange(newValue);
 	};
 
