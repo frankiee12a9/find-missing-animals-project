@@ -7,7 +7,7 @@ using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
-using UseCases.Comments.Dtos;
+using UseCases.Comments.DTOs;
 using UseCases.Core;
 using UseCases.Interfaces;
 
@@ -60,6 +60,7 @@ namespace UseCases.Comments.Commands
 					Post = currentPost,
 					Text = request.Body
 				};
+
 				_context.Comments.Add(commentToCreate);
 
 				var result = await _context.SaveChangesAsync() > 0;

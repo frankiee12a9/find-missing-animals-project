@@ -28,13 +28,9 @@ namespace API.SignalR
 			var httpContext = Context.GetHttpContext();
 			var postId = httpContext.Request.Query["postId"];
 
-			// var userToken = httpContext.Request.Query["userToken"];
-			if (postId.ToString() != null) 
-			{
-				await Groups.AddToGroupAsync(Context.ConnectionId, postId);
-			}
+			if (postId.ToString() != null)  await Groups.AddToGroupAsync(Context.ConnectionId, postId);
 
-			var result = await _mediator.Send(new ListAllComments.Query { PostId = Guid.Parse(postId) });
+			var result = await _mediator.Send(new GetCommentsList.Query { PostId = Guid.Parse(postId) });
 
 			await Clients.Caller.SendAsync("LoadComments", result.Value);
 		}

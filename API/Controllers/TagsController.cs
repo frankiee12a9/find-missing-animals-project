@@ -11,6 +11,7 @@ namespace API.Controllers
 	public class TagsController : BaseApiController
 	{
 		public IMediator _mediator { get; set; }
+
 		public TagsController(IMediator mediator)
 		{
 			_mediator = mediator;
@@ -20,7 +21,7 @@ namespace API.Controllers
 		[HttpGet]
 		public async Task<IActionResult> GetAllTags()
 		{
-			return HandleResult(await Mediator.Send(new ListAllTags.Query { }));
+			return HandleResult(await Mediator.Send(new GetTagsList.Query { }));
 		}
 
 		[AllowAnonymous]

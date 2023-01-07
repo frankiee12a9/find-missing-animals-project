@@ -1,5 +1,4 @@
 using System.Threading.Tasks;
-using Application.Photos;
 using Microsoft.AspNetCore.Mvc;
 using UseCases.Photos.Commands;
 

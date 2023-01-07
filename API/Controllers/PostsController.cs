@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using UseCases.Posts.Commands;
 using UseCases.Posts.Queries;
-using UseCases.Posts.Dtos;
+using UseCases.Posts.DTOs;
 using UseCases.Posts.Extensions;
 
 namespace API.Controllers
@@ -24,7 +24,7 @@ namespace API.Controllers
 		[HttpGet]
 		public async Task<IActionResult> GetPostList([FromQuery] PostQueryParams param)
 		{
-			return HandlePagedResult(await Mediator.Send(new ListAllPosts.Query { PostQueryParams = param }));
+			return HandlePagedResult(await Mediator.Send(new GetPostsList.Query { PostQueryParams = param }));
 		}
 
 		[AllowAnonymous]
@@ -72,7 +72,7 @@ namespace API.Controllers
 		[HttpGet("following")]
 		public async Task<IActionResult> GetFollowingPostList([FromQuery] PostQueryParams param)
 		{
-			return HandleResult(await Mediator.Send(new ListAllFollowingPosts.Query  { PostQueryParams = param }));
+			return HandleResult(await Mediator.Send(new GetFollowingPostsList.Query  { PostQueryParams = param }));
 		}
 	}
 }

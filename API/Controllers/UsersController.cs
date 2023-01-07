@@ -27,7 +27,7 @@ namespace API.Controllers
 		[HttpGet]
 		public async Task<IActionResult> GetUserList([FromQuery] UserQueryParams param)
 		{
-			return HandlePagedResult(await Mediator.Send(new ListApplicationUsers.Query { QueryParams = param }));
+			return HandlePagedResult(await Mediator.Send(new GetApplicationUsersList.Query { QueryParams = param }));
 		}
     }
 }

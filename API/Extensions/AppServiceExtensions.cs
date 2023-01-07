@@ -51,9 +51,9 @@ namespace API.Extensions
             });
 
             // config mediator 
-            services.AddMediatR(typeof(ListAllPosts.Handler).Assembly);
+            services.AddMediatR(typeof(GetPostsList.Handler).Assembly);
 
-            services.AddMediatR(typeof(ListAllTags.Handler).Assembly);
+            services.AddMediatR(typeof(GetTagsList.Handler).Assembly);
 
             services.AddMediatR(typeof(EditPost.Handler).Assembly);
 

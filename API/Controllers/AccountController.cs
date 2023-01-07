@@ -1,7 +1,7 @@
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using API.Dtos;
+using API.DTOs;
 using API.Services;
 using Domain;
 using Microsoft.AspNetCore.Authorization;
@@ -30,27 +30,21 @@ namespace API.Controllers
 		}
 
 		[HttpPost("login")]
-		public async Task<ActionResult<UserDto>> Login([FromBody] LoginDto loginDto)
+		public async Task<ActionResult<UserDTO>> Login([FromBody] LoginDTO loginDto)
 		{
 			var user = await _userManager.FindByEmailAsync(loginDto.Email);
 
-			if (user == null) 
-			{
-				return Unauthorized();
-			}
+			if (user == null)  return Unauthorized();
 
 			var result = await _signInManager.CheckPasswordSignInAsync(user, loginDto.Password, false);
 
-			if (result.Succeeded)
-			{
-				return CreateUser(user);
-			}
+			if (result.Succeeded) return CreateUser(user);
 
 			return Unauthorized();
 		}
 
 		[HttpPost("register")]
-		public async Task<ActionResult<UserDto>> Register([FromBody] RegisterDto registerDto)
+		public async Task<ActionResult<UserDTO>> Register([FromBody] RegisterDTO registerDto)
 		{
 			if (await _userManager.Users.AnyAsync(x => x.Email == registerDto.Email))
 			{
@@ -73,28 +67,25 @@ namespace API.Controllers
 
 			var result = await _userManager.CreateAsync(user, registerDto.Password);
 
-			if (result.Succeeded)
-			{
-				return CreateUser(user);
-			}
+			if (result.Succeeded) return CreateUser(user);
 
-			return BadRequest("Failed while registering user");
+			return BadRequest("Failed while registering user.");
 		}
 
 		[Authorize]
 		[HttpGet]
-		public async Task<ActionResult<UserDto>> GetUser()
+		public async Task<ActionResult<UserDTO>> GetUser()
 		{
 			var user = await _userManager.Users
 				.FirstOrDefaultAsync(x => x.Email == User.FindFirstValue(ClaimTypes.Email));
-
 			return CreateUser(user);
 		}
 
-		private UserDto CreateUser(ApplicationUser user)
+		private UserDTO CreateUser(ApplicationUser user)
 		{
-			return new UserDto
+			return new UserDTO
 			{
+                Id = user.Id,
 				DisplayName = user.DisplayName,
 				Image = user.ProfilePictureUrl,
 				Token = _tokenService.CreateToken(user),

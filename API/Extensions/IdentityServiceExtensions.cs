@@ -49,11 +49,9 @@ namespace API.Extensions
 						OnMessageReceived = context =>
 						{
 							var accessToken = context.Request.Query["access_token"];
-
 							var path = context.HttpContext.Request.Path;
 
 							bool validComment = (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/comment"));
-
 							bool validNotification = (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/notification"));
 
 							if (validComment || validNotification)
@@ -66,7 +64,7 @@ namespace API.Extensions
 					};
 				});
 
-			// post owner can edit post 
+			// only post owner can edit post 
 			services.AddAuthorization(opt =>
 			{
 				opt.AddPolicy("IsPostOwner", policy =>
@@ -75,8 +73,7 @@ namespace API.Extensions
 				});
 			});
 
-			// Todo: read more about AddTransient(), AddScoped(), AddSingleton() 
-			// reference here: https://stackoverflow.com/questions/38138100/addtransient-addscoped-and-addsingleton-services-differences
+			// REFERENCE: https://stackoverflow.com/questions/38138100/addtransient-addscoped-and-addsingleton-services-differences
 			services.AddTransient<IAuthorizationHandler, IsHostRequirementHandler>();
 			services.AddScoped<TokenService>();
 
