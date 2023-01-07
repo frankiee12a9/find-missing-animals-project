@@ -3,5 +3,10 @@
 *.dll
 _ReSharper.*
 bin
+UseCases/bin
+API/bin
+Persistent/bin
+Infrastructure/bin
+Domain/bin
 obj
 packages
