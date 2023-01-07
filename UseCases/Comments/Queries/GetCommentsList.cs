@@ -9,12 +9,12 @@ using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
-using UseCases.Comments.Dtos;
+using UseCases.Comments.DTOs;
 using UseCases.Core;
 
 namespace UseCases.Comments.Queries
 {
-	public class ListAllComments
+	public class GetCommentsList
 	{
 		public class Query : IRequest<Result<List<CommentDto>>>
 		{
@@ -40,10 +40,7 @@ namespace UseCases.Comments.Queries
 					.ProjectTo<CommentDto>(_mapper.ConfigurationProvider)
 					.ToListAsync();
 
-				if (comments == null) 
-				{
-					return null;
-				}
+				if (comments == null) return null;
 
 				return Result<List<CommentDto>>.Success(comments);
 			}

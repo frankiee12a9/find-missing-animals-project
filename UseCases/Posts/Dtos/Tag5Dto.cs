@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace UseCases.Posts.Dtos
+namespace UseCases.Posts.DTOs
 {
 	public class Tag5Dto
 	{

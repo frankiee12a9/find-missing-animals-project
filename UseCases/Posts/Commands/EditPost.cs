@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Persistence;
 using UseCases.Core;
 using UseCases.Interfaces;
-using UseCases.Posts.Dtos;
+using UseCases.Posts.DTOs;
 using UseCases.Posts.Extensions;
 
 namespace UseCases.Posts.Commands

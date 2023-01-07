@@ -14,7 +14,7 @@ using UseCases.Interfaces;
 
 namespace UseCases.Tags.Queries
 {
-	public class ListAllTags
+	public class GetTagsList
 	{
 		public class Query : IRequest<Result<List<TagDto>>>
 		{
@@ -23,17 +23,18 @@ namespace UseCases.Tags.Queries
         public class Handler : IRequestHandler<Query, Result<List<TagDto>>>
         {
             private readonly AppDataContext _context;
-            private readonly ILogger<ListAllTags> _logger;
+            private readonly ILogger<GetTagsList> _logger;
             private readonly IMapper _mapper;
             private readonly IUserAccessor _userAccessor;
 
-            public Handler(AppDataContext context, ILogger<ListAllTags> logger, IMapper mapper, IUserAccessor userAccessor)
+            public Handler(AppDataContext context, ILogger<GetTagsList> logger, IMapper mapper, IUserAccessor userAccessor)
             {
                 _context = context;
                 _logger = logger; ;
                 _mapper = mapper;
                 _userAccessor = userAccessor;
             }
+
             public async Task<Result<List<TagDto>>> Handle(Query request, CancellationToken cancellationToken)
             {
                 var result = await _context.Tag1s

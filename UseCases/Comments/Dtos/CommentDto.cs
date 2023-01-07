@@ -1,6 +1,6 @@
 using System;
 
-namespace UseCases.Comments.Dtos
+namespace UseCases.Comments.DTOs
 {
 	public class CommentDto
 	{

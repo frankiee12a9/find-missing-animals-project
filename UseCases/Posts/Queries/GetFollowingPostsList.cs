@@ -17,7 +17,7 @@ using UseCases.Posts.Extensions;
 
 namespace UseCases.Posts.Queries
 {
-	public class ListAllFollowingPosts
+	public class GetFollowingPostsList
 	{
 		public class Query : IRequest<Result<PagedList<PostDto>>>
 		{
@@ -27,11 +27,11 @@ namespace UseCases.Posts.Queries
 		public class Handler : IRequestHandler<Query, Result<PagedList<PostDto>>>
 		{
 			private readonly AppDataContext _context;
-			private readonly ILogger<ListAllPosts> _logger;
+			private readonly ILogger<GetPostsList> _logger;
 			private readonly IMapper _mapper;
 			private readonly IUserAccessor _userAccessor;
 
-			public Handler(AppDataContext context, ILogger<ListAllPosts> logger, IMapper mapper, IUserAccessor userAccessor)
+			public Handler(AppDataContext context, ILogger<GetPostsList> logger, IMapper mapper, IUserAccessor userAccessor)
 			{
 				_context = context;
 				_logger = logger; ;
@@ -48,21 +48,23 @@ namespace UseCases.Posts.Queries
                 
                 result = result.Where(p => p.PostParticipants.Any(x => x.Username == _userAccessor.GetUserName()));   
 
-                // order by filter 
                 var orderBy = request.PostQueryParams?.OrderBy;
+
                 if (orderBy != null) 
-                    result = result._Sort(orderBy); // search text filter 
+                    result = result._Sort(orderBy); 
 
                 var searchText = request.PostQueryParams?.SearchText;
+
                 if (searchText != null) 
                     result = result._Search(searchText);
 
-				// DateTime query params
 				var fromDate = request.PostQueryParams?.FromDate;
+
 				if (fromDate != null) 
 					result = result.Where(x => x.CreatedAt >= fromDate);
 				
 				var toDate = request.PostQueryParams?.ToDate;
+
 				if (toDate != null)
 					result = result.Where(x => x.CreatedAt <= toDate);
 

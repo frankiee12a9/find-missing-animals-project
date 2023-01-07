@@ -1,7 +1,8 @@
-namespace UseCases.ApplicationUsers.Dtos
+namespace UseCases.ApplicationUsers.DTOs
 {
-	public class UserProfileDto
+	public class UserProfileDTO
 	{
+		public string UserId { get; set; }
 		public string Username { get; set; }
 		public string DisplayName { get; set; }
 		public string Bio { get; set; }

@@ -26,6 +26,7 @@ namespace UseCases.Tags.Queries
             private readonly AppDataContext _context;
             private readonly IMapper _mapper;
             private readonly IUserAccessor _userAccessor;
+
             public Handler(AppDataContext context, IMapper mapper, IUserAccessor userAccessor)
             {
                 _context = context; _mapper = mapper; _userAccessor = userAccessor;
@@ -38,10 +39,7 @@ namespace UseCases.Tags.Queries
 						new { currentUsername = _userAccessor.GetUserName() })
 					.FirstOrDefaultAsync(tag => tag.TagName == request.TagName);
 
-				if (result == null)
-				{
-					return null;
-				}
+				if (result == null) return null;
 
 				return Result<TagDto>.Success(result);
 			}

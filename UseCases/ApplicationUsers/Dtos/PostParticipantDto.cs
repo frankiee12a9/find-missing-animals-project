@@ -1,6 +1,6 @@
-namespace UseCases.ApplicationUsers.Dtos
+namespace UseCases.ApplicationUsers.DTOs
 {
-	public class PostParticipantDto
+	public class PostParticipantDTO
 	{
 		public string Username { get; set; }
 		public string DisplayName { get; set; }

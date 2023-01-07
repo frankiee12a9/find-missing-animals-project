@@ -8,7 +8,7 @@ namespace UseCases.Posts.Extensions
     {
          public static IQueryable<PostDto> _Sort(this IQueryable<PostDto> query, string orderBy) 
          {
-            if (string.IsNullOrEmpty(orderBy)) return query.OrderBy(p => p.CreatedAt);
+            if (string.IsNullOrEmpty(orderBy)) return query.OrderByDescending(p => p.CreatedAt.Date);
 
             query = orderBy switch 
             {
@@ -16,7 +16,7 @@ namespace UseCases.Posts.Extensions
                 "postLocation" => query.OrderBy(p => p.PostLocation.Location),
                 "found" => query.Where(p => p.IsFound == true),
                 "notFound" => query.Where(p => p.IsFound == false),
-                _ => query.OrderBy(p => p.CreatedAt)
+                _ => query.OrderByDescending(p => p.CreatedAt.Date)
             };
 
             return query;
@@ -36,13 +36,12 @@ namespace UseCases.Posts.Extensions
 
          public static IQueryable<PostDto> _Filter(this IQueryable<PostDto> query, string tags)  
          {
-             var tagFilterList = new List<string>();
+             var filteredTagList = new List<string>();
             
-            if (!string.IsNullOrEmpty(tags)) 
-                tagFilterList.AddRange(tags.ToLower().Split(",").ToList());
+            if (!string.IsNullOrEmpty(tags)) filteredTagList.AddRange(tags.ToLower().Split(",").ToList());
 
-            // Note: still working on this           
-            query = query.Where(p => tagFilterList.Count == 0 || tagFilterList.Contains(p.Tag1.Tag1Name));
+            // NOTE: still working on this           
+            query = query.Where(p => filteredTagList.Count == 0 || filteredTagList.Contains(p.Tag1.Tag1Name));
 
             return query;
          } 

@@ -1,13 +1,12 @@
-using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using Domain;
-using Microsoft.AspNetCore.Http;
-using UseCases.AppUsers.Dtos;
-using UseCases.Comments.Dtos;
+using UseCases.ApplicationUsers.DTOs;
+using UseCases.Chats.DTOs;
+using UseCases.Comments.DTOs;
 using UseCases.Locations;
 using UseCases.Posts;
-using UseCases.Posts.Dtos;
+using UseCases.Posts.DTOs;
 using UseCases.Tags;
 
 namespace UseCases.Core
@@ -61,24 +60,8 @@ namespace UseCases.Core
 				.ForMember(dest => dest.TagName, o => o.MapFrom(src => src.TagName))
 				.ForMember(dest => dest.Posts, o => o.MapFrom(src => src.Posts));
 
-			// CreateMap<Tag2, TagDto>()
-			// 	.ForMember(dest => dest.TagName, o => o.MapFrom(src => src.TagName))
-			// 	.ForMember(dest => dest.Posts, o => o.MapFrom(src => src.Posts));
-
-			// CreateMap<Tag3, TagDto>()
-			// 	.ForMember(dest => dest.TagName, o => o.MapFrom(src => src.TagName))
-			// 	.ForMember(dest => dest.Posts, o => o.MapFrom(src => src.Posts));
-
-			// CreateMap<Tag4, TagDto>()
-			// 	.ForMember(dest => dest.TagName, o => o.MapFrom(src => src.TagName))
-			// 	.ForMember(dest => dest.Posts, o => o.MapFrom(src => src.Posts));
-
-			// CreateMap<Tag5, TagDto>()
-			// 	.ForMember(dest => dest.TagName, o => o.MapFrom(src => src.TagName))
-			// 	.ForMember(dest => dest.Posts, o => o.MapFrom(src => src.Tag5Posts));
-
 			// Note: mapping PostFollowing - PostParticipant
-			CreateMap<PostFollowing, PostParticipantDto>()
+			CreateMap<PostFollowing, PostParticipantDTO>()
 				.ForMember(dest => dest.DisplayName, o => o.MapFrom(src => src.ApplicationUser.DisplayName))
 				.ForMember(dest => dest.Username, o => o.MapFrom(src => src.ApplicationUser.UserName))
 				.ForMember(dest => dest.Image, o => o.MapFrom(src => src.ApplicationUser.ProfilePictureUrl))
@@ -109,6 +92,12 @@ namespace UseCases.Core
 				.ForMember(dest => dest.Photos, o => o.MapFrom(src => src.Photos))
 				.ForMember(dest => dest.CreatedAt, o => o.MapFrom(src => src.Date))
 				.ForMember(dest => dest.PostParticipants, o => o.MapFrom(src => src.PostFollowers));
+
+            CreateMap<ApplicationUser, UserProfileDTO>()
+                .ForMember(dest => dest.UserId, o => o.MapFrom(src => src.Id))
+                .ForMember(dest => dest.Username, o => o.MapFrom(src => src.UserName))
+                .ForMember(dest => dest.DisplayName, o => o.MapFrom(src => src.DisplayName))
+                .ForMember(dest => dest.Image, o => o.MapFrom(src => src.ProfilePictureUrl));
 
 			// Note: cyclic mapping for EditPost (2)
 			CreateMap<EditPostDto, Post>()
@@ -156,6 +145,12 @@ namespace UseCases.Core
 				.ForMember(dest => dest.Username, o => o.MapFrom(src => src.ApplicationUser.UserName))
 				.ForMember(dest => dest.Body, o => o.MapFrom(src => src.Text))
 				.ForMember(dest => dest.ImageUrl, o => o.MapFrom(src => src.ApplicationUser.ProfilePictureUrl));
+
+            CreateMap<PrivateChat, ChatMessageDTO>()
+                .ForMember(dest => dest.Body, o => o.MapFrom(src => src.Text))
+                .ForMember(dest => dest.Username, o => o.MapFrom(src => src.Sender.DisplayName))
+                // .ForMember(dest => dest.SenderName , o => o.MapFrom(src => src.Sender.DisplayName))
+                .ForMember(dest => dest.ImageUrl, o => o.MapFrom(src => src.Sender.ProfilePictureUrl));
 		}
 	}
 }

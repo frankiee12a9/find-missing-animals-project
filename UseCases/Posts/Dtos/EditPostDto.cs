@@ -5,7 +5,7 @@ using Domain;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace UseCases.Posts.Dtos
+namespace UseCases.Posts.DTOs
 {
 	public class EditPostDto
 	{

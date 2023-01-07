@@ -44,6 +44,7 @@ namespace UseCases.Posts.Queries
 
 				var currentLoginUser = await _context.Users
 					.FirstOrDefaultAsync(e => e.UserName == _userAccessor.GetUserName());
+
 				if (currentLoginUser == null) return null;
 
 				var postOwnerName = post.PostFollowers
@@ -75,7 +76,7 @@ namespace UseCases.Posts.Queries
 				var result = await _context.SaveChangesAsync() > 0;
 
 				// return currently following post
-				// Note: 'Command' but return value 
+				// NOTE: 'Command' but return value 
 				// reference: https://event-driven.io/en/can_command_return_a_value/
 				var currentFollowingPost = await _context.Posts
 					.ProjectTo<PostDto>(_mapper.ConfigurationProvider)

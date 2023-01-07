@@ -82,9 +82,11 @@ namespace UseCases.Posts.Commands
 					Post = post,
 					isPoster = true
 				};
+
 				await _context.PostFollowers.AddAsync(postOwner);
 
 				Tag1 tag1 = null;
+
 				if (!string.IsNullOrEmpty(request.NewPostParams?.Tag1))
 				{
 					tag1 = await _context.Tag1s
@@ -100,6 +102,7 @@ namespace UseCases.Posts.Commands
 						};
 						await _context.Tag1s.AddAsync(tag1);
 					}
+
 					var tag1Post = new Tag1Post
 					{
 						Post = post,
@@ -124,6 +127,7 @@ namespace UseCases.Posts.Commands
 						};
 						await _context.Tag1s.AddAsync(tag2);
 					}
+
 					var Tag1Post = new Tag1Post
 					{
 						Post = post,
@@ -133,10 +137,11 @@ namespace UseCases.Posts.Commands
 				}
 
 				Tag1 tag3 = null;
+
 				if (!string.IsNullOrEmpty(request.NewPostParams?.Tag3))
 				{
 					tag3 = await _context.Tag1s
-						// .AsNoTracking()
+						.AsNoTracking()
 						.FirstOrDefaultAsync(tag =>
 						(string.IsNullOrEmpty(request.NewPostParams.Tag3)) || tag.TagName == request.NewPostParams.Tag3);
 
@@ -148,6 +153,7 @@ namespace UseCases.Posts.Commands
 						};
 						await _context.Tag1s.AddAsync(tag3);
 					}
+
 					var Tag3Post = new Tag1Post
 					{
 						Post = post,
@@ -157,6 +163,7 @@ namespace UseCases.Posts.Commands
 				}
 
 				Tag1 tag4 = null;
+
 				if (!string.IsNullOrEmpty(request.NewPostParams?.Tag4))
 				{
 					tag4 = await _context.Tag1s
@@ -171,6 +178,7 @@ namespace UseCases.Posts.Commands
 						};
 						await _context.Tag1s.AddAsync(tag4);
 					}
+
 					var Tag4Post = new Tag1Post
 					{
 						Post = post,
@@ -180,6 +188,7 @@ namespace UseCases.Posts.Commands
 				}
 
 				Tag1 tag5 = null;
+
 				if (!string.IsNullOrEmpty(request.NewPostParams?.Tag5))
 				{
 					tag5 = await _context.Tag1s
@@ -194,9 +203,9 @@ namespace UseCases.Posts.Commands
 						};
 						await _context.Tag1s.AddAsync(tag5);
 					}
+
 					var Tag5Post = new Tag1Post
 					{
-						// Post = request.NewPostParams.Post,
 						Post = post,
 						Tag1 = tag5
 					};
@@ -204,8 +213,9 @@ namespace UseCases.Posts.Commands
 				}
 
 				var photos = new List<IFormFile>();
+
 				if (request.NewPostParams?.File != null) photos.Add(request.NewPostParams?.File);
-				if (request.NewPostParams?.File2 != null) photos.Add(request.NewPostParams?.File1);
+				if (request.NewPostParams?.File1 != null) photos.Add(request.NewPostParams?.File1);
 				if (request.NewPostParams?.File != null) photos.Add(request.NewPostParams?.File2);
 
 				foreach (var file in photos)
@@ -223,14 +233,12 @@ namespace UseCases.Posts.Commands
 				}
 
 				post.PostFollowers.Add(postOwner);
+
 				_context.Posts.Add(post);
 
 				var result = await _context.SaveChangesAsync() > 0;
 
-				if (!result) 
-				{
-					return Result<Unit>.Failure("Failed creating new post.");
-				}
+				if (!result) return Result<Unit>.Failure("Failed creating new post.");
 
 				return Result<Unit>.Success(Unit.Value);
 			}
